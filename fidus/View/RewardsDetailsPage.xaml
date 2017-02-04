@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="fidus.RewardsDetailsPage">
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical"
+			>
+			<Grid 
+			BackgroundColor="Gray">
+				<Image 
+					Aspect="AspectFill"
+					Source="{Binding Photo}"
+					HeightRequest="200"/>
+				<StackLayout VerticalOptions="End">
+				<Button BorderRadius="35"
+						HeightRequest="70"
+						WidthRequest="70"
+						Text="{Binding ReqPoints}"
+						FontAttributes="Bold"
+						TextColor="#f35e20"
+						BackgroundColor="White"
+					HorizontalOptions="Start"/>
+				</StackLayout>
+			</Grid>
+
+			<StackLayout Orientation="Vertical"
+					HorizontalOptions="FillAndExpand"
+					Margin="10">
+					<Label Text="{Binding Name}"
+						TextColor="#503026" 
+						FontAttributes="Bold"
+						BackgroundColor="White"
+						HorizontalOptions="Start"/>
+
+					<Label Text="{Binding Description}"
+						TextColor="Black"
+						BackgroundColor="White"
+						HorizontalOptions="Start"
+						Margin="10"/>
+
+			</StackLayout>
+
+			<Button 
+				x:Name="BCanje"
+				Text="Canjeá"
+				TextColor="White"
+				Clicked="OnExClicked"
+
+			/>
+			<Label
+				Text="Recordá que las recompensas deben ser canjeadas en el local, en el momento en que vas a solicitarlas, si no, el canje resultará inválido"
+				TextColor="Red"
+				Margin="5,10,5,0"
+				HorizontalOptions="Center"
+				FontSize="12"
+			/>
+
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

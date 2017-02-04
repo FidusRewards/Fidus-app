@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="fidus.HistoryPage"
+		x:Name="RootPage">
+
+	<ContentPage.Padding>
+		<OnPlatform x:TypeArguments="Thickness"
+        	iOS     ="0,20,0,0"/>
+		</ContentPage.Padding>
+
+	<StackLayout Orientation="Vertical"
+			>
+		<Label
+				Text="Historia"
+				Font="Bold, Large"/>
+		
+				
+		<ListView 
+				ItemsSource="{Binding Items}"
+				IsRefreshing="{Binding IsBusy}"
+				IsPullToRefreshEnabled="True"
+				RefreshCommand="{Binding RefreshCommand}"
+				SeparatorColor="Red">
+				<ListView.ItemTemplate>
+					<DataTemplate x:Key="myTaskTemplate">
+  				        <ViewCell>
+                        <StackLayout BackgroundColor="#eee"
+                        Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal"
+								BackgroundColor="{Binding Lcolor}">
+                                <Grid>
+
+									<Label Text="{Binding DateTime}"
+											Grid.Row="0" Grid.Column="0"
+                                			TextColor="#f35e20" />
+									<Label Text="Negocio: "
+											Grid.Row="0" Grid.Column="1"/>
+                                	<Label Text="{Binding Place}"
+											Grid.Row="0" Grid.Column="2"
+                                			TextColor="#503026" />
+									<Label Text="Puntos Ganados: "
+											Grid.Row="1" Grid.Column="0"/>
+									<Label Text="{Binding EarnPoints}"
+											Grid.Row="1" Grid.Column="1"
+											TextColor="#503026"/>
+								</Grid>
+                            </StackLayout>
+                        </StackLayout>
+                    	</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		<ActivityIndicator IsRunning="{Binding IsBusy}" />
+	</StackLayout>
+</ContentPage>

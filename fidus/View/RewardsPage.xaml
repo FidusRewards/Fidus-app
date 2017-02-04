@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="fidus.RewardsPage">
+	<StackLayout Orientation="Vertical"
+		>
+		<StackLayout Orientation="Horizontal"
+			HorizontalOptions="CenterAndExpand">
+			<Image x:Name="PImage"
+			/>
+			<Label x:Name="PName" />
+		</StackLayout>
+		<StackLayout Orientation="Horizontal" >
+
+			
+			<Label Text="Tenés "
+			TextColor="Black"
+			FontAttributes="Bold"
+			Margin="5,0,0,0"/>
+			
+			<Label x:Name="UserPoints" 
+				Margin="5,0,5,5"
+				Text="0"
+				TextColor="Blue"
+				FontAttributes="Bold"/>
+			<Label Text="puntos para canjear"
+			TextColor="Black"
+			FontAttributes="Bold"/>
+		</StackLayout>
+		<StackLayout x:Name="RewardsTittle"
+				HorizontalOptions = "CenterAndExpand"
+				Orientation = "Horizontal"
+		></StackLayout>
+	<ListView 
+		ItemsSource="{Binding Items}"
+		IsRefreshing="{Binding IsBusy}"
+		IsPullToRefreshEnabled="True"
+		RefreshCommand="{Binding RefreshCommand}"
+		SeparatorColor="Red"
+		HorizontalOptions="FillAndExpand"
+		VerticalOptions="FillAndExpand"
+		RowHeight="100"
+		ItemSelected="Handle_ItemSelected"
+		>
+
+		<ListView.ItemTemplate>
+			<DataTemplate x:Key="myTaskTemplate">
+				<ViewCell>
+						<Grid 
+							BackgroundColor="Gray">
+							<Image 
+								Aspect="AspectFill"
+								Source="{Binding Photo}"
+
+							/>
+							<StackLayout
+								>
+									<Label Text="{Binding Name}"
+                                			TextColor="#503026" 
+											BackgroundColor="White"
+											HorizontalOptions="End"/>
+						
+									<Button BorderRadius="35"
+											HeightRequest="70"
+											WidthRequest="70"
+											Text="{Binding ReqPoints}"
+											FontAttributes="Bold"
+                                			TextColor="#f35e20"
+											BackgroundColor="White"
+											HorizontalOptions="Start"/>
+                                	
+									
+							</StackLayout>
+						</Grid>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ListView>
+		</StackLayout>
+</ContentPage>

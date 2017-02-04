@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	x:Class="fidus.RegisterPage"
+	x:Name="RegPage">
+	<ContentPage.Content>
+
+    <StackLayout HorizontalOptions="FillAndExpand"
+			Orientation="Vertical"
+			Padding="10"
+			>
+
+      <Entry
+				Placeholder = "Nombres"
+				BackgroundColor = "Transparent"
+				FontAttributes = "Bold"
+				TextColor = "Gray"
+				Keyboard = "Text"
+				Text = "{Binding RName}"
+				Margin="0,15,0,0"
+			/>
+
+      <Entry
+				Placeholder = "Email"
+				BackgroundColor = "Transparent"
+				FontAttributes = "Bold"
+				TextColor = "Gray"
+				Keyboard = "Email"
+				Text = "{Binding REmail}"
+				Margin="0,15,0,0"
+			/>
+
+      <Entry
+				Placeholder = "Password"
+				BackgroundColor = "Transparent"
+				TextColor = "Gray"
+				IsPassword="true"
+				Text = "{Binding RPass}"
+				Margin="0,15,0,0"
+
+			/>
+
+      <Entry
+				Placeholder = "Confirmar Password"
+				BackgroundColor = "Transparent"
+				TextColor = "Gray"
+				IsPassword="true"
+				Text = "{Binding RPass2}"
+				Margin="0,15,0,0"
+
+			/>
+
+      <Label Text="Cumpleaños (*)"
+			Margin="0,15,0,0"/>
+      <DatePicker
+			 	 
+				BackgroundColor = "Transparent"
+				TextColor = "Silver"
+				Date = "{Binding RBday}"
+				Margin="0,5,0,0"
+
+			/>
+
+      <Button
+				Command="{Binding RegButtonCommand}"
+				Text = "Registrate"
+				TextColor = "White"
+				BackgroundColor = "#A13B35"
+				FontSize="{Binding FSize}"
+
+				Margin="0, 15, 0, 0"
+			/>
+      <Label
+				Text="(*) Opcional. Si querés recibir promociones y premios especiales no dejes de completar tu fecha de cumpleaños"
+				FontSize="8"
+				TextColor="Gray"
+			/>
+      <ActivityIndicator
+				IsRunning="{Binding IsBusy}"
+
+			/>
+
+    </StackLayout>
+
+  </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="fidus.ExchangePage">
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical"
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="Fill"
+			Margin="0">
+			<StackLayout Orientation="Horizontal"
+				HorizontalOptions="FillAndExpand"
+				HeightRequest="60"
+				x:Name="xChangeTit">
+				<Label x:Name="xChangeLab"
+					Text="Canje Exitoso"
+					Margin="0,30,0,0"
+					FontAttributes="Bold"
+					HorizontalOptions="CenterAndExpand"
+					TextColor="White"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal"
+					HorizontalOptions="CenterAndExpand">
+				<Image x:Name="EImage"/>
+				<Label x:Name="EName" />
+			</StackLayout>
+			<Label Text="Felicidades!!!"
+				x:Name="Felicidades"
+				FontSize="30"
+				HorizontalOptions="CenterAndExpand"
+				Margin="10,15,10,10"/>
+
+			<Label Text="Canjeaste: "
+				TextColor="Black"
+				FontSize="20"
+				FontAttributes="Bold"
+				HorizontalOptions="StartAndExpand"
+				Margin="10,10,10,10"
+				/>
+			<Label x:Name="reName"/>
+			<Image x:Name="reImg"/>
+
+			<Label x:Name="reDate"/>
+
+			<Label Text="Mostrale este mensaje al empleado o al encargado del local para que te den tu recompensa"
+				TextColor="Black"
+				FontSize="20"
+				FontAttributes="Bold"
+				HorizontalOptions="StartAndExpand"
+				Margin="10,10,10,0"/>
+			<Button Text="OK" 
+				x:Name="OKBut"
+				Clicked="Handle_Clicked"
+				FontAttributes="Bold"
+				HorizontalOptions="FillAndExpand"
+				Margin="10,10,10,0"
+				TextColor="White"
+			/>
+
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>
