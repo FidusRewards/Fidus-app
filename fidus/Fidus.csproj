@@ -63,6 +63,8 @@
     <EmbeddedResource Include="Fiduslogo.png" />
     <EmbeddedResource Include="giftly.png" />
     <EmbeddedResource Include="Fiduslogored.png" />
+    <EmbeddedResource Include="icono-email.png" />
+    <EmbeddedResource Include="icono-pass.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

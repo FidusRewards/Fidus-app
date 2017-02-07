@@ -28,20 +28,36 @@ namespace fidus
 
 
 			image.Source = ImageSource.FromResource("fidus.Fiduslogored.png");
+
+			var MIcon = new Image { 
+				HeightRequest = 15,
+				WidthRequest = 15,
+				Source = ImageSource.FromResource("fidus.icono-email.png") };
+
 			var Email = new Entry
 			{
 				Placeholder = "Email",
 				BackgroundColor = Color.Transparent,
-				FontAttributes = FontAttributes.Bold,
+				FontFamily=Device.OnPlatform("Helvetica-Black","Roboto-Black",""),
 				TextColor = Color.Gray,
-				Keyboard = Keyboard.Email
+				Keyboard = Keyboard.Email,
+				HorizontalOptions=LayoutOptions.FillAndExpand
+
 			};
+
+			var PIcon = new Image { 
+				HeightRequest = 15,
+				WidthRequest = 15,
+				Source = ImageSource.FromResource("fidus.icono-pass.png")};
 			var Pass = new Entry
 			{
-				Placeholder = "Password",
+				Placeholder = "Contraseña",
 				IsPassword = true,
+				FontFamily=Device.OnPlatform("Helvetica-Black","Roboto-Black",""),
 				BackgroundColor = Color.Transparent,
-				TextColor = Color.Gray
+				TextColor = Color.Gray,
+				HorizontalOptions=LayoutOptions.FillAndExpand
+
 			};
             Button Ingresar = new Button
             {
@@ -69,9 +85,10 @@ namespace fidus
 			var Label = new Label
 			{
 				Text = "Ingresá tu email y contraseña",
-				Margin = new Thickness(10),
+				Margin = new Thickness(2),
 				HorizontalTextAlignment = TextAlignment.Center,
-				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label))
+				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+				FontAttributes=FontAttributes.Bold
 			};
 			Label.FontFamily = Device.OnPlatform(
 							"Helvetica-Black",
@@ -96,13 +113,23 @@ namespace fidus
 
 			var Staklay = new StackLayout
 			{
-				Padding = new Thickness(20),
+				Padding = new Thickness(35,10,35,10),
 
 				Children = {
 					image,
 					Label,
-					Email,
-					Pass,
+					new StackLayout{
+						Orientation=StackOrientation.Horizontal,
+						HorizontalOptions=LayoutOptions.FillAndExpand,
+						VerticalOptions=LayoutOptions.Center,
+						Padding = new Thickness(5),
+						Children={MIcon,Email}},
+					new StackLayout{
+						Orientation=StackOrientation.Horizontal,
+						VerticalOptions=LayoutOptions.Center,
+						HorizontalOptions=LayoutOptions.FillAndExpand,
+						Padding = new Thickness(5),
+						Children={PIcon,Pass}},
 					activityIndicator,
 					new StackLayout {
 						HorizontalOptions=LayoutOptions.FillAndExpand,
