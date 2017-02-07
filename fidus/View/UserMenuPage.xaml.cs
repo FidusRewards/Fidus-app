@@ -23,7 +23,8 @@ namespace fidus
             if (item != null)
             {
                 Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType));
-                masterPage.ListView.SelectedItem = null;
+				((NavigationPage)Detail).BarBackgroundColor = Color.FromHex(Settings.FidusColor);
+				masterPage.ListView.SelectedItem = null;
                 IsPresented = false;
             }
         }
