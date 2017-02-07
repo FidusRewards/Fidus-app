@@ -295,6 +295,7 @@
     <BundleResource Include="Resources\checkinbutton.png" />
     <BundleResource Include="Resources\exiticon1.png" />
     <BundleResource Include="Resources\settings1.png" />
+    <BundleResource Include="Resources\ic_launcher.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
