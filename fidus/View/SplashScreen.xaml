@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="fidus.SplashScreen">
 	<ContentPage.Content>
 			<AbsoluteLayout x:Name="FSplash">
-			<Image Source="ic_launcher" Aspect="AspectFit" AbsoluteLayout.LayoutFlags="All" 
+			<Image Source="SplashScreen" Aspect="AspectFill" AbsoluteLayout.LayoutFlags="All" 
 			AbsoluteLayout.LayoutBounds="0, 0, 1.0, 1.0"/>
 
 		</AbsoluteLayout>
