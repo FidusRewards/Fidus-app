@@ -22,12 +22,12 @@ namespace fidus
 
 			BindingContext = loginVM;
 
-			Image image = new Image { HeightRequest = 100, WidthRequest = 100  };//,Aspec = Aspect.AspectFit };
+			Image image = new Image { HeightRequest = 134, WidthRequest = 100  };//,Aspec = Aspect.AspectFit };
 
 			//Items = new ObservableCollection<Person>();
 
 
-			image.Source = ImageSource.FromResource("fidus.logofidus.png");
+			image.Source = ImageSource.FromResource("fidus.Fiduslogored.png");
 			var Email = new Entry
 			{
 				Placeholder = "Email",
@@ -66,16 +66,41 @@ namespace fidus
 			};
 			activityIndicator.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
 			activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
+			var Label = new Label
+			{
+				Text = "Ingresá tu email y contraseña",
+				Margin = new Thickness(10),
+				HorizontalTextAlignment = TextAlignment.Center,
+				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label))
+			};
+			Label.FontFamily = Device.OnPlatform(
+							"Helvetica-Black",
+							"Roboto-Black",
+							""
+			);
+
+			var BkgImage = new Image()
+			{
+				Source = ImageSource.FromResource("fidus.giftly.png"),
+				Aspect = Aspect.AspectFill
+			};
+
+			RelativeLayout layout = new RelativeLayout();
+
+			layout.Children.Add(BkgImage,
+				Constraint.Constant(0),
+				Constraint.Constant(0),
+				Constraint.RelativeToParent((parent) => { return parent.Width; }),
+				Constraint.RelativeToParent((parent) => { return parent.Height; }));
 
 
-			Content = new StackLayout
+			var Staklay = new StackLayout
 			{
 				Padding = new Thickness(20),
 
 				Children = {
 					image,
-					new Label {Text="Ingresá tu email y pass", Margin=new Thickness(10),
-						FontSize= Device.GetNamedSize(NamedSize.Large, typeof(Label))},
+					Label,
 					Email,
 					Pass,
 					activityIndicator,
@@ -92,7 +117,12 @@ namespace fidus
 					}
 				}
 				};
-
+			layout.Children.Add(Staklay,
+				Constraint.Constant(0),
+				Constraint.Constant(0),
+				Constraint.RelativeToParent((parent) => { return parent.Width; }),
+				Constraint.RelativeToParent((parent) => { return parent.Height; }));
+			Content = layout;
 
 			Ingresar.Clicked += async (sender, e) =>
 			{

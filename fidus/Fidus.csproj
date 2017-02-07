@@ -60,6 +60,9 @@
     <EmbeddedResource Include="View\ExchangePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Fiduslogo.png" />
+    <EmbeddedResource Include="giftly.png" />
+    <EmbeddedResource Include="Fiduslogored.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
