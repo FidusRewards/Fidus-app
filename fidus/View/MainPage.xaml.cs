@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Refractored.XamForms.PullToRefresh;
+using SlideOverKit;
 using Xamarin.Forms;
 using ZXing.Net.Mobile.Forms;
 
 namespace fidus
 {
-	public partial class MainPage : ContentPage
+	public partial class MainPage : ContentPage, IMenuContainerPage
 	{
 
         private MainViewModel mVM;
@@ -20,6 +21,9 @@ namespace fidus
         {
             InitializeComponent();
 
+
+			NavigationPage.SetTitleIcon(this, "Fidus.png");
+
             mVM = new MainViewModel();
 
             BindingContext = mVM;
@@ -29,6 +33,29 @@ namespace fidus
             mVM.Mname = Settings.CurrentUser.Name;
             //mVM.Mimg = img;
             mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
+
+			this.SlideMenu = new MasterMenuPage();
+
+			// You can add a ToolBar button to show the Menu.
+			this.ToolbarItems.Add(new ToolbarItem
+			{
+				Command = new Command( () =>
+				{
+					if (this.SlideMenu.IsShown)
+					{
+						HideMenuAction?.Invoke();
+					}
+					else
+					{
+						ShowMenuAction?.Invoke();
+					}
+				}),
+				Icon = "settings1.png",
+				Text = "Settings",
+
+				Priority = 0
+			});
+
 
 
             MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
@@ -71,7 +98,10 @@ namespace fidus
 
             });
 
-        }
+
+		}
+
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -137,6 +167,8 @@ namespace fidus
             await Navigation.PushAsync(scanPage);
             //Device.OpenUri(new Uri(url));
 
+
+
         }
 
         //public async void Handle_Clicked(object sender, System.EventArgs e)
@@ -145,6 +177,7 @@ namespace fidus
         //}
         protected override bool OnBackButtonPressed()
         {
+			
             return true;
         }
 
@@ -254,6 +287,36 @@ namespace fidus
 
             mVM.IsBusy = false;
         }
+
+		public Action HideMenuAction
+		{
+			get;
+			set;
+		}
+
+		public Action ShowMenuAction
+		{
+			get;
+			set;
+		}
+
+		SlideMenuView slideMenu;
+		public SlideMenuView SlideMenu
+		{
+			get
+			{
+				return slideMenu;
+			}
+			set
+			{
+				if (slideMenu != null)
+					slideMenu.Parent = null;
+				slideMenu = value;
+				if (slideMenu != null)
+					slideMenu.Parent = this;
+			}
+		}
+
 
 
     }

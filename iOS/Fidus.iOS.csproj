@@ -203,6 +203,12 @@
     <Reference Include="HockeySDK.iOSBindings">
       <HintPath>..\packages\HockeySDK.Xamarin.4.1.0\lib\Xamarin.iOS10\HockeySDK.iOSBindings.dll</HintPath>
     </Reference>
+    <Reference Include="SlideOverKit">
+      <HintPath>..\packages\SlideOverKit.2.1.4\lib\Xamarin.iOS10\SlideOverKit.dll</HintPath>
+    </Reference>
+    <Reference Include="SlideOverKit.iOS">
+      <HintPath>..\packages\SlideOverKit.2.1.4\lib\Xamarin.iOS10\SlideOverKit.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fidus\fidus.csproj">
@@ -271,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Renderer\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -288,6 +295,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="CloseApp_IOS.cs" />
     <Compile Include="Hash256_IOS.cs" />
+    <Compile Include="Renderer\PageImpInterfaceRendereiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\SplashScreen.png" />
@@ -296,6 +304,8 @@
     <BundleResource Include="Resources\exiticon1.png" />
     <BundleResource Include="Resources\settings1.png" />
     <BundleResource Include="Resources\ic_launcher.png" />
+    <BundleResource Include="Resources\Fidus.png" />
+    <BundleResource Include="Resources\icono-usuario.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

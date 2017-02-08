@@ -9,7 +9,7 @@ namespace fidus
 		public App()
 		{
 			InitializeComponent();
-			var content = new loginPage();
+			var content = new MainPage();//loginPage();
 			instance = this;
 
 			if (Device.OS == TargetPlatform.Android)
@@ -19,7 +19,7 @@ namespace fidus
 			else
 			{
 
-				MainPage = new NavigationPage(content)
+				MainPage =	new NavigationPage(content)
 				{
 					BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
 					BarTextColor = Color.White

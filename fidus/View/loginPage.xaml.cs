@@ -167,17 +167,17 @@ namespace fidus
 						//Application.Current.MainPage = new HistoryPage();
 						var content = new UserMenuPage();
 
-                        //var _mainPage = new NavigationPage(content);
-                        //{
-                        //	BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-                        //	BarTextColor = Color.White,
-                        //	Title = "Fidus"
-                        //};
+						Application.Current.MainPage = new NavigationPage(content)
+						{
+							BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
+							BarTextColor = Color.White,
+							Title = "Fidus"
+						};
 
 						//NavigationPage.SetHasBackButton(content, false);
-                        //NavigationPage.SetHasNavigationBar(_mainPage, false);
+						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 
-                        await Navigation.PushModalAsync(content);
+                        //await Navigation.PushAsync(content);
 
 					}
 					else
