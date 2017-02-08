@@ -2,6 +2,7 @@
 <t:SlideMenuView xmlns="http://xamarin.com/schemas/2014/forms" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	xmlns:t="clr-namespace:SlideOverKit" 
+	xmlns:control="clr-namespace:fidus.Controls;assembly=fidus"  
 	x:Class="fidus.MasterMenuPage"
 	>
 

@@ -184,6 +184,8 @@ namespace fidus
 						NavigationPage.SetTitleIcon(content, "fidus_text.png");
 
 						await Navigation.PushAsync(content);
+
+						Ingresar.IsVisible = true;
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 
 						//await Navigation.PopAsync();

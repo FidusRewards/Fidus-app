@@ -201,6 +201,7 @@
     <Compile Include="CloseApp_Droid.cs" />
     <Compile Include="Hash256_Droid.cs" />
     <Compile Include="Renderer\PageImpInterfaceRendererDroid.cs" />
+    <Compile Include="Renderer\CustomImagecellRendererDroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -226,8 +227,12 @@
     <AndroidResource Include="Resources\drawable\settings1.png" />
     <AndroidResource Include="Resources\drawable\SplashScreen.png" />
     <AndroidResource Include="Resources\drawable\fidus_text.png" />
-    <AndroidResource Include="Resources\drawable\iconousuario.png" />
     <AndroidResource Include="Resources\drawable\userimg.png" />
+    <AndroidResource Include="Resources\drawable\iconousuario.png" />
+    <AndroidResource Include="Resources\drawable\logout.png" />
+    <AndroidResource Include="Resources\drawable\historial.png" />
+    <AndroidResource Include="Resources\drawable\geopin.png" />
+    <AndroidResource Include="Resources\drawable\menuline.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

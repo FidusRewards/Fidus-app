@@ -29,14 +29,6 @@ namespace fidus
 				//MainPage = new loginPage();
 		}
 
-		public void ClearNavigationAndGoLogin()
-		{
-			MainPage = new NavigationPage(new SplashScreen());
-					//{
-					//BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-					//BarTextColor = Color.White
-					//};
-		}
 
 		protected override void OnStart()
 		{

@@ -35,14 +35,13 @@ namespace fidus
             //mVM.Mimg = img;
             mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
-			this.SlideMenu = new MasterMenuPage();
-
+			SlideMenu = new MasterMenuPage();
 			// You can add a ToolBar button to show the Menu.
 			this.ToolbarItems.Add(new ToolbarItem
 			{
 				Command = new Command( () =>
 				{
-					if (this.SlideMenu.IsShown)
+					if (SlideMenu.IsShown)
 					{
 						HideMenuAction?.Invoke();
 					}
@@ -87,8 +86,8 @@ namespace fidus
                 Debug.WriteLine("MainPage: Exit via MessagingCenter");
                 try
                 {
-                    await Navigation.PopAsync();
-                    App.instance.ClearNavigationAndGoLogin();
+					await Navigation.PopToRootAsync();
+                    //App.instance.ClearNavigationAndGoLogin();
 
                 }
                 catch (Exception ex)
@@ -97,6 +96,7 @@ namespace fidus
                 }
 
             });
+
 
 
 		}
@@ -109,6 +109,7 @@ namespace fidus
             mVM.Load();
 
         }
+
 
         private async void Scan()
         {

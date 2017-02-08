@@ -116,6 +116,7 @@
       <DependentUpon>ExchangePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\MasterPageItem.cs" />
+    <Compile Include="Controls\CustomImageCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -190,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataStores\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="View\MasterMenuPage.xaml">

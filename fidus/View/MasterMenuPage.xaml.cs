@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SlideOverKit;
 using Xamarin.Forms;
+using System.Diagnostics;
+
 
 namespace fidus
 {
@@ -17,7 +19,7 @@ namespace fidus
 		};
 		private StackLayout MenuBar;
 		private Image MenuIcon;
-        public ListView ListView { get { return listview; } }
+		public ListView ListView { get { return listview; } }
 
 		public MasterMenuPage()
 		{
@@ -96,28 +98,48 @@ namespace fidus
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center
 			};
-			var cell = new DataTemplate(typeof(ImageCell));
+
+			Image linea = new Image() { 
+				Source="menuline.png",
+			   	HeightRequest=20,
+				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				VerticalOptions = LayoutOptions.Center,
+				Margin = new Thickness(10,10,10,0)
+			};
+
+			Label menutext = new Label()
+			{
+				Text = "Menú Principal",
+				TextColor = Color.FromHex(Settings.FidusColor),
+				FontFamily = Device.OnPlatform("Helvetica", "Roboto", ""),
+				FontSize=14,
+				HorizontalOptions=LayoutOptions.Start,
+				VerticalOptions=LayoutOptions.Center,
+				FontAttributes=FontAttributes.Bold,
+				Margin=new Thickness(10,0,5,0)
+			};
+			var cell = new DataTemplate(typeof(Controls.CustomImageCell));
 			cell.SetBinding(TextCell.TextProperty, "Title");
 			cell.SetBinding(TextCell.TextColorProperty, "TextColor");
 			cell.SetBinding(ImageCell.ImageSourceProperty, "IconSource");
-				
-			listview.ItemTemplate = cell;
 
+			listview.ItemTemplate = cell;
+			
 			var masterPageItem = new List<MasterPageItem>();
 
 
-            masterPageItem.Add(new MasterPageItem
-            {
-                Title = "Inicio",
-                TextColor = Color.FromHex(Settings.FidusColor),
-                IconSource = "",
-                TargetType = typeof(MainPage)
-            });
+            //masterPageItem.Add(new MasterPageItem
+            //{
+            //    Title = "Inicio",
+            //    TextColor = Color.FromHex(Settings.FidusColor),
+            //    IconSource = "geopin.png",
+            //    TargetType = typeof(MainPage)
+            //});
             masterPageItem.Add(new MasterPageItem
             {
                 Title = "Historial de Canjes",
                 TextColor = Color.Black,
-                IconSource = "",
+                IconSource = "historial.png",
                 TargetType = typeof(HistoryPage)
             });
             masterPageItem.Add(new MasterPageItem
@@ -130,7 +152,7 @@ namespace fidus
             {
                 Title = "Logout",
                 TextColor = Color.Black,
-                IconSource = ""
+                IconSource = "logout.png"
             });
             listview.ItemsSource = masterPageItem;
 			StackLayout MenuObjects = new StackLayout()
@@ -150,6 +172,9 @@ namespace fidus
 			MenuObjects.Children.Add(UserImg);
 			MenuObjects.Children.Add(UsrLab);
 			MenuObjects.Children.Add(Usrmail);
+			MenuObjects.Children.Add(linea);
+			MenuObjects.Children.Add(menutext);
+
 			MenuObjects.Children.Add(listview);
 
 			MenuLayout.Children.Add(MenuObjects,
@@ -159,8 +184,42 @@ namespace fidus
 				Constraint.RelativeToParent((parent) => { return parent.Height; }));
 
 			this.Content = MenuLayout;
+			ListView.ItemSelected += OnItemSelected;
 
-		
+		}
+
+		internal async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			var item = e.SelectedItem as MasterPageItem;
+
+			if (item != null)
+			{
+				if (item.TargetType != null)
+				{
+					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
+					await Navigation.PushAsync(Detail);
+
+					Debug.WriteLine("Menu : " + item.Title);
+					this.HideWithoutAnimations();
+					ListView.SelectedItem = null;
+				}
+				else if (item.Title == "Logout")
+				{
+					try
+					{
+						await Navigation.PopToRootAsync();
+						//App.instance.ClearNavigationAndGoLogin();
+
+					}
+					catch (Exception ex)
+					{
+						Debug.WriteLine("MainPage: Exit stack " + ex);
+					}
+
+					this.HideWithoutAnimations();
+					Debug.WriteLine("Menu : Logout");
+				}
+			}
 		}
     }
 }
