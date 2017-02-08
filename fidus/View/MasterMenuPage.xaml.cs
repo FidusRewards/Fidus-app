@@ -15,6 +15,8 @@ namespace fidus
 			SeparatorVisibility = SeparatorVisibility.None,
 			BackgroundColor= Color.Transparent
 		};
+		private StackLayout MenuBar;
+		private Image MenuIcon;
         public ListView ListView { get { return listview; } }
 
 		public MasterMenuPage()
@@ -51,24 +53,26 @@ namespace fidus
 				Constraint.RelativeToParent((parent) => { return parent.Width; }),
 				Constraint.RelativeToParent((parent) => { return parent.Height; }));
 
-			StackLayout MenuBar = new StackLayout()
+			if (Device.OS != TargetPlatform.Android)
 			{
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				HeightRequest = 65,
-				BackgroundColor = Color.FromHex(Settings.FidusColor)
-			};
+				 MenuBar = new StackLayout()
+				{
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					HeightRequest = 65,
+					BackgroundColor = Color.FromHex(Settings.FidusColor)
+				};
 
-			Image MenuIcon= new Image()
-			{
-				Margin = new Thickness(10, 22, 0, 12),
-				VerticalOptions = LayoutOptions.Center,
-				HorizontalOptions = LayoutOptions.Start,
-				Source = "settings1.png",
-				HeightRequest = 20,
-				WidthRequest = 20
-			};
-			MenuBar.Children.Add(MenuIcon);
-
+				 MenuIcon = new Image()
+				{
+					Margin = new Thickness(10, 22, 0, 12),
+					VerticalOptions = LayoutOptions.Center,
+					HorizontalOptions = LayoutOptions.Start,
+					Source = "settings1.png",
+					HeightRequest = 20,
+					WidthRequest = 20
+				};
+				MenuBar.Children.Add(MenuIcon);
+			}
 
 			Image UserImg = new Image() { 
 				Source="userimg.png",
@@ -76,7 +80,7 @@ namespace fidus
 				WidthRequest=70,
 				HorizontalOptions=LayoutOptions.Center,
 				VerticalOptions=LayoutOptions.Center,
-				Margin=new Thickness(0,0,20,0)			
+				Margin=new Thickness(0,10,0,0)			
 			};
 
 			Label UsrLab = new Label() { 
@@ -120,7 +124,7 @@ namespace fidus
             {
                 Title = "Editar Perfil",
                 TextColor = Color.Black,
-                IconSource = "icono-usuario.png"
+                IconSource = "iconousuario.png"
             });
             masterPageItem.Add(new MasterPageItem
             {
@@ -133,7 +137,16 @@ namespace fidus
 			{
 				Orientation=StackOrientation.Vertical
 			};
-			MenuObjects.Children.Add(MenuBar);
+
+			if (Device.OS != TargetPlatform.Android)
+			{ 	
+				MenuObjects.Children.Add(MenuBar); 
+				var OnTap = new TapGestureRecognizer();
+				OnTap.Tapped += (sender, e) => { this.IsEnabled = false; };
+
+				MenuIcon.GestureRecognizers.Add(OnTap);
+			}
+
 			MenuObjects.Children.Add(UserImg);
 			MenuObjects.Children.Add(UsrLab);
 			MenuObjects.Children.Add(Usrmail);
@@ -147,10 +160,7 @@ namespace fidus
 
 			this.Content = MenuLayout;
 
-			var OnTap = new TapGestureRecognizer();
-			OnTap.Tapped += (sender, e) => { this.IsEnabled = false; };
-
-			MenuIcon.GestureRecognizers.Add(OnTap);
+		
 		}
     }
 }

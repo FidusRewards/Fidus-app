@@ -305,7 +305,7 @@
     <BundleResource Include="Resources\settings1.png" />
     <BundleResource Include="Resources\ic_launcher.png" />
     <BundleResource Include="Resources\Fidus.png" />
-    <BundleResource Include="Resources\icono-usuario.png" />
+    <BundleResource Include="Resources\iconousuario.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

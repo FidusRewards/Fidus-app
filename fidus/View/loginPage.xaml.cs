@@ -165,7 +165,7 @@ namespace fidus
 						loginVM.IsBusy = false;
 
 						//Application.Current.MainPage = new HistoryPage();
-						var content = new UserMenuPage();
+						var content = new MainPage();
 
 						Application.Current.MainPage = new NavigationPage(content)
 						{
