@@ -9,7 +9,7 @@ namespace fidus
 		public App()
 		{
 			InitializeComponent();
-			var content = new MainPage();//loginPage();
+			var content = new loginPage();
 			instance = this;
 
 			if (Device.OS == TargetPlatform.Android)
@@ -23,7 +23,7 @@ namespace fidus
 				{
 					BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
 					BarTextColor = Color.White
-					//Title="Ingreso"
+					//Title="Fidus"
 				};
 			}
 				//MainPage = new loginPage();
@@ -31,11 +31,11 @@ namespace fidus
 
 		public void ClearNavigationAndGoLogin()
 		{
-				MainPage = new NavigationPage(new SplashScreen())
-					{
-					BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-					BarTextColor = Color.White
-					};
+			MainPage = new NavigationPage(new SplashScreen());
+					//{
+					//BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
+					//BarTextColor = Color.White
+					//};
 		}
 
 		protected override void OnStart()

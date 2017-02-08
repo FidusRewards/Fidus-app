@@ -304,7 +304,7 @@
     <BundleResource Include="Resources\exiticon1.png" />
     <BundleResource Include="Resources\settings1.png" />
     <BundleResource Include="Resources\ic_launcher.png" />
-    <BundleResource Include="Resources\Fidus.png" />
+    <BundleResource Include="Resources\fidus_text.png" />
     <BundleResource Include="Resources\iconousuario.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

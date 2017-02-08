@@ -50,6 +50,10 @@ namespace fidus
 			SettingsCommand = new Command(SettingsTap);
 			ExitCommand = new Command(ExitTap);
             _client = new AzureClient<WhiteList>();
+
+			Debug.WriteLine("MainPage : Antes del IF del DoLogin");
+
+
         }
 
         private void ScanCommand() {

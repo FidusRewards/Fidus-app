@@ -18,7 +18,7 @@ namespace fidus
 
 		protected override async void OnAppearing()
 		{
-			var content = new MainPage();//loginPage();
+			var content = new loginPage();
 
 			base.OnAppearing();
 

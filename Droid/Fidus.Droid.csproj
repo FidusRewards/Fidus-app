@@ -225,7 +225,7 @@
     <AndroidResource Include="Resources\drawable\exiticon1.png" />
     <AndroidResource Include="Resources\drawable\settings1.png" />
     <AndroidResource Include="Resources\drawable\SplashScreen.png" />
-    <AndroidResource Include="Resources\drawable\Fidus.png" />
+    <AndroidResource Include="Resources\drawable\fidus_text.png" />
     <AndroidResource Include="Resources\drawable\iconousuario.png" />
     <AndroidResource Include="Resources\drawable\userimg.png" />
   </ItemGroup>

@@ -17,7 +17,10 @@ namespace fidus
 		public loginPage()
 		{
 			InitializeComponent();
-            this.Title = "Ingreso";
+
+			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			//this.Title = "Fidus";
+
 			loginVM = new loginViewModel();
 
 			BindingContext = loginVM;
@@ -151,6 +154,7 @@ namespace fidus
 				Constraint.RelativeToParent((parent) => { return parent.Height; }));
 			Content = layout;
 
+
 			Ingresar.Clicked += async (sender, e) =>
 			{
 				loginVM.IsBusy = true;
@@ -166,18 +170,23 @@ namespace fidus
 
 						//Application.Current.MainPage = new HistoryPage();
 						var content = new MainPage();
+					
 
-						Application.Current.MainPage = new NavigationPage(content)
-						{
-							BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-							BarTextColor = Color.White,
-							Title = "Fidus"
-						};
+						//Application.Current.MainPage 
+				        //var content = new NavigationPage(new MainPage())
+						//{
+						//	BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
+						//	BarTextColor = Color.White,
+							//Title = "Fidus"
+						//};
 
-						//NavigationPage.SetHasBackButton(content, false);
+						NavigationPage.SetHasBackButton(content, false);
+						NavigationPage.SetTitleIcon(content, "fidus_text.png");
+
+						await Navigation.PushAsync(content);
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 
-                        //await Navigation.PushAsync(content);
+						//await Navigation.PopAsync();
 
 					}
 					else

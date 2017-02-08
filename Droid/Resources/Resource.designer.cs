@@ -2111,7 +2111,7 @@ namespace fidus.Droid
 			public const int exiticon1 = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int Fidus = 2130837583;
+			public const int fidus_text = 2130837583;
 			
 			// aapt resource value: 0x7f020050
 			public const int hockeyapp_btn_background = 2130837584;

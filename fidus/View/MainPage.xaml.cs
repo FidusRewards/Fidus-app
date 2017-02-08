@@ -19,18 +19,19 @@ namespace fidus
 
         public MainPage()
         {
+
             InitializeComponent();
 
-
-			NavigationPage.SetTitleIcon(this, "Fidus.png");
+			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			this.Title = "Fidus";
 
             mVM = new MainViewModel();
 
             BindingContext = mVM;
-            //img = new Image();
-            //img.Source = ImageSource.FromFile("userimg.png");
-
-            mVM.Mname = Settings.CurrentUser.Name;
+			//img = new Image();
+			//img.Source = ImageSource.FromFile("userimg.png");
+	
+			mVM.Mname = Settings.CurrentUser.Name;
             //mVM.Mimg = img;
             mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
@@ -55,7 +56,6 @@ namespace fidus
 
 				Priority = 0
 			});
-
 
 
             MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
@@ -109,7 +109,6 @@ namespace fidus
             mVM.Load();
 
         }
-
 
         private async void Scan()
         {
