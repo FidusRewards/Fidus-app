@@ -207,6 +207,8 @@ namespace fidus
 				{
 					try
 					{
+						this.HideWithoutAnimations();
+
 						await Navigation.PopToRootAsync();
 						//App.instance.ClearNavigationAndGoLogin();
 
@@ -216,7 +218,6 @@ namespace fidus
 						Debug.WriteLine("MainPage: Exit stack " + ex);
 					}
 
-					this.HideWithoutAnimations();
 					Debug.WriteLine("Menu : Logout");
 				}
 			}
