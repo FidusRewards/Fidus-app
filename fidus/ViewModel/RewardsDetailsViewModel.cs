@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Plugin.Connectivity;
 using Xamarin.Forms;
 
 namespace fidus
@@ -61,6 +62,8 @@ namespace fidus
 
 				await _items.Save(_history);
 
+				if (CrossConnectivity.Current.IsConnected)
+					await _items.InitSync();
 				//MessagingCenter.Send(this, "Debited", true);
 
 				IsBusy = false;

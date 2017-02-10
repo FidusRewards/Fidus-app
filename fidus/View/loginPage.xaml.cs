@@ -16,6 +16,7 @@ namespace fidus
 
 		public loginPage()
 		{
+			
 			InitializeComponent();
 
 			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
@@ -169,26 +170,27 @@ namespace fidus
 						loginVM.IsBusy = false;
 
 						//Application.Current.MainPage = new HistoryPage();
-						var content = new MainPage();
+						//var content = new MainPage();
 					
 
 						//Application.Current.MainPage 
-				        //var content = new NavigationPage(new MainPage())
+				        // var content = new NavigationPage(new MainPage())
 						//{
 						//	BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
 						//	BarTextColor = Color.White,
 							//Title = "Fidus"
 						//};
 
-						NavigationPage.SetHasBackButton(content, false);
-						NavigationPage.SetTitleIcon(content, "fidus_text.png");
+						//NavigationPage.SetHasBackButton(content, false);
+						//NavigationPage.SetTitleIcon(content, "fidus_text.png");
 
-						await Navigation.PushAsync(content);
+						//await Navigation.PushAsync(content);
 
 						Ingresar.IsVisible = true;
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 
-						//await Navigation.PopAsync();
+						await Navigation.PopModalAsync();
+
 
 					}
 					else
@@ -212,30 +214,28 @@ namespace fidus
 				var regpage = new RegisterPage(Email.Text, Pass.Text);
 				//NavigationPage.SetHasNavigationBar(regpage, false);
 				//NavigationPage.SetHasBackButton(regpage, false);
+				await Navigation.PopModalAsync();
 
-				await Navigation.PushAsync(regpage);
+				await Navigation.PushModalAsync(regpage);
+
 			};
 
 			MessagingCenter.Subscribe<loginViewModel>(this, "NOINET", async (obj) => {
-				await DisplayAlert("Error", "No hay Conexión", "OK");
+				await DisplayAlert("Advertencia", "No hay conexión a internet, algunas funciones pueden no estar disponibles", "OK");
 			});
 		}
 
-		protected async override void OnAppearing()
+		protected override void OnAppearing()
 		{
 			base.OnAppearing();
 
-			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
-
-			if (!Reach || !CrossConnectivity.Current.IsConnected)
-			{
-				Settings.Default.IsInternetEnabled = false;
-				await DisplayAlert("Error", "No hay conexión a Internet. La App se cerrará", "OK");
-				DependencyService.Get<ICloseApplication>().closeApp();
-			};
-				
 		}
 
+		protected override bool OnBackButtonPressed()
+		{
+
+			return true;
+		}
 
 	}
 }

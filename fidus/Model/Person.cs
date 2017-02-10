@@ -24,10 +24,19 @@ namespace fidus
 		public int Points { get; set; }
 
 		[JsonProperty]
-		public bool IsAdmin { get; set;}
+		public bool IsAdmin { get; set; }
 
 		[JsonProperty]
 		public DateTime Birthday { get; set; }
+
+		[JsonProperty]
+		public bool Logged { get; set; }
+
+		[JsonProperty]
+		public DateTime LastLogin { get; set;}
+
+		[JsonProperty]
+		public String Phone { get; set;}
 
 	[Version]
 		public string Version { get; set; }

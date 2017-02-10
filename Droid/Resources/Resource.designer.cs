@@ -26,7 +26,6 @@ namespace fidus.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::fidus.Droid.Resource.Attribute.actionBarSize;
 			global::ZXing.Mobile.Resource.Id.contentFrame = global::fidus.Droid.Resource.Id.contentFrame;
 			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::fidus.Droid.Resource.Layout.zxingscanneractivitylayout;
 			global::ZXing.Mobile.Resource.Layout.zxingscannerfragmentlayout = global::fidus.Droid.Resource.Layout.zxingscannerfragmentlayout;
@@ -153,6 +152,7 @@ namespace fidus.Droid
 			global::HockeyApp.Resource.Style.HockeyApp_ButtonStyle = global::fidus.Droid.Resource.Style.HockeyApp_ButtonStyle;
 			global::HockeyApp.Resource.Style.HockeyApp_EditTextStyle = global::fidus.Droid.Resource.Style.HockeyApp_EditTextStyle;
 			global::HockeyApp.Resource.Style.HockeyApp_SingleLineInputStyle = global::fidus.Droid.Resource.Style.HockeyApp_SingleLineInputStyle;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::fidus.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

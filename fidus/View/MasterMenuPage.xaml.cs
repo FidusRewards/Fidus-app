@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using SlideOverKit;
 using Xamarin.Forms;
 using System.Diagnostics;
-
+using Microsoft.WindowsAzure.MobileServices;
+using Plugin.Connectivity;
 
 namespace fidus
 {
@@ -209,7 +210,18 @@ namespace fidus
 					{
 						this.HideWithoutAnimations();
 
-						await Navigation.PopToRootAsync();
+						//await App.instance.UpdateDB();
+						Settings.CurrentUser.Logged = false;
+
+						App.UpdateProperties();
+
+						if (CrossConnectivity.Current.IsConnected)
+						{
+							var _client = new AzureClient<Person>();
+							IMobileServiceTable<Person> _tabla = _client.GetPTable();
+							await _tabla.UpdateAsync(Settings.CurrentUser);
+						}
+						await Navigation.PushModalAsync(new loginPage());
 						//App.instance.ClearNavigationAndGoLogin();
 
 					}

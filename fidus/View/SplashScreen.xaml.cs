@@ -18,9 +18,8 @@ namespace fidus
 
 		protected override async void OnAppearing()
 		{
-			var content = new loginPage();
-
 			base.OnAppearing();
+			Page content = new MainPage();
 
 			// await a new task
 			await Task.Factory.StartNew(async () =>

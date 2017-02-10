@@ -5,8 +5,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
+using Plugin.Connectivity;
 
 namespace fidus
 {
@@ -62,6 +63,8 @@ namespace fidus
 
 		public async void Load()
 		{
+			//await _client.PurgeData();
+
 			//Places = new List<Place>();
 			//Places.Clear();
 			Places=await Items.Load(Places);
@@ -103,7 +106,7 @@ namespace fidus
 
         public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
         {
-            IMobileServiceTable<WhiteList> _tabla = _client.GetTable();
+            IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
 
             try
             {
@@ -142,6 +145,9 @@ namespace fidus
 			String[] _array2 = { points[0], _placelogo};
 			await _items.Save(_history);
 
+			if (CrossConnectivity.Current.IsConnected)
+				await _items.InitSync();
+			
 			MessagingCenter.Send(this, "Rewards1", _array2);
 
 			IsBusy = false;

@@ -9,6 +9,7 @@
 			VerticalOptions="Start"
 			Orientation="Vertical"
 			Spacing="0"
+
 			>
 			
 			<StackLayout

@@ -22,7 +22,11 @@ namespace fidus
 
 		public async Task<bool> LoginQuery(string userEmail, string userPass)
 		{
-			IMobileServiceTable<Person> _tabla = _client.GetTable();
+			await _client.PurgeData();
+			Settings.CurrentUser.Name = userEmail;
+			//await _client.SyncAsync();
+
+			IMobileServiceTable<Person> _tabla = _client.GetPTable();
 			string _hPass = DependencyService.Get<IHash256>().Hash256(userPass);
 
 			try
@@ -31,19 +35,23 @@ namespace fidus
 				foreach (Person _person in result)
 				{
 					Settings.CurrentUser = _person;
-
-					//Debug.WriteLine("foreachperson: " + _person.Name);
+					if (_person.Phone == null)
+						Settings.CurrentUser.Phone = " ";
+					Debug.WriteLine("foreachperson: " + _person.Name);
 
 				};
 
 				if (result.GetEnumerator().MoveNext())
 				{
 
-					Settings.Default.IsLogin = true;
+					Settings.CurrentUser.Logged = true;
+					Settings.CurrentUser.LastLogin = System.DateTime.Now;
+					App.UpdateProperties();
+					await _tabla.UpdateAsync(Settings.CurrentUser);
+					//await _tabla.UpdateAsync(Settings.CurrentUser);
 					return true;
 				}
 
-				Settings.Default.IsLogin = false;
 				return false;
 			}
 			catch (Exception ex)

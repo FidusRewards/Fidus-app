@@ -13,7 +13,7 @@ namespace fidus.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-
+			
 			var manager = BITHockeyManager.SharedHockeyManager;
 			manager.Configure(Settings.Hockey_iOs);
 			manager.StartManager();
@@ -23,6 +23,7 @@ namespace fidus.iOS
 			global::ZXing.Net.Mobile.Forms.iOS.Platform.Init();
 			global::Refractored.XamForms.PullToRefresh.iOS.PullToRefreshLayoutRenderer.Init();
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+			SQLitePCL.CurrentPlatform.Init();
 			SlideOverKit.iOS.SlideOverKit.Init();
 			            
 			LoadApplication(new App());

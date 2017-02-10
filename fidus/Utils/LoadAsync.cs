@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.Sync;
 
 namespace fidus
 {
@@ -27,9 +28,15 @@ namespace fidus
 			Items.Clear();
 
 			var result = await _client.GetData();
-
+			if (!Utils.IsAny(result))
+			{
+				Debug.WriteLine("Load "+typeof(T)+" null -> Syncing");
+				await InitSync();
+				result = await _client.GetData();
+			}
 			foreach (var item in result)
 			{
+				Debug.WriteLine("Item readed");
 				Items.Add(item);
 			}
 
@@ -42,13 +49,20 @@ namespace fidus
 			Hitems = new ObservableCollection<History>();
 
 			Hitems.Clear();
-			IMobileServiceTable<History> _tabla = (IMobileServiceTable<History>) _client.GetTable();
+			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
 
 			int count = 0;
 			var query = _tabla.IncludeTotalCount().Where(history => history.Place == _history.Place && history.Person == _history.Person);
 			var result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
-
 			long Tcount = ((IQueryResultEnumerable<History>)result).TotalCount;
+
+			if (Tcount==0)
+			{
+				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
+				await InitSync();
+				result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+			}
+
 
 			foreach (History item in result)
 			{
@@ -81,10 +95,18 @@ namespace fidus
 
 			Ritems.Clear();
 
-			IMobileServiceTable<Rewards> _tabla = (IMobileServiceTable<Rewards>)_client.GetTable();
+			IMobileServiceSyncTable<Rewards> _tabla = (IMobileServiceSyncTable<Rewards>)_client.GetTable();
 
 			var result = await _tabla.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
-			foreach (Rewards item in result)
+
+			if (!Utils.IsAny(result))
+			{
+				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
+				await InitSync();
+				result = await _tabla.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
+			}
+
+				foreach (Rewards item in result)
 			{
 				//History _temp = (History)(object)item;
 				if (item.Place == _rewards.Place)
@@ -110,7 +132,7 @@ namespace fidus
 				                   
 			};
 
-			IMobileServiceTable<History> Tabla = (IMobileServiceTable<History>) _client.GetTable();
+			IMobileServiceSyncTable<History> Tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
 
 			await Tabla.InsertAsync(Datos);
 
@@ -123,32 +145,47 @@ namespace fidus
 			Hitems = new ObservableCollection<History>();
 
 			Hitems.Clear();
-			IMobileServiceTable<History> _tabla = (IMobileServiceTable<History>)_client.GetTable();
+			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>)_client.GetTable();
 
 			var result = await _tabla.Where(history => history.Person == person)
 			                         .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+			if (!Utils.IsAny(result))
+			{
+				Debug.WriteLine("Load History null -> Syncing");
+				await InitSync();
+				result = await _tabla.Where(history => history.Person == person)
+									 .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+			}
 			foreach (History item in result)
 			{
 
 					Hitems.Add((History)item);
 
-			};
+			}
 
 			return Hitems;
 		}
 
 		public async Task<ObservableCollection<Place>> Load(ObservableCollection<Place> _places)
 		{
+			//InitSync();
+			Debug.WriteLine("Entro al Load(Places)");
 			ObservableCollection<Place> Pitems;
 			Pitems = new ObservableCollection<Place>();
 
 			Pitems.Clear();
 
 			IEnumerable<Place> result = (IEnumerable<Place>) await _client.GetData();
+			if (!Utils.IsAny(result))
+			{
+				Debug.WriteLine("Load Places null -> Syncing");
+				await InitSync();
+				result = (IEnumerable<Place>)await _client.GetData();
 
+			}
 			foreach (Place item in result)
 			{
-				
+				Debug.WriteLine("Load Places -> " + item.Name);
 				item.Logo = Settings.ImgSrvProd + item.Logo;
 				if (item.Admin == "YES")
 				{	if (Settings.CurrentUser.IsAdmin)
@@ -161,6 +198,10 @@ namespace fidus
 			return Pitems;
 		}
 
+		public async Task InitSync()
+		{
+			await _client.SyncAsync();
+		}
 
 	}
 }

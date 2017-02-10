@@ -6,6 +6,7 @@ using Refractored.XamForms.PullToRefresh;
 using SlideOverKit;
 using Xamarin.Forms;
 using ZXing.Net.Mobile.Forms;
+using Plugin.Connectivity;
 
 namespace fidus
 {
@@ -102,11 +103,26 @@ namespace fidus
 		}
 
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
+			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
+
+			if (!Reach || !CrossConnectivity.Current.IsConnected)
+			{
+				Settings.Default.IsInternetEnabled = false;
+				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
+				//DependencyService.Get<ICloseApplication>().closeApp();
+			};
+
+			if (Application.Current.Properties.ContainsKey("ULogged"))
+			{
+				if (!(bool)Application.Current.Properties["ULogged"])
+					await Navigation.PushModalAsync(new loginPage());
+			}
             mVM.Load();
+
 
         }
 
@@ -175,11 +191,7 @@ namespace fidus
         //{
         //	await Navigation.PushAsync(new HistoryPage());
         //}
-        protected override bool OnBackButtonPressed()
-        {
-			
-            return true;
-        }
+        
 
         private void GridPlaces(ObservableCollection<Place> _places)
         {
