@@ -52,7 +52,10 @@
 					x:Name="BackBut"
 					Clicked="Handle_Clicked"
 					FontAttributes="Bold"
+					BackgroundColor="Transparent"
+					BorderColor="Transparent"		 
 					HorizontalOptions="Start"
+					VerticalOptions="Center"
 					Margin="5,0,0,0"
 					TextColor="White"
 						/>
@@ -74,9 +77,14 @@
 				HorizontalOptions="FillAndExpand"
 				Orientation="Vertical"
 				BackgroundColor="Transparent"
-				Margin="0,60,0,0"
 				Padding="35,10,35,5"
 			>
+				<StackLayout.Margin>
+					<OnPlatform x:TypeArguments="Thickness"
+						iOS     ="0,60,0,0"
+						Android ="0,45,0,0"
+    					WinPhone="0,45,0,0" />
+				</StackLayout.Margin>
 			<Image
 					Source="Fidusred.png"
 					VerticalOptions="Center"
@@ -90,7 +98,7 @@
 					<Image
 						Source="iconousuario.png"
 						HeightRequest="30"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
 					<Entry
 						HorizontalOptions="FillAndExpand"
@@ -100,14 +108,14 @@
 					TextColor = "Gray"
 					Keyboard = "Text"
 					Text = "{Binding RName}"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 					/>
 					<Label
 						Text="*"
 						FontSize="25"
 						TextColor="Red"
 						HorizontalOptions="End"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
@@ -116,7 +124,7 @@
 					<Image
 						Source="iconoemail.png"
 						HeightRequest="30"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
 				
      			 <Entry
@@ -127,23 +135,23 @@
 					TextColor = "Gray"
 					Keyboard = "Email"
 					Text = "{Binding REmail}"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 					/>
 					<Label
 						Text="*"
 						FontSize="25"
 						TextColor="Red"
 						HorizontalOptions="End"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
-					HorizontalOptions="FillAndExpand" Padding="5" Margin="0,15,0,0" >
+					HorizontalOptions="FillAndExpand" Padding="5" Margin="0,10,0,0" >
 
 					<Image
 						Source="iconopass.png"
 						HeightRequest="30"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
      			 <Entry
 					HorizontalOptions="FillAndExpand"
@@ -152,7 +160,7 @@
 					TextColor = "Gray"
 					IsPassword="true"
 					Text = "{Binding RPass}"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 
 				/>
 				<Label
@@ -160,7 +168,7 @@
 					FontSize="25"
 					TextColor="Red"
 					HorizontalOptions="End"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 					/>
 			</StackLayout>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
@@ -169,7 +177,7 @@
 					<Image
 						Source="iconopass.png"
 						HeightRequest="30"
-						Margin="0,10,0,0"
+						Margin="0,5,0,0"
 						/>
       			<Entry
 					HorizontalOptions="FillAndExpand"
@@ -178,7 +186,7 @@
 					TextColor = "Gray"
 					IsPassword="true"
 					Text = "{Binding RPass2}"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 
 					/>
 				<Label
@@ -186,18 +194,18 @@
 					FontSize="25"
 					TextColor="Red"
 					HorizontalOptions="End"
-					Margin="0,10,0,0"
+					Margin="0,5,0,0"
 					/>
 			</StackLayout>
 			<Label Text="Cumpleaños"
-						Margin="0,15,0,0"/>
+						Margin="0,10,0,0"/>
 				<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
-					HorizontalOptions="FillAndExpand" Padding="5"  >
+					HorizontalOptions="FillAndExpand" Padding="0"  >
 
 					<Image
 						Source="iconocumple.png"
 						HeightRequest="30"
-						Margin="0,10,0,0"
+						Margin="0"
 						/>
       				
       			<DatePicker
@@ -205,15 +213,14 @@
 					BackgroundColor = "Transparent"
 					TextColor = "Silver"
 					Date = "{Binding RBday}"
-					Margin="0,5,0,0"
-
+					Margin="0"
 					/>
 				<Label
 					Text="*"
 					FontSize="25"
 					TextColor="#0B4F6C"
 					HorizontalOptions="End"
-					Margin="0,10,0,0"
+					Margin="0"
 					/>
 		</StackLayout>
       <Button
@@ -222,11 +229,11 @@
 				TextColor = "White"
 				BackgroundColor = "#01baef"
 				FontSize="{Binding FSize}"
-
-				Margin="0, 30, 0, 0"
+				FontAttributes="Bold"
+				Margin="0, 20, 0, 0"
 			/>
       <Label
-      			Margin="0,10,0,0"
+      			Margin="0,5,0,0"
 				Text="(*) Opcional. Si querés recibir promociones y premios especiales no dejes de completar tu fecha de cumpleaños"
 				FontSize="10"
 				TextColor="#0B4F6C"
