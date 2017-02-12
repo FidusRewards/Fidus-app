@@ -238,6 +238,7 @@
     <AndroidResource Include="Resources\drawable\icono-contraseña.png" />
     <AndroidResource Include="Resources\drawable\icono-usuario.png" />
     <AndroidResource Include="Resources\drawable\icono-cumple.png" />
+    <AndroidResource Include="Resources\drawable\Fidusred.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />
