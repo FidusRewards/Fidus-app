@@ -119,7 +119,7 @@ namespace fidus
 			if (Application.Current.Properties.ContainsKey("ULogged"))
 			{
 				if (!(bool)Application.Current.Properties["ULogged"])
-					await Navigation.PushModalAsync(new loginPage());
+					await Navigation.PushModalAsync(new loginPage(), false);
 			}
             mVM.Load();
 

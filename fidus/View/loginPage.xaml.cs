@@ -32,19 +32,23 @@ namespace fidus
 
 
 			image.Source = ImageSource.FromResource("fidus.Fiduslogored.png");
+			image.Margin = new Thickness(0, Device.OnPlatform(60, 40, 0), 0, 0);
 
-			var MIcon = new Image { 
+			var MIcon = new Image
+			{
 				HeightRequest = 15,
 				WidthRequest = 15,
+				Margin = new Thickness(0, 10, 0, 0),
 				Source = ImageSource.FromResource("fidus.icono-email.png") };
 
 			var Email = new Entry
 			{
 				Placeholder = "Email",
 				BackgroundColor = Color.Transparent,
-				FontFamily=Device.OnPlatform("Helvetica-Black","Roboto-Black",""),
+				FontFamily=Device.OnPlatform(Settings.FidusIosFont,Settings.FidusAndFont,""),
 				TextColor = Color.Gray,
 				Keyboard = Keyboard.Email,
+				Margin = new Thickness(0, 10, 0, 0),
 				HorizontalOptions=LayoutOptions.FillAndExpand
 
 			};
@@ -57,25 +61,29 @@ namespace fidus
 			{
 				Placeholder = "Contraseña",
 				IsPassword = true,
-				FontFamily=Device.OnPlatform("Helvetica-Black","Roboto-Black",""),
+				FontFamily=Device.OnPlatform(Settings.FidusIosFont,Settings.FidusAndFont,""),
 				BackgroundColor = Color.Transparent,
 				TextColor = Color.Gray,
 				HorizontalOptions=LayoutOptions.FillAndExpand
 
 			};
-            Button Ingresar = new Button
-            {
-                Text = "Ingresá",
+			Button Ingresar = new Button
+			{
+				Text = "Ingresá",
+				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
+				FontAttributes = FontAttributes.Bold,
                 BackgroundColor = Color.FromHex(Settings.FidusColor),
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                Margin = new Thickness(0, 15, 0, 0)
+                Margin = new Thickness(0, 20, 0, 0)
             };
 			Button Registro = new Button
 			{
 				Text = "Registrate",
 				TextColor = Color.White,
-				BackgroundColor = Color.Gray,
+				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
+				FontAttributes = FontAttributes.Bold,
+				BackgroundColor = Color.FromHex(Settings.FidusBlue),
 				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
 				Margin = new Thickness(0, 15, 0, 0)
             };
@@ -89,16 +97,12 @@ namespace fidus
 			var Label = new Label
 			{
 				Text = "Ingresá tu email y contraseña",
-				Margin = new Thickness(2),
+				Margin = new Thickness(2,15,2,2),
 				HorizontalTextAlignment = TextAlignment.Center,
+				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				FontAttributes=FontAttributes.Bold
 			};
-			Label.FontFamily = Device.OnPlatform(
-							"Helvetica-Black",
-							"Roboto-Black",
-							""
-			);
 
 			var BkgImage = new Image()
 			{
@@ -117,7 +121,7 @@ namespace fidus
 
 			var Staklay = new StackLayout
 			{
-				Padding = new Thickness(35,10,35,10),
+				Padding = new Thickness(35,10,35,5),
 
 				Children = {
 					image,
@@ -143,7 +147,8 @@ namespace fidus
 						Children = {Ingresar, Registro}
 					},
 					new Label {Text=Settings.AppVersion,
-						HorizontalOptions=LayoutOptions.StartAndExpand,
+						HorizontalOptions=LayoutOptions.EndAndExpand,
+						VerticalOptions=LayoutOptions.End,
 						TextColor=Color.Gray
 					}
 				}
@@ -203,7 +208,7 @@ namespace fidus
                     }
 				}
 				else {
-					await DisplayAlert("Error", "El usuario y pass no pueden estar vacíos", "OK");
+					await DisplayAlert("Error", "El usuario y la contraseña no pueden estar vacíos", "OK");
 					loginVM.IsBusy = false;
                     Ingresar.IsVisible = true;
                 }
@@ -214,7 +219,7 @@ namespace fidus
 				var regpage = new RegisterPage(Email.Text, Pass.Text);
 				//NavigationPage.SetHasNavigationBar(regpage, false);
 				//NavigationPage.SetHasBackButton(regpage, false);
-				await Navigation.PopModalAsync();
+				//await Navigation.PopModalAsync();
 
 				await Navigation.PushModalAsync(regpage);
 

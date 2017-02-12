@@ -21,9 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SplashScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="JSf-l4-TGL">
-                                <rect key="frame" x="0.0" y="-32" width="320" height="512"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SplashScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="JSf-l4-TGL">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.61960784313725492" green="0.23137254901960785" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -35,6 +36,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashScreen.png" width="618" height="1125"/>
+        <image name="SplashScreen.png" width="320" height="568"/>
     </resources>
 </document>

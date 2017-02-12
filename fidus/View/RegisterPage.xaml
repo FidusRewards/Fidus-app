@@ -4,10 +4,72 @@
 	x:Class="fidus.RegisterPage"
 	x:Name="RegPage">
 	<ContentPage.Content>
+        
+	<RelativeLayout>
+			
+			<Image 
+				RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.WidthConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				RelativeLayout.HeightConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+			
+				Source = "giftly.png"
+				Aspect = "AspectFill"
 
-    <StackLayout HorizontalOptions="FillAndExpand"
-			Orientation="Vertical"
-			Padding="10"
+			/>
+
+			<!-- header -->
+        <StackLayout 
+        		RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.WidthConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				RelativeLayout.HeightConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+				BackgroundColor="#9E3B37" 
+				Orientation="Vertical" VerticalOptions="StartAndExpand"
+				HorizontalOptions="FillAndExpand">
+            <StackLayout.HeightRequest>
+              <OnPlatform x:TypeArguments="x:Double" iOS="60" Android="45" />
+            </StackLayout.HeightRequest>
+            <StackLayout.MinimumHeightRequest>
+              <OnPlatform x:TypeArguments="x:Double" iOS="60" Android="45" />
+            </StackLayout.MinimumHeightRequest>
+            <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" Padding="3,0,0,0">
+                <Label Text="Fidus" FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center" FontSize="16" />
+            </StackLayout>
+        </StackLayout>
+
+    <StackLayout 
+    			
+				RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.WidthConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				RelativeLayout.HeightConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+				HorizontalOptions="FillAndExpand"
+				Orientation="Vertical"
+				BackgroundColor="Transparent"
+				Margin="0,40,0,0"
+				Padding="35,10,35,5"
 			>
 
       <Entry
@@ -81,6 +143,6 @@
 			/>
 
     </StackLayout>
-
+    </RelativeLayout>
   </ContentPage.Content>
 </ContentPage>

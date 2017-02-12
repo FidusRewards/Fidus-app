@@ -147,7 +147,8 @@ namespace fidus
             {
                 Title = "Editar Perfil",
                 TextColor = Color.Black,
-                IconSource = "iconousuario.png"
+                IconSource = "iconousuario.png",
+				TargetType = typeof(EditUserDataPage)
             });
             masterPageItem.Add(new MasterPageItem
             {
@@ -213,7 +214,7 @@ namespace fidus
 						//await App.instance.UpdateDB();
 						Settings.CurrentUser.Logged = false;
 
-						App.UpdateProperties();
+						await Navigation.PushModalAsync(new loginPage(), false);
 
 						if (CrossConnectivity.Current.IsConnected)
 						{
@@ -221,7 +222,9 @@ namespace fidus
 							IMobileServiceTable<Person> _tabla = _client.GetPTable();
 							await _tabla.UpdateAsync(Settings.CurrentUser);
 						}
-						await Navigation.PushModalAsync(new loginPage());
+
+						App.UpdateProperties();
+
 						//App.instance.ClearNavigationAndGoLogin();
 
 					}

@@ -18,6 +18,9 @@ namespace fidus
 		public static Person CurrentUser = new Person();
 		public Person User { get { return CurrentUser; } set { CurrentUser = value;} }
 		public const string FidusColor = "#9E3B37";
+		public const string FidusBlue = "#01baef";
+		public const string FidusIosFont = "Helvetica";
+		public const string FidusAndFont = "sans-serif";
 		public const string AppVersion = "Versión: 2.0.02";
 
 		public const string Hockey_iOs = "bf5bd0e001fe4cf0928002a4dd273e66";

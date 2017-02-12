@@ -233,6 +233,7 @@
     <AndroidResource Include="Resources\drawable\historial.png" />
     <AndroidResource Include="Resources\drawable\geopin.png" />
     <AndroidResource Include="Resources\drawable\menuline.png" />
+    <AndroidResource Include="Resources\drawable\giftly.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

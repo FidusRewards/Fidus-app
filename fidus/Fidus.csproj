@@ -65,6 +65,9 @@
     <EmbeddedResource Include="Fiduslogored.png" />
     <EmbeddedResource Include="icono-email.png" />
     <EmbeddedResource Include="icono-pass.png" />
+    <EmbeddedResource Include="View\EditUserDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -118,6 +121,10 @@
     <Compile Include="Model\MasterPageItem.cs" />
     <Compile Include="Controls\CustomImageCell.cs" />
     <Compile Include="Utils\Utils.cs" />
+    <Compile Include="View\EditUserDataPage.xaml.cs">
+      <DependentUpon>EditUserDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\EditUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
