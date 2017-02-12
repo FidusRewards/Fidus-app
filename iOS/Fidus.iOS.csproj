@@ -311,6 +311,11 @@
     <BundleResource Include="Resources\geopin.png" />
     <BundleResource Include="Resources\menuline.png" />
     <BundleResource Include="Resources\giftly.png" />
+    <BundleResource Include="Resources\Fidusred.png" />
+    <BundleResource Include="Resources\icono-cumple.png" />
+    <BundleResource Include="Resources\icono-email.png" />
+    <BundleResource Include="Resources\icono-usuario.png" />
+    <BundleResource Include="Resources\icono-contraseña.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

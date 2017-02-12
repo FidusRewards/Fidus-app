@@ -234,6 +234,10 @@
     <AndroidResource Include="Resources\drawable\geopin.png" />
     <AndroidResource Include="Resources\drawable\menuline.png" />
     <AndroidResource Include="Resources\drawable\giftly.png" />
+    <AndroidResource Include="Resources\drawable\icono-email.png" />
+    <AndroidResource Include="Resources\drawable\icono-contraseña.png" />
+    <AndroidResource Include="Resources\drawable\icono-usuario.png" />
+    <AndroidResource Include="Resources\drawable\icono-cumple.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

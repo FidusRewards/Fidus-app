@@ -25,18 +25,19 @@ namespace fidus
             MessagingCenter.Subscribe<RegisterViewModel>(this, "Registered", async (obj) =>
             {
                 await DisplayAlert("Bienvenido", "Te registraste en forma exitosa", "OK");
-                var content = new MainPage();
+				//var content = new MainPage();
 
-                var _mainPage = new NavigationPage(content)
-                {
-                    BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-                    BarTextColor = Color.White,
-                    Title = "Fidus"
-                };
+				//var _mainPage = new NavigationPage(content)
+				//{
+				//    BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
+				//    BarTextColor = Color.White,
+				//    Title = "Fidus"
+				//};
 
-                NavigationPage.SetHasNavigationBar(_mainPage, false);
-                NavigationPage.SetHasBackButton(_mainPage, false);
-                await Navigation.PushAsync(_mainPage);
+				//NavigationPage.SetHasNavigationBar(_mainPage, false);
+				//NavigationPage.SetHasBackButton(_mainPage, false);
+				//await Navigation.PushAsync(_mainPage);
+				await Navigation.PopToRootAsync();
             });
 
             MessagingCenter.Subscribe<RegisterViewModel>(this, "NotValid", async (obj) =>
@@ -50,8 +51,12 @@ namespace fidus
                 await DisplayAlert("Error", "Las contraseñas ingresadas no coiciden", "OK");
 
             });
-        }
 
+        }
+		async void Handle_Clicked(object sender, System.EventArgs e)
+		{
+		await Navigation.PopModalAsync();
+		}
 
     }
 }

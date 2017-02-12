@@ -217,10 +217,9 @@ namespace fidus
 			Registro.Clicked += async (sender, e) =>
 			{
 				var regpage = new RegisterPage(Email.Text, Pass.Text);
-				//NavigationPage.SetHasNavigationBar(regpage, false);
-				//NavigationPage.SetHasBackButton(regpage, false);
+				NavigationPage.SetHasNavigationBar(regpage, true);
+				NavigationPage.SetHasBackButton(regpage, true);
 				//await Navigation.PopModalAsync();
-
 				await Navigation.PushModalAsync(regpage);
 
 			};

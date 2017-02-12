@@ -75,7 +75,7 @@ namespace fidus
                         IsAdmin = false
                     };
 
-                    var Tabla = _client.GetTable();
+                    var Tabla = _client.GetPTable();
 
                     await Tabla.InsertAsync(Datos);
 
@@ -98,5 +98,6 @@ namespace fidus
 			};
 			IsBusy = false;
 		}
+
 	}
 }

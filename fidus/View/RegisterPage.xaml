@@ -46,10 +46,16 @@
               <OnPlatform x:TypeArguments="x:Double" iOS="60" Android="45" />
             </StackLayout.MinimumHeightRequest>
             <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" Padding="3,0,0,0">
-                <Label Text="Fidus" FontAttributes="Bold"
-                       TextColor="White"
-                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Center" FontSize="16" />
+                
+				<Button Text="&lt;" 
+						FontSize="30"
+					x:Name="BackBut"
+					Clicked="Handle_Clicked"
+					FontAttributes="Bold"
+					HorizontalOptions="Start"
+					Margin="5,0,0,0"
+					TextColor="White"
+						/>
             </StackLayout>
         </StackLayout>
 
@@ -68,74 +74,162 @@
 				HorizontalOptions="FillAndExpand"
 				Orientation="Vertical"
 				BackgroundColor="Transparent"
-				Margin="0,40,0,0"
+				Margin="0,60,0,0"
 				Padding="35,10,35,5"
 			>
+			<Image
+					Source="Fidusred.png"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"
+					HeightRequest="45"
+					Margin="0,0,0,15"
+					/>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
 
-      <Entry
-				Placeholder = "Nombres"
-				BackgroundColor = "Transparent"
-				FontAttributes = "Bold"
-				TextColor = "Gray"
-				Keyboard = "Text"
-				Text = "{Binding RName}"
-				Margin="0,15,0,0"
-			/>
+					<Image
+						Source="iconousuario.png"
+						HeightRequest="30"
+						Margin="0,10,0,0"
+						/>
+					<Entry
+						HorizontalOptions="FillAndExpand"
+					Placeholder = "Nombres"
+					BackgroundColor = "Transparent"
+					FontAttributes = "Bold"
+					TextColor = "Gray"
+					Keyboard = "Text"
+					Text = "{Binding RName}"
+					Margin="0,10,0,0"
+					/>
+					<Label
+						Text="*"
+						FontSize="25"
+						TextColor="Red"
+						HorizontalOptions="End"
+						Margin="0,10,0,0"
+						/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
 
-      <Entry
-				Placeholder = "Email"
-				BackgroundColor = "Transparent"
-				FontAttributes = "Bold"
-				TextColor = "Gray"
-				Keyboard = "Email"
-				Text = "{Binding REmail}"
-				Margin="0,15,0,0"
-			/>
+					<Image
+						Source="icono-email.png"
+						HeightRequest="30"
+						Margin="0,10,0,0"
+						/>
+				
+     			 <Entry
+					HorizontalOptions="FillAndExpand"
+					Placeholder = "Email"
+					BackgroundColor = "Transparent"
+					FontAttributes = "Bold"
+					TextColor = "Gray"
+					Keyboard = "Email"
+					Text = "{Binding REmail}"
+					Margin="0,10,0,0"
+					/>
+					<Label
+						Text="*"
+						FontSize="25"
+						TextColor="Red"
+						HorizontalOptions="End"
+						Margin="0,10,0,0"
+						/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" Margin="0,15,0,0" >
 
-      <Entry
-				Placeholder = "Password"
-				BackgroundColor = "Transparent"
-				TextColor = "Gray"
-				IsPassword="true"
-				Text = "{Binding RPass}"
-				Margin="0,15,0,0"
+					<Image
+						Source="icono-contraseña.png"
+						HeightRequest="30"
+						Margin="0,10,0,0"
+						/>
+     			 <Entry
+					HorizontalOptions="FillAndExpand"
+					Placeholder = "Contraseña"
+					BackgroundColor = "Transparent"
+					TextColor = "Gray"
+					IsPassword="true"
+					Text = "{Binding RPass}"
+					Margin="0,10,0,0"
 
-			/>
+				/>
+				<Label
+					Text="*"
+					FontSize="25"
+					TextColor="Red"
+					HorizontalOptions="End"
+					Margin="0,10,0,0"
+					/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
 
-      <Entry
-				Placeholder = "Confirmar Password"
-				BackgroundColor = "Transparent"
-				TextColor = "Gray"
-				IsPassword="true"
-				Text = "{Binding RPass2}"
-				Margin="0,15,0,0"
+					<Image
+						Source="icono-contraseña.png"
+						HeightRequest="30"
+						Margin="0,10,0,0"
+						/>
+      			<Entry
+					HorizontalOptions="FillAndExpand"
+					Placeholder = "Confirmar Contraseña"
+					BackgroundColor = "Transparent"
+					TextColor = "Gray"
+					IsPassword="true"
+					Text = "{Binding RPass2}"
+					Margin="0,10,0,0"
 
-			/>
+					/>
+				<Label
+					Text="*"
+					FontSize="25"
+					TextColor="Red"
+					HorizontalOptions="End"
+					Margin="0,10,0,0"
+					/>
+			</StackLayout>
+			<Label Text="Cumpleaños"
+						Margin="0,15,0,0"/>
+				<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5"  >
 
-      <Label Text="Cumpleaños (*)"
-			Margin="0,15,0,0"/>
-      <DatePicker
-			 	 
-				BackgroundColor = "Transparent"
-				TextColor = "Silver"
-				Date = "{Binding RBday}"
-				Margin="0,5,0,0"
+					<Image
+						Source="icono-cumple.png"
+						HeightRequest="30"
+						Margin="0,10,0,0"
+						/>
+      				
+      			<DatePicker
+			 	 	HorizontalOptions="FillAndExpand"
+					BackgroundColor = "Transparent"
+					TextColor = "Silver"
+					Date = "{Binding RBday}"
+					Margin="0,5,0,0"
 
-			/>
-
+					/>
+				<Label
+					Text="*"
+					FontSize="25"
+					TextColor="#0B4F6C"
+					HorizontalOptions="End"
+					Margin="0,10,0,0"
+					/>
+		</StackLayout>
       <Button
 				Command="{Binding RegButtonCommand}"
 				Text = "Registrate"
 				TextColor = "White"
-				BackgroundColor = "#A13B35"
+				BackgroundColor = "#01baef"
 				FontSize="{Binding FSize}"
 
-				Margin="0, 15, 0, 0"
+				Margin="0, 30, 0, 0"
 			/>
       <Label
+      			Margin="0,10,0,0"
 				Text="(*) Opcional. Si querés recibir promociones y premios especiales no dejes de completar tu fecha de cumpleaños"
-				FontSize="8"
-				TextColor="Gray"
+				FontSize="10"
+				TextColor="#0B4F6C"
 			/>
       <ActivityIndicator
 				IsRunning="{Binding IsBusy}"
