@@ -66,13 +66,15 @@ namespace fidus
 
                     _hPass = DependencyService.Get<IHash256>().Hash256(RPass);
 
-                    var Datos = new Person()
-                    {
-                        Email = REmail,
-                        Name = RName,
-                        Pass = _hPass,
-                        Birthday = RBday,
-                        IsAdmin = false
+					var Datos = new Person()
+					{
+						Email = REmail,
+						Name = RName,
+						Pass = _hPass,
+						Birthday = RBday,
+						IsAdmin = false,
+						Logged = true,
+						LastLogin = System.DateTime.Now
                     };
 
                     var Tabla = _client.GetPTable();
@@ -86,7 +88,8 @@ namespace fidus
                             {"Name", Datos.Name}
                         },
                         new Dictionary<string, double> { });
-                        
+
+					App.UpdateProperties();
                     MessagingCenter.Send(this, "Registered");
                 }
                 else {

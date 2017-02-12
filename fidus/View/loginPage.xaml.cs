@@ -212,6 +212,8 @@ namespace fidus
 					loginVM.IsBusy = false;
                     Ingresar.IsVisible = true;
                 }
+
+
 			};
 
 			Registro.Clicked += async (sender, e) =>
@@ -226,6 +228,10 @@ namespace fidus
 
 			MessagingCenter.Subscribe<loginViewModel>(this, "NOINET", async (obj) => {
 				await DisplayAlert("Advertencia", "No hay conexión a internet, algunas funciones pueden no estar disponibles", "OK");
+			});
+
+			MessagingCenter.Subscribe<RegisterPage>(this, "PoptoRoot", async (obj) => {
+				await Navigation.PopModalAsync(false);
 			});
 		}
 
