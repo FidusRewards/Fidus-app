@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
 using Plugin.Connectivity;
 using Microsoft.WindowsAzure.MobileServices;
+using System.Linq;
 
 namespace fidus
 {
@@ -24,7 +25,7 @@ namespace fidus
 		public Command SettingsCommand { get; set;}
 		public Command ExitCommand { get; set; }
         private AzureClient<WhiteList> _client;
-		private LoadAsync<History> _itemsH;
+		private LoadAsync<WhiteList> _itemsW;
         public ObservableCollection<Place> Places
 		{
 			get { return _item; }
@@ -107,18 +108,20 @@ namespace fidus
 
         public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
         {
-			_itemsH = new LoadAsync<History>();
+			_itemsW = new LoadAsync<WhiteList>();
 
 
-			await _itemsH.InitSync();
+			await _itemsW.InitSync();
 
 			IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
 
             try
             {
-                IEnumerable<WhiteList> result = await _tabla.Where(whitelsit => whitelsit.Place == place && whitelsit.Branch == branch && whitelsit.ExchangeCode == qrcode).ToEnumerableAsync();
-                
-                if (result.GetEnumerator().MoveNext())
+
+				var result = (await _tabla.Where(whitelist => whitelist.Place == place && whitelist.Branch == branch && whitelist.ExchangeCode == qrcode)
+															.Take(1)
+				              .ToEnumerableAsync()).FirstOrDefault();                
+               if (result!=null)
                 {
                     return true;
                 }

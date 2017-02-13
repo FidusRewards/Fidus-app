@@ -46,7 +46,7 @@
         <Label x:Name="PPuntos" />
       </StackLayout>
       <Label x:Name="PGracias" />
-      <rating:SfRating x:Name="ratingst" ItemCount="5" Value="3" Precision="Standard"/>
+      <rating:SfRating x:Name="ratingst" ItemCount="5" Value="0" Precision="Standard"/>
 
       <Button x:Name="bt_Avanzar"
                   Text="Avanzar"

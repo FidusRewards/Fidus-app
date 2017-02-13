@@ -49,7 +49,7 @@ namespace fidus
 			bt_Avanzar.Clicked += async (sender, e) =>
 			{
 				var _itemsH = new LoadAsync<History>();
-				//_history.Rating = ratingst.GetValue.
+				_history.Rating = Convert.ToInt32(ratingst.Value);
 				await Navigation.PopToRootAsync();
 				await _itemsH.Save(_history);
 

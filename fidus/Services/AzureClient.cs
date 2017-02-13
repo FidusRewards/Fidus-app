@@ -7,6 +7,7 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using Plugin.Connectivity;
+using System.Linq;
 
 namespace fidus
 {
@@ -31,6 +32,7 @@ namespace fidus
 				_client.SyncContext.InitializeAsync(store);
 
 				_table = _client.GetSyncTable<T>();
+						
 
 			}
 			catch (Exception ex)
@@ -55,7 +57,7 @@ namespace fidus
 
 		public IMobileServiceSyncTable<T> GetTable()
 		{
-
+	
 			return _table;
 
 		}
@@ -65,9 +67,9 @@ namespace fidus
 			return _client.GetTable<Person>();
 		}
 
-		public IMobileServiceTable<WhiteList> GetWTable()
+		public IMobileServiceTable<History> GetHTable()
 		{
-			return _client.GetTable<WhiteList>();
+			return _client.GetTable<History>();
 		}
 
 		public async Task PurgeData() { 
@@ -133,9 +135,19 @@ namespace fidus
 				if ( CrossConnectivity.Current.IsConnected)
 				{
 					Settings.Default.IsInternetEnabled = true;
-					await _table.PullAsync(queryName, _table.CreateQuery());
-					Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
 
+					if (_table.TableName == "fidus.History")
+					{
+						IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
+						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Settings.CurrentUser.Email));
+						Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
+					}else
+					{
+						await _table.PullAsync(queryName, _table.CreateQuery());
+						Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
+					}
+					var itemsInLocalTable = (await _table.ReadAsync()).Count();
+					Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
 
 				}
 			}
