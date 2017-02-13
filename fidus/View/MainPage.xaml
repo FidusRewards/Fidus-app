@@ -21,7 +21,7 @@
 			</StackLayout>
 			<Button 
 					HorizontalOptions="Center"
-					HeightRequest="70"
+					HeightRequest="60"
 					Image="checkinbutton.png"
 					BackgroundColor="Transparent"
 					BorderColor="Transparent"

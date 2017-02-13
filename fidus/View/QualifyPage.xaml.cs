@@ -12,29 +12,33 @@ namespace fidus
 {
 	public partial class QualifyPage : ContentPage
 	{
-		public QualifyPage(string place="Casa", string puntos="50", string logo=Settings.ImgSrvProd+"starbucks_logo.png", History _history=null)
+
+		public QualifyPage(string place="Fidus", string puntos="0", string logo=Settings.ImgSrvProd+"logofidus.png", string category="Resto Bar", History _history=null)
 		{
 			InitializeComponent();
 
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Fidus";
 
+
 			PImage.Source = logo;
 			PImage.HeightRequest = 62;
 			PImage.WidthRequest = 62;
+			PImage.VerticalOptions = LayoutOptions.Center;
+
 			PName.Text = place;
 			PName.TextColor = Color.Black;
-			PName.VerticalOptions = LayoutOptions.Center;
 			PName.FontAttributes = FontAttributes.Bold;
 			PName.FontSize = 18;
 			PName.HorizontalOptions = LayoutOptions.StartAndExpand;
+			PCat.Text = category;
 
-			PPuntos.Text = "Suamaste " + puntos + " puntos";
+			PPuntos.Text = "Sumaste " + puntos + " puntos";
 			PPuntos.TextColor = Color.FromHex(Settings.FidusColor);
 			PPuntos.VerticalOptions = LayoutOptions.Center;
 			PPuntos.FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, "");
 			PPuntos.FontAttributes = FontAttributes.Bold;
-			PPuntos.FontSize = 15;
+			PPuntos.FontSize = 20;
 			PPuntos.Margin = new Thickness(0, 5, 0, 5);
 
 			PGracias.Source = "graciasporvenir.png";
@@ -49,9 +53,14 @@ namespace fidus
 			ratingst.ItemSize = 40;
 			ratingst.RatingSettings.RatedStroke = Color.Transparent;
 			ratingst.RatingSettings.UnRatedStroke = Color.Transparent;
+			//qVM.NRating = Convert.ToString(ratingst.Value);
 
 			//bt_Avanzar.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			bt_Avanzar.Image = "btn_continuargris.png";
+			bt_Avanzar.BackgroundColor = Color.FromHex("#646464");
+			bt_Avanzar.BorderColor = Color.FromHex("#646464");
+
+
 			//bt_Avanzar.BackgroundColor = Color.FromHex(Settings.FidusBlue);
 
 			bt_Avanzar.Clicked += async (sender, e) =>

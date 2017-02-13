@@ -309,7 +309,6 @@
   <ItemGroup>
     <BundleResource Include="Resources\SplashScreen.png" />
     <BundleResource Include="Resources\userimg.png" />
-    <BundleResource Include="Resources\checkinbutton.png" />
     <BundleResource Include="Resources\exiticon1.png" />
     <BundleResource Include="Resources\settings1.png" />
     <BundleResource Include="Resources\ic_launcher.png" />
@@ -325,9 +324,8 @@
     <BundleResource Include="Resources\iconoemail.png" />
     <BundleResource Include="Resources\iconopass.png" />
     <BundleResource Include="Resources\graciasporvenir.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\btn_continuargris.png" />
+    <BundleResource Include="Resources\btn_continuargris.png" />
+    <BundleResource Include="Resources\checkinbutton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -19,7 +19,7 @@ namespace fidus
 
 			instance = this;
 
-			content = new QualifyPage();//new MainPage();
+			content = new MainPage();
 
 			if (Device.OS == TargetPlatform.Android)
 			{

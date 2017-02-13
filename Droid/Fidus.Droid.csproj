@@ -231,7 +231,6 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\drawable\checkinbutton.png" />
     <AndroidResource Include="Resources\drawable\exiticon1.png" />
     <AndroidResource Include="Resources\drawable\settings1.png" />
     <AndroidResource Include="Resources\drawable\SplashScreen.png" />
@@ -249,6 +248,7 @@
     <AndroidResource Include="Resources\drawable\Fidusred.png" />
     <AndroidResource Include="Resources\drawable\graciasporvenir.png" />
     <AndroidResource Include="Resources\drawable\btn_continuargris.png" />
+    <AndroidResource Include="Resources\drawable\checkinbutton.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

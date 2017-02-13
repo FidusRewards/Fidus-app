@@ -101,7 +101,7 @@ namespace fidus
 			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
 			{
 
-				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], Settings.History) { Title = "Califica" });
+				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Settings.History) { Title = "Califica" });
 			});
 
 
@@ -154,6 +154,7 @@ namespace fidus
                         words[2] = words[2].Replace("\n", "");
                         words[3] = words[3].Replace("\n", "");
                         words[4] = words[4].Replace("\n", "");
+						words[5] = words[5].Replace("\n", "");
 
                         bool convert = Int32.TryParse(words[1], out points);
 
@@ -162,14 +163,14 @@ namespace fidus
                         string place = words[0].ToString();
                         string exchangecode = words[3].ToString();
                         string branch = words[4];
-
+						//string category = words[5];
 
                         if (convert && urllogo.Length >= 47 && urllogo.Contains("fidusimgsrv") && exchangecode != null && branch != null)
                         {
                             bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
                             if (result2)
                             {
-                                await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
+                                //await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
                                 mVM.UpdatePoints(words);
                             }
                             else

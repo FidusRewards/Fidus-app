@@ -22,6 +22,9 @@ namespace fidus
 		[JsonProperty]
 		public string Admin { get; set; }
 
+		[JsonProperty]
+		public string Category { get; set; }
+
 		[Version]
 		public string Version { get; set; }
 	}

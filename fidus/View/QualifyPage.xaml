@@ -39,13 +39,14 @@
       <StackLayout Orientation="Horizontal"
 			HorizontalOptions="FillAndExpand"
 				BackgroundColor="White"
-				Padding="60,15,60,5">
+				Padding="60,5,60,5">
         
-        <StackLayout Orientation ="Vertical" HorizontalOptions="StartAndExpand">
+        <StackLayout Orientation ="Vertical" Padding="0,15,0,15" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
 				<Label x:Name="PName" />
-					<Label Text="Food&amp;Drinks"
-					TextColor="Gray"
-					FontSize="14"/>
+				<Label x:Name="PCat" 
+						Text="Food &amp; Drinks"
+						TextColor="Gray"
+						FontSize="14"/>
 		</StackLayout>
 				<Image x:Name="PImage"
 			/>
@@ -57,10 +58,26 @@
 						Margin="5"
 						HorizontalOptions="Center"/>
 
-     		 	<rating:SfRating x:Name="ratingst" HorizontalOptions="Center" ItemCount="5" Margin="5,10,5,0" Precision="Standard"/>
-
+				<Label Text="¿Qué tal fué tu experiencia?"
+					FontSize="16"
+					FontAttributes="Bold"
+					TextColor="Black"
+					HorizontalOptions="Center"
+					Margin="0,20,0,0"/>
+				<Label Text="Dejanos por favor tu opinión"
+				FontSize="16"
+					TextColor="Gray"
+					HorizontalOptions="Center"/>
+     		 	<rating:SfRating x:Name="ratingst" HorizontalOptions="Center" ItemCount="5" Margin="5,20,5,10" Precision="Standard"/>
+     		 	<Label 
+     		 		BindingContext="{x:Reference ratingst}"
+					Text="{Binding Value, StringFormat='{0:F0}/5'}"
+     		 		FontSize="20"
+					FontAttributes="Bold"
+					HorizontalOptions="Center"
+					/>
      		 	<Button x:Name="bt_Avanzar"
-                  Margin="0, 20, 0, 0"/>
+                  Margin="0, 50, 0, 0"/>
 		</StackLayout>
 
     </StackLayout>

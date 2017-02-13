@@ -154,7 +154,7 @@ namespace fidus
 			int puntos = Convert.ToInt32(points[1]);
 
 			//String[] _array2 = { points[0], _placelogo};
-			String[] _array2 = { points[0], puntos.ToString(), _placelogo };
+			String[] _array2 = { points[0], puntos.ToString(), _placelogo, points[5] };
 
 			Settings.History = _history;
 

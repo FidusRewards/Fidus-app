@@ -22,9 +22,9 @@ namespace fidus
 
 		public async Task<bool> LoginQuery(string userEmail, string userPass)
 		{
-			await _client.PurgeData();
+			//await _client.PurgeData();
 			Settings.CurrentUser.Name = userEmail;
-			await _client.SyncAsync();
+			//await _client.SyncAsync();
 
 			IMobileServiceTable<Person> _tabla = _client.GetPTable();
 			string _hPass = DependencyService.Get<IHash256>().Hash256(userPass);
