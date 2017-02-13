@@ -128,13 +128,14 @@ namespace fidus
 				DateTime = _history.DateTime,
 				Reward = _history.Reward,
                 ExchangeCode = _history.ExchangeCode,
-                Branch = _history.Branch
-				                   
+                Branch = _history.Branch,
+				Rating = _history.Rating                   
 			};
 
 			IMobileServiceSyncTable<History> Tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
 
 			await Tabla.InsertAsync(Datos);
+			await _client.Push();
 
 			return true;
 		}

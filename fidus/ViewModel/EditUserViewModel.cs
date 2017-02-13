@@ -18,7 +18,9 @@ namespace fidus
 
 		public EditUserViewModel()
 		{
-			EdPhone = Settings.CurrentUser.Phone;
+			if (!(Settings.CurrentUser.Phone == "") && !(Settings.CurrentUser.Phone==" "))
+				EdPhone = Settings.CurrentUser.Phone;
+			
 			EdName = Settings.CurrentUser.Name;
 			EdBday = Settings.CurrentUser.Birthday;
 			EdEmail = Settings.CurrentUser.Email;

@@ -25,57 +25,56 @@ namespace fidus
 
 			eVM.FSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
-
+			bt_Guardar.FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, "");
 
 			bt_Guardar.Clicked += async (sender, e) =>
 			{
 				eVM.IsBusy = true;
-				if (eVM.EdName != null && eVM.EdPass != null && eVM.EdPass2 != null)
+				if (eVM.EdName != null)
 				{
 					if (eVM.EdPass == eVM.EdPass2)
 					{
 
 						_client = new AzureClient<Person>();
 
-						_hPass = DependencyService.Get<IHash256>().Hash256(eVM.EdPass);
-
 						var Datos = new Person()
 						{
+							Email = Settings.CurrentUser.Email,
+							id = Settings.CurrentUser.id,
+							Version = Settings.CurrentUser.Version,
 							Phone = eVM.EdPhone,
 							Name = eVM.EdName,
-							Pass = _hPass,
 							Birthday = eVM.EdBday,
-							IsAdmin = false
+							IsAdmin = Settings.CurrentUser.IsAdmin,
+							Logged = true
 						};
 
-						var Tabla = _client.GetTable();
+						if (eVM.EdPass != null && eVM.EdPass != " ")
+						{
+							_hPass = DependencyService.Get<IHash256>().Hash256(eVM.EdPass);
+							Datos.Pass = _hPass;
+						}
+
+
+
+						var Tabla = _client.GetPTable();
 
 						await Tabla.UpdateAsync(Datos);
 
 						Settings.CurrentUser = Datos;
+						App.UpdateProperties();
 
-						DisplayAlert("Listo", "Tus datos han sidos cambiados exitosamente", "OK");
-						var content = new MainPage();
-
-						var _mainPage = new NavigationPage(content)
-						{
-							BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-							BarTextColor = Color.White,
-							Title = "Fidus"
-						};
-
-						NavigationPage.SetHasNavigationBar(_mainPage, false);
-						NavigationPage.SetHasBackButton(_mainPage, false);
-						await Navigation.PushAsync(_mainPage);
+						await DisplayAlert("Listo", "Tus datos han sidos cambiados exitosamente", "OK");
+						await Navigation.PopToRootAsync();
 					}
 					else
 					{
-						DisplayAlert("Error", "Las contraseñas ingresadas no coiciden", "OK");
+						await DisplayAlert("Error", "Las contraseñas ingresadas no coinciden", "OK");
 					}
 				}
 				else
 				{
-					DisplayAlert("Error", "Debes completar todos los campos", "OK");
+					await DisplayAlert("Error", "Por favor completá tu nombre", "OK");
 				}
 				eVM.IsBusy = false;
 			};

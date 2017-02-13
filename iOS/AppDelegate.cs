@@ -5,6 +5,8 @@ using Microsoft.WindowsAzure;
 using Foundation;
 using UIKit;
 using HockeyApp.iOS;
+using Syncfusion.SfRating.XForms.iOS;
+using Syncfusion.SfRating.iOS;
 
 namespace fidus.iOS
 {
@@ -25,10 +27,12 @@ namespace fidus.iOS
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
 			SlideOverKit.iOS.SlideOverKit.Init();
-			            
+			 new SfRatingRenderer();
+
 			LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);
 		}
+
 	}
 }

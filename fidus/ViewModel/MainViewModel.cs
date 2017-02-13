@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
 using Plugin.Connectivity;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace fidus
 {
@@ -23,7 +24,7 @@ namespace fidus
 		public Command SettingsCommand { get; set;}
 		public Command ExitCommand { get; set; }
         private AzureClient<WhiteList> _client;
-
+		private LoadAsync<History> _itemsH;
         public ObservableCollection<Place> Places
 		{
 			get { return _item; }
@@ -106,7 +107,12 @@ namespace fidus
 
         public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
         {
-            IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
+			_itemsH = new LoadAsync<History>();
+
+
+			await _itemsH.InitSync();
+
+			IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
 
             try
             {
@@ -131,7 +137,6 @@ namespace fidus
         public async void UpdatePoints(String[] points)
 		{
 
-			var _items = new LoadAsync<History>();
 			History _history = new History();
 
 			_history.DateTime = DateTime.Now;
@@ -142,13 +147,19 @@ namespace fidus
             _history.Branch = points[4];
             _history.ExchangeCode = points[3];
 			string _placelogo = Settings.ImgSrvProd + points[2];
-			String[] _array2 = { points[0], _placelogo};
-			await _items.Save(_history);
 
-			if (CrossConnectivity.Current.IsConnected)
-				await _items.InitSync();
-			
-			MessagingCenter.Send(this, "Rewards1", _array2);
+			int puntos = Convert.ToInt32(points[1]);
+
+			//String[] _array2 = { points[0], _placelogo};
+			String[] _array2 = { points[0], puntos.ToString(), _placelogo };
+
+			Settings.History = _history;
+
+			//await _itemsH.Save(_history);
+
+
+			//MessagingCenter.Send(this, "Rewards1", _array2);
+			MessagingCenter.Send(this, "Thanks", _array2);
 
 			IsBusy = false;
 		}

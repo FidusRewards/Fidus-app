@@ -20,8 +20,8 @@
 
 			</StackLayout>
 			<Button 
-					HorizontalOptions="Start"
-					HeightRequest="100"
+					HorizontalOptions="Center"
+					HeightRequest="80"
 					Image="checkinbutton.png"
 					Command="{Binding ScanButtonCommand}"
 					Margin="5"

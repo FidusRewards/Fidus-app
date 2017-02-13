@@ -50,7 +50,7 @@ namespace fidus
 
             MessagingCenter.Subscribe<RegisterViewModel>(this, "PassNotSame", async (obj) =>
             {
-                await DisplayAlert("Error", "Las contraseñas ingresadas no coiciden", "OK");
+                await DisplayAlert("Error", "Las contraseñas ingresadas no coinciden", "OK");
 
             });
 

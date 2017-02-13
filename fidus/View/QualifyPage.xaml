@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="fidus.QualifyPage"
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms">
+  <RelativeLayout>
+    <Image
+      RelativeLayout.XConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+      RelativeLayout.YConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+      RelativeLayout.WidthConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+      RelativeLayout.HeightConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+			
+      Source = "giftly.png"
+      Aspect = "AspectFill"
+
+			    />
+    <StackLayout
+    			
+        RelativeLayout.XConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+        RelativeLayout.YConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+        RelativeLayout.WidthConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+        RelativeLayout.HeightConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+        HorizontalOptions="FillAndExpand"
+        Orientation="Vertical"
+        BackgroundColor="Transparent"
+        Margin="0,40,0,0"
+        Padding="35,10,35,5"
+			    >
+      <StackLayout Orientation="Horizontal"
+			HorizontalOptions="CenterAndExpand">
+        <Image x:Name="PImage"
+			/>
+        <Label x:Name="PName" />
+        <Label x:Name="PPuntos" />
+      </StackLayout>
+      <Label x:Name="PGracias" />
+      <rating:SfRating x:Name="ratingst" ItemCount="5" Value="3" Precision="Standard"/>
+
+      <Button x:Name="bt_Avanzar"
+                  Text="Avanzar"
+                  TextColor="White"
+                  FontSize="{Binding FSize}"
+                  Margin="0, 15, 0, 0"/>
+
+    </StackLayout>
+  </RelativeLayout>
+</ContentPage>

@@ -17,6 +17,8 @@ namespace fidus
 
 		public static Person CurrentUser = new Person();
 		public Person User { get { return CurrentUser; } set { CurrentUser = value;} }
+		public static History History = new History();
+		public History Hitem { get { return History; } set { History = value; } }
 		public const string FidusColor = "#9E3B37";
 		public const string FidusBlue = "#01baef";
 		public const string FidusIosFont = "Helvetica";

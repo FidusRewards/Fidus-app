@@ -36,99 +36,137 @@
 				    HorizontalOptions="FillAndExpand"
 				    Orientation="Vertical"
 				    BackgroundColor="Transparent"
-				    Margin="0,40,0,0"
 				    Padding="35,10,35,5"
 			    >
-          <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout>
-	<Label Text="Email" Margin="0,15,0,0"/>
-      <Entry
-            
-				    Placeholder = "Email"
-				    BackgroundColor = "Transparent"
-				    FontAttributes = "Bold"
-				    TextColor = "Gray"
-				    Keyboard = "Text"
-				    Text = "{Binding EdEmail}"
-				    Margin="0,15,0,0"
-            IsEnabled="false"
-			    />
-	<Label Text="Nombre" Margin="0,15,0,0"/>
-    <Entry
+
+				<Image
+					Source="Fidusred.png"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"
+					HeightRequest="45"
+					Margin="0,0,0,15"
+					/>
+          <StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
+
+					<Image
+						Source="iconousuario.png"
+						HeightRequest="30"
+						Margin="0,5,0,0"
+						/>
+      			
+    			<Entry
+					HorizontalOptions="FillAndExpand"
 				    Placeholder = "Nombre"
 				    BackgroundColor = "Transparent"
 				    FontAttributes = "Bold"
 				    TextColor = "Gray"
 				    Keyboard = "Text"
 				    Text = "{Binding EdName}"
-				    Margin="0,15,0,0"
+				    Margin="0,5,0,0"
 			    />
-
-		<Label Text="Nro. de Telefono" Margin="0,15,0,0"/>
-          <Entry
+		  	</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
+				<Image
+						Source="iconousuario.png"
+						HeightRequest="30"
+						Margin="0,5,0,0"
+						/>
+      			
+    			<Entry
+					HorizontalOptions="FillAndExpand"
 				    Placeholder = "Nro. Telefono"
 				    BackgroundColor = "Transparent"
 				    FontAttributes = "Bold"
 				    TextColor = "Gray"
 				    Keyboard = "Email"
 				    Text = "{Binding EdPhone}"
-				    Margin="0,15,0,0"
+				    Margin="0,5,0,0"
 			    />
-
-          <Label Text="Cumpleaños (*)"
-			    Margin="0,15,0,0"/>
-          <DatePicker
-			 	 
+			 </StackLayout>
+				<Label
+				    Text="Cumpleaños"
+				    FontSize="14"
+				    TextColor="Black"
+			    />
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
+			    
+          		<Image
+						Source="iconocumple.png"
+						HeightRequest="30"
+						Margin="0,5,0,0"
+						/>
+      			
+					
+          		<DatePicker
+			 	 	HorizontalOptions="FillAndExpand"
 				    BackgroundColor = "Transparent"
 				    TextColor = "Silver"
 				    Date = "{Binding EdBday}"
 				    Margin="0,5,0,0"
 
 			    />
-			<Label
-				    Text="Si quierés cambiar tu contraseña, escribí la nueva en los campos de abajo"
-				    FontSize="8"
-				    TextColor="Gray"
+			 </StackLayout>
+				<Label
+				    Text="Cambio de Contraseña"
+				    FontSize="14"
+				    TextColor="Black"
+					Margin = "0,20,0,0"
 			    />
-			<Label Text="Email" Margin="0,15,0,0"/>
-          <Entry
-				    Placeholder = "Password"
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >		
+				
+
+					<Image
+						Source="iconopass.png"
+						HeightRequest="30"
+						Margin="0,5,0,0"
+						/>
+          		<Entry
+					HorizontalOptions="FillAndExpand"
+				    Placeholder = "Contraseña"
 				    BackgroundColor = "Transparent"
 				    TextColor = "Gray"
 				    IsPassword="true"
 				    Text = "{Binding EdPass}"
-				    Margin="0,15,0,0"
+				    Margin="0,5,0,0"
 
 			    />
-		<Label Text="Password" Margin="0,15,0,0"/>
-          <Entry
-				    Placeholder = "Confirmar Password"
+		  	</StackLayout>
+			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
+					HorizontalOptions="FillAndExpand" Padding="5" >
+				<Image
+						Source="iconopass.png"
+						HeightRequest="30"
+						Margin="0,5,0,0"
+						/>
+          		<Entry
+					HorizontalOptions="FillAndExpand"
+				    Placeholder = "Confirmar Contraseña"
 				    BackgroundColor = "Transparent"
 				    TextColor = "Gray"
 				    IsPassword="true"
 				    Text = "{Binding EdPass2}"
-				    Margin="0,15,0,0"
+				    Margin="0,5,0,0"
 
 			    />
-
-          <Button x:Name="bt_Guardar"
-                  Text="Guardar"
-                  TextColor="White"
-                  BackgroundColor="#A13B35"
-                  FontSize="{Binding FSize}"
-                  Margin="0, 15, 0, 0"/>
-          <Label
-				    Text="(*) Opcional. Si querés recibir promociones y premios especiales no dejes de completar tu fecha de cumpleaños"
-				    FontSize="8"
-				    TextColor="Gray"
-			    />
-          <ActivityIndicator
+			    </StackLayout>
+					
+          		<Button x:Name="bt_Guardar"
+					FontAttributes="Bold"
+                  	Text="Guardar"
+                  	TextColor="White"
+                  	BackgroundColor="#01baef"
+                  	FontSize="{Binding FSize}"
+                  	Margin="0, 30, 0, 0"/>
+          		
+          		<ActivityIndicator
 				    IsRunning="{Binding IsBusy}"
 
 			    />
-              </StackLayout>
-		</ScrollView>
-            
+
         </StackLayout>
     </RelativeLayout>
   </ContentPage.Content>

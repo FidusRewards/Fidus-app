@@ -35,6 +35,9 @@ namespace fidus
         [JsonProperty]
         public string ExchangeCode { get; set; }
 
+		[JsonProperty]
+		public int Rating { get; set;}
+
         [Version]
 		public string Version { get; set; }
 

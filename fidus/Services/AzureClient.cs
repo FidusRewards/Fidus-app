@@ -65,10 +65,54 @@ namespace fidus
 			return _client.GetTable<Person>();
 		}
 
+		public IMobileServiceTable<WhiteList> GetWTable()
+		{
+			return _client.GetTable<WhiteList>();
+		}
+
 		public async Task PurgeData() { 
+			await _client.SyncContext.PushAsync();
+
 			await _table.PurgeAsync();
 
 
+		}
+
+		public async Task Push()
+		{
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+
+			try
+			{
+				await _client.SyncContext.PushAsync();
+
+			}catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						// Update failed, revert to server's copy
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
 		}
 
 		public async Task SyncAsync()

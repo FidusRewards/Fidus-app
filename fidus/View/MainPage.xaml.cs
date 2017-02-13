@@ -23,7 +23,7 @@ namespace fidus
 
             InitializeComponent();
 
-			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Fidus";
 
             mVM = new MainViewModel();
@@ -98,6 +98,12 @@ namespace fidus
 
             });
 
+			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
+			{
+
+				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], Settings.History) { Title = "Califica" });
+			});
+
 
 
 		}
@@ -163,7 +169,7 @@ namespace fidus
                             bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
                             if (result2)
                             {
-                                await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
+                                //await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
                                 mVM.UpdatePoints(words);
                             }
                             else

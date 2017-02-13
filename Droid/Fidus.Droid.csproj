@@ -187,6 +187,15 @@
     <Reference Include="Microsoft.WindowsAzure.Mobile.SQLiteStore">
       <HintPath>..\packages\Microsoft.Azure.Mobile.Client.SQLiteStore.3.1.0\lib\portable-win+net45+wp8+wpa81+monotouch10+monoandroid10+xamarinios10\Microsoft.WindowsAzure.Mobile.SQLiteStore.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfRating.XForms.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfRating.XForms.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfRating.XForms">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfRating.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfRating.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.Android.14.4.0.20\lib\MonoAndroid10\Syncfusion.SfRating.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fidus\fidus.csproj">
