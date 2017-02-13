@@ -247,6 +247,8 @@
     <AndroidResource Include="Resources\drawable\iconopass.png" />
     <AndroidResource Include="Resources\drawable\iconocumple.png" />
     <AndroidResource Include="Resources\drawable\Fidusred.png" />
+    <AndroidResource Include="Resources\drawable\graciasporvenir.png" />
+    <AndroidResource Include="Resources\drawable\btn_continuargris.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

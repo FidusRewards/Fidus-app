@@ -21,8 +21,11 @@
 			</StackLayout>
 			<Button 
 					HorizontalOptions="Center"
-					HeightRequest="80"
+					HeightRequest="70"
 					Image="checkinbutton.png"
+					BackgroundColor="Transparent"
+					BorderColor="Transparent"
+					BorderWidth="0"
 					Command="{Binding ScanButtonCommand}"
 					Margin="5"
 				/>

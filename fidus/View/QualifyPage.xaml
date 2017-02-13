@@ -35,24 +35,33 @@
         HorizontalOptions="FillAndExpand"
         Orientation="Vertical"
         BackgroundColor="Transparent"
-        Margin="0,40,0,0"
-        Padding="35,10,35,5"
 			    >
       <StackLayout Orientation="Horizontal"
-			HorizontalOptions="CenterAndExpand">
-        <Image x:Name="PImage"
+			HorizontalOptions="FillAndExpand"
+				BackgroundColor="White"
+				Padding="60,15,60,5">
+        
+        <StackLayout Orientation ="Vertical" HorizontalOptions="StartAndExpand">
+				<Label x:Name="PName" />
+					<Label Text="Food&amp;Drinks"
+					TextColor="Gray"
+					FontSize="14"/>
+		</StackLayout>
+				<Image x:Name="PImage"
 			/>
-        <Label x:Name="PName" />
-        <Label x:Name="PPuntos" />
       </StackLayout>
-      <Label x:Name="PGracias" />
-      <rating:SfRating x:Name="ratingst" ItemCount="5" Value="0" Precision="Standard"/>
+			
+		<StackLayout Orientation="Vertical" Padding="60,20,60,5">
+      			<Image x:Name="PGracias" />
+				<Label x:Name="PPuntos"
+						Margin="5"
+						HorizontalOptions="Center"/>
 
-      <Button x:Name="bt_Avanzar"
-                  Text="Avanzar"
-                  TextColor="White"
-                  FontSize="{Binding FSize}"
-                  Margin="0, 15, 0, 0"/>
+     		 	<rating:SfRating x:Name="ratingst" HorizontalOptions="Center" ItemCount="5" Margin="5,10,5,0" Precision="Standard"/>
+
+     		 	<Button x:Name="bt_Avanzar"
+                  Margin="0, 20, 0, 0"/>
+		</StackLayout>
 
     </StackLayout>
   </RelativeLayout>

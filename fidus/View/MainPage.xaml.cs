@@ -169,7 +169,7 @@ namespace fidus
                             bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
                             if (result2)
                             {
-                                //await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
+                                await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
                                 mVM.UpdatePoints(words);
                             }
                             else

@@ -137,7 +137,7 @@ namespace fidus
         }
 
 
-        public async void UpdatePoints(String[] points)
+        public void UpdatePoints(String[] points)
 		{
 
 			History _history = new History();

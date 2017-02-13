@@ -324,6 +324,10 @@
     <BundleResource Include="Resources\iconocumple.png" />
     <BundleResource Include="Resources\iconoemail.png" />
     <BundleResource Include="Resources\iconopass.png" />
+    <BundleResource Include="Resources\graciasporvenir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\btn_continuargris.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
