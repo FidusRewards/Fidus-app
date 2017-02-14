@@ -15,7 +15,6 @@ namespace fidus
 
         private MainViewModel mVM;
         private ZXingScannerPage scanPage;
-        private Image image;
         //private Image img;
 
         public MainPage()
@@ -25,16 +24,17 @@ namespace fidus
 
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Fidus";
+			NavigationPage.SetBackButtonTitle(this, "Volver");
 
-            mVM = new MainViewModel();
+			mVM = new MainViewModel();
 
             BindingContext = mVM;
 			//img = new Image();
 			//img.Source = ImageSource.FromFile("userimg.png");
 	
-			mVM.Mname = Settings.CurrentUser.Name;
+			//mVM.Mname = Settings.CurrentUser.Name;
             //mVM.Mimg = img;
-            mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
+            //mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
 			SlideMenu = new MasterMenuPage();
 			// You can add a ToolBar button to show the Menu.
@@ -58,8 +58,8 @@ namespace fidus
 			});
 
 
-            MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
-                                                      (obj, mplaces) => GridPlaces(mplaces));
+            //MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
+            //                                          (obj, mplaces) => GridPlaces(mplaces));
             MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
                                                      async (obj) => await DisplayAlert("Error", "Problemas de conexión", "OK"));
 
@@ -112,7 +112,7 @@ namespace fidus
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
+			IsBusy = true;
 			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
 			if (!Reach || !CrossConnectivity.Current.IsConnected)
@@ -194,119 +194,6 @@ namespace fidus
 
         }
 
-        //public async void Handle_Clicked(object sender, System.EventArgs e)
-        //{
-        //	await Navigation.PushAsync(new HistoryPage());
-        //}
-        
-
-        private void GridPlaces(ObservableCollection<Place> _places)
-        {
-
-            PlaceLayout.Children.Clear();
-
-            int _row = -1, _column = 0, i = 0;
-            Grid _grid = new Grid();
-            _grid.HorizontalOptions = LayoutOptions.FillAndExpand;
-            _grid.VerticalOptions = LayoutOptions.Start;
-            _grid.ColumnDefinitions.Add(
-                new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-            _grid.ColumnDefinitions.Add(
-                new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-            _grid.RowDefinitions.Add(
-                new RowDefinition() { Height = 150 });
-            _grid.RowDefinitions.Add(
-                new RowDefinition() { Height = 150 });
-            _grid.RowDefinitions.Add(
-                new RowDefinition() { Height = 150 });
-            _grid.RowDefinitions.Add(
-                new RowDefinition() { Height = 150 });
-
-            _grid.BackgroundColor = Color.White;
-
-            foreach (Place item in _places)
-            {
-                if (i % 2 != 0)
-                {
-                    _column = 1;
-                }
-                else
-                {
-                    _column = 0;
-                    _row++;
-
-                }
-
-                image = new Image
-                {
-                    Margin = new Thickness(5),
-                    Source = item.Logo,
-
-                };
-                var OnTap = new TapGestureRecognizer();
-                OnTap.CommandParameter = item;
-                OnTap.SetBinding(TapGestureRecognizer.CommandProperty, "TapCommand");
-
-                image.GestureRecognizers.Add(OnTap);
-
-                _grid.Children.Add(image, _column, _row);
-
-                i++;
-            }
-
-            var scrollview = new ScrollView()
-            {
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-
-                Content = _grid
-
-
-            };
-
-            var refreshView = new PullToRefreshLayout
-            {
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Content = scrollview,
-                RefreshColor = Color.FromHex("#3498db"),
-            };
-
-            //Set Bindings
-            refreshView.SetBinding<MainViewModel>(PullToRefreshLayout.IsRefreshingProperty, vm => vm.IsBusy, BindingMode.TwoWay);
-            //refreshView.SetBinding<MainViewModel>(PullToRefreshLayout.RefreshCommandProperty, vm => vm.RefreshCommand);
-
-            var stackLayout1 = new StackLayout
-            {
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-                Orientation = StackOrientation.Horizontal,
-
-            };
-            var ScrollTitle = new Label
-            {
-                Text = "Comercios Adheridos",
-                TextColor = Color.FromHex(Settings.FidusColor),
-                FontAttributes = FontAttributes.Bold,
-                FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
-                HorizontalOptions = LayoutOptions.Center,
-                Margin = new Thickness(0, 0, 10, 0)
-            };
-            var TitleImg = new Image
-            {
-                Source = ImageSource.FromResource("fidus.merchantB.png"),
-                WidthRequest = 25,
-                HeightRequest = 25
-            };
-
-            stackLayout1.Children.Add(ScrollTitle);
-            stackLayout1.Children.Add(TitleImg);
-
-            PlaceLayout.Children.Add(stackLayout1);
-            PlaceLayout.Children.Add(scrollview);//refreshView);
-
-            mVM.IsBusy = false;
-        }
-
 		public Action HideMenuAction
 		{
 			get;
@@ -336,7 +223,13 @@ namespace fidus
 			}
 		}
 
+		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+		{
+			Place selected = (e.SelectedItem as Place);
 
+			await Navigation.PushAsync(new RewardsPage(selected.Name, selected.Logo));
+		
+		}
 
     }
 }

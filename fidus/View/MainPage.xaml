@@ -6,19 +6,93 @@
 		
 		<StackLayout 
 			HorizontalOptions="StartAndExpand"
-			VerticalOptions="Start"
+			VerticalOptions="FillAndExpand"
 			Orientation="Vertical"
-			Spacing="0"
 
 			>
-			
-			<StackLayout
-				Orientation="Vertical"
-				x:Name="PlaceLayout"
-				Padding="5">
+		<StackLayout
+				Orientation="Horizontal"
+				Padding="5"
+				Margin="10"
+				HorizontalOptions="CenterAndExpand"
+				VerticalOptions="Center"
+			>
+
+			<Label
+                Text = "Comercios Adheridos"
+                TextColor = "#9E3B37"
+                FontAttributes = "Bold"
+                HorizontalOptions = "Center"
+                Margin = "0, 0, 10, 0"/>
+			<Image
+                Source = "merchantB.png"
+                WidthRequest = "25"
+                HeightRequest = "25"
+			/>
+		</StackLayout>
+
+		<ListView 
+				ItemsSource="{Binding PItems}"
+				IsRefreshing="{Binding IsBusy}"
+				IsPullToRefreshEnabled="false"
+				SeparatorColor="Gray"
+				RowHeight="100"
+				Margin="30,0,30,0"
+				ItemSelected="Handle_ItemSelected"
+
+			 >
+				<ListView.ItemTemplate>
+					<DataTemplate x:Key="myTaskTemplate">
+  				        <ViewCell >
+                        <StackLayout BackgroundColor="White"
+                        Orientation="Horizontal"
+							HorizontalOptions="FillAndExpand"
+							Padding="10"
+							x:Name="PlaceLayout"
+							>
+							<Grid HeightRequest="50"
+								WidthRequest="50">
+							<Image
+								Source="circulogrande.png"
+								HeightRequest="45"
+								WidthRequest="45"
+									HorizontalOptions="Center"
+									VerticalOptions="Center"
+
+								/>
+							<Label 
+									Text="{Binding Points}"
+									TextColor="White"
+									FontAttributes="Bold"
+									FontSize="14"
+									 HorizontalOptions="Center"
+									VerticalOptions="Center"
+									/>
+							</Grid>
+                            <StackLayout Orientation="Vertical"
+								VerticalOptions="CenterAndExpand"
+								HorizontalOptions="FillAndExpand">
+
+									<Label Text="{Binding Name}"
+											HorizontalOptions="FillAndExpand"
+                                			TextColor="Black"
+											FontAttributes="Bold"
+											FontSize="20"/>
+									<Label Text="{Binding Category}"
+                                			TextColor="Gray"
+											FontSize="18"/>
+
+							</StackLayout>
+								<Image Source="{Binding Logo}"
+								HorizontalOptions="EndAndExpand"
+								VerticalOptions="Center"/>
+                        </StackLayout>
+                    	</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 
 
-			</StackLayout>
 			<Button 
 					HorizontalOptions="Center"
 					HeightRequest="60"
@@ -30,7 +104,6 @@
 					Margin="5"
 				/>
 	
-					
 		</StackLayout>
 			
 </ContentPage>

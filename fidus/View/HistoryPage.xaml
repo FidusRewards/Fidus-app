@@ -13,7 +13,9 @@
 			>
 		<Label
 				Text="Historia"
-				Font="Bold, Large"/>
+				HorizontalOptions="Center"
+				Font="Bold, Large"
+				TextColor="#9E3B37"/>
 		
 				
 		<ListView 
@@ -21,30 +23,41 @@
 				IsRefreshing="{Binding IsBusy}"
 				IsPullToRefreshEnabled="True"
 				RefreshCommand="{Binding RefreshCommand}"
-				SeparatorColor="Red">
+				SeparatorColor="Gray"
+				RowHeight="65"
+			 >
 				<ListView.ItemTemplate>
 					<DataTemplate x:Key="myTaskTemplate">
-  				        <ViewCell>
+  				        <ViewCell >
                         <StackLayout BackgroundColor="#eee"
-                        Orientation="Vertical">
-                            <StackLayout Orientation="Horizontal"
-								BackgroundColor="{Binding Lcolor}">
-                                <Grid>
+                        Orientation="Vertical"
+							Padding="10"
+							>
+                            <StackLayout Orientation="Vertical"
+								BackgroundColor="{Binding Lcolor}"
+								VerticalOptions="StartAndExpand">
 
+								<StackLayout Orientation="Horizontal"
+									HorizontalOptions="FillAndExpand">
 									<Label Text="{Binding DateTime}"
-											Grid.Row="0" Grid.Column="0"
-                                			TextColor="#f35e20" />
-									<Label Text="Negocio: "
-											Grid.Row="0" Grid.Column="1"/>
-                                	<Label Text="{Binding Place}"
-											Grid.Row="0" Grid.Column="2"
-                                			TextColor="#503026" />
+											HorizontalOptions="FillAndExpand"
+                                			TextColor="#9E3B37" />
 									<Label Text="Puntos Ganados: "
-											Grid.Row="1" Grid.Column="0"/>
+											TextColor="Gray"/>
 									<Label Text="{Binding EarnPoints}"
-											Grid.Row="1" Grid.Column="1"
-											TextColor="#503026"/>
-								</Grid>
+											
+											TextColor="#9E3B37"/>
+								</StackLayout>
+								<StackLayout Orientation="Horizontal" 
+									HorizontalOptions="FillAndExpand">
+
+									<Label Text="Negocio: "
+											TextColor="Gray"/>
+                                	<Label Text="{Binding Place}"
+											FontAttributes="Bold"
+                                			TextColor="Black" />
+									
+								</StackLayout>
                             </StackLayout>
                         </StackLayout>
                     	</ViewCell>

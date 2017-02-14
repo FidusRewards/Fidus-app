@@ -249,6 +249,8 @@
     <AndroidResource Include="Resources\drawable\graciasporvenir.png" />
     <AndroidResource Include="Resources\drawable\btn_continuargris.png" />
     <AndroidResource Include="Resources\drawable\checkinbutton.png" />
+    <AndroidResource Include="Resources\drawable\circulogrande.png" />
+    <AndroidResource Include="Resources\drawable\merchantB.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

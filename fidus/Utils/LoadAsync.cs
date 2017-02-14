@@ -52,18 +52,21 @@ namespace fidus
 			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
 
 			int count = 0;
-			var query = _tabla.IncludeTotalCount().Where(history => history.Place == _history.Place && history.Person == _history.Person);
-			var result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+			var query = _tabla.IncludeTotalCount().Where(history => history.Place.Contains(_history.Place));// && history.Person == _history.Person);
+			//var result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+
+			var result = await query.Take(1000).ToEnumerableAsync();
+
 			long Tcount = ((IQueryResultEnumerable<History>)result).TotalCount;
 
 			if (Tcount==0)
 			{
 				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
 				await InitSync();
-				result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+				result = await query.Take(1000).ToEnumerableAsync();
 			}
 
-
+			Settings.CurrentUser.Points = 0;
 			foreach (History item in result)
 			{
 				//History _temp = (History)(object)item;
@@ -169,7 +172,7 @@ namespace fidus
 
 		public async Task<ObservableCollection<Place>> Load(ObservableCollection<Place> _places)
 		{
-			//InitSync();
+			//await InitSync();
 			Debug.WriteLine("Entro al Load(Places)");
 			ObservableCollection<Place> Pitems;
 			Pitems = new ObservableCollection<Place>();

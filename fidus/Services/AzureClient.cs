@@ -136,7 +136,7 @@ namespace fidus
 				{
 					Settings.Default.IsInternetEnabled = true;
 
-					if (_table.TableName == "fidus.History")
+					if (_table.TableName == "History")
 					{
 						IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
 						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Settings.CurrentUser.Email));

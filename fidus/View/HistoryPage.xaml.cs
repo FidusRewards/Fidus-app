@@ -14,6 +14,8 @@ namespace fidus
 
 			InitializeComponent();
 
+			NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			this.Title = "Volver";
 
 			hVM = new HistoryViewModel();
 

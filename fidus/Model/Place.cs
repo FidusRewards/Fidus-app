@@ -25,6 +25,9 @@ namespace fidus
 		[JsonProperty]
 		public string Category { get; set; }
 
+		[JsonProperty]
+		public int Points { get; set; }
+
 		[Version]
 		public string Version { get; set; }
 	}

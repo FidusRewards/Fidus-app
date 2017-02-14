@@ -199,6 +199,7 @@ namespace fidus
 				if (item.TargetType != null)
 				{
 					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
+
 					await Navigation.PushAsync(Detail);
 
 					Debug.WriteLine("Menu : " + item.Title);

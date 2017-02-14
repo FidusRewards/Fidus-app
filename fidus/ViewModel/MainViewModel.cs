@@ -15,44 +15,40 @@ namespace fidus
 {
 	public class MainViewModel: BaseViewModel, INotifyPropertyChanged
 	{
-		private string _name;
-		private double _size;
 		private ObservableCollection<Place> _item;
 		public Command ScanButtonCommand { get; set; }
 		public Command RefreshCommand { get; set; }
-		public LoadAsync<Place> Items;
+		public LoadAsync<Place> LoadItems;
 		ICommand tapCommand;
 		public Command SettingsCommand { get; set;}
 		public Command ExitCommand { get; set; }
         private AzureClient<WhiteList> _client;
 		private LoadAsync<WhiteList> _itemsW;
-        public ObservableCollection<Place> Places
+        private LoadAsync<History> LoadHistory;
+		private ObservableCollection<History> _history;
+		private ObservableCollection<Place> _tempitems;
+
+		public ObservableCollection<Place> PItems
 		{
 			get { return _item; }
 			set { _item = value; OnPropertyChanged(); }
 		}
 
-		public string Mname
-		{
-			get { return _name; }
-			set { _name= value; OnPropertyChanged(); }
-		}
-		public double Msize
-		{
-			get { return _size; }
-			set { _size = value; OnPropertyChanged(); }
-		}
 
 		public MainViewModel()
 		{
-			Items = new LoadAsync<Place>();
-			Places = new ObservableCollection<Place>();
+			LoadItems = new LoadAsync<Place>();
+			PItems = new ObservableCollection<Place>();
+			_tempitems = new ObservableCollection<Place>();
 			ScanButtonCommand = new Command(ScanCommand);
 			RefreshCommand = new Command(Load);
 			tapCommand = new Command(OnTapped);
-			SettingsCommand = new Command(SettingsTap);
-			ExitCommand = new Command(ExitTap);
+			//SettingsCommand = new Command(SettingsTap);
+			//ExitCommand = new Command(ExitTap);
             _client = new AzureClient<WhiteList>();
+			LoadHistory = new LoadAsync<History>();
+			_history = new ObservableCollection<History>();
+
 
 			Debug.WriteLine("MainPage : Antes del IF del DoLogin");
 
@@ -65,17 +61,36 @@ namespace fidus
 
 		public async void Load()
 		{
+			History placeH = new History();
 			//await _client.PurgeData();
 
 			//Places = new List<Place>();
-			//Places.Clear();
-			Places=await Items.Load(Places);
-			IsBusy = false;
+			PItems.Clear();
+			//await LoadItems.InitSync();
+			if (Settings.CurrentUser.Email != null)
+			{
+				_tempitems = await LoadItems.Load(_tempitems);
 
-			if (Places != null)
-				MessagingCenter.Send(this, "Loaded", Places);
-			else
-				MessagingCenter.Send(this, "NotLoaded");
+				_history.Clear();
+				foreach (Place _place in _tempitems)
+				{
+					placeH.Person = Settings.CurrentUser.Email;
+					placeH.Place = _place.Name;
+
+					_history = await LoadHistory.Load(placeH);
+
+					_tempitems[_tempitems.IndexOf(_place)].Points = Settings.CurrentUser.Points;
+
+				}
+
+				PItems = _tempitems;
+				IsBusy = false;
+
+				if (PItems != null)
+					MessagingCenter.Send(this, "Loaded", PItems);
+				else
+					MessagingCenter.Send(this, "NotLoaded");
+			}
 		}
 
 		public ICommand TapCommand
