@@ -25,7 +25,7 @@ namespace fidus.iOS
 			global::ZXing.Net.Mobile.Forms.iOS.Platform.Init();
 			global::Refractored.XamForms.PullToRefresh.iOS.PullToRefreshLayoutRenderer.Init();
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-			SQLitePCL.CurrentPlatform.Init();
+			//SQLitePCL.CurrentPlatform.Init();
 			SlideOverKit.iOS.SlideOverKit.Init();
 			 new SfRatingRenderer();
 
