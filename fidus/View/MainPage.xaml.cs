@@ -58,26 +58,32 @@ namespace fidus
 			});
 
 
-            //MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
-            //                                          (obj, mplaces) => GridPlaces(mplaces));
-            MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
-                                                     async (obj) => await DisplayAlert("Error", "Problemas de conexión", "OK"));
+			MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
+															  (obj, mplaces) => IsBusy = false);
+			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
+													 async (obj) =>
+													 {
+														 IsBusy = false;
+														 await DisplayAlert("Error", "Problemas de conexión", "OK");
+													});
 
 
 
             MessagingCenter.Subscribe<MainViewModel>(this, "ScanRequest", (obj) => Scan());
 
-            MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards", async (obj, _place) =>
-            {
-                Debug.WriteLine("MaingPage: OnTapp Mesg desde MainviewModel -> Rewards " + _place[0]);
-                await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-            });
+            //MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards", async (obj, _place) =>
+            //{
+			//	Settings.IsReturn = true;
+            //    Debug.WriteLine("MaingPage: OnTapp Mesg desde MainviewModel -> Rewards " + _place[0]);
+            //    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
+            //});
 
-            MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards1", async (obj, _place) =>
-            {
-                Debug.WriteLine("MainPage: Command Mesg desde MainviewModel -> Rewards1 " + _place[0]);
-                await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-            });
+            //MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards1", async (obj, _place) =>
+            //{
+			//	Settings.IsReturn = true;
+            //    Debug.WriteLine("MainPage: Command Mesg desde MainviewModel -> Rewards1 " + _place[0]);
+            //    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
+            //});
 
             MessagingCenter.Subscribe<MainViewModel>(this, "Settings", async (obj) => {
                 await Navigation.PushAsync(new HistoryPage());
@@ -101,7 +107,7 @@ namespace fidus
 			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
 			{
 
-				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Settings.History) { Title = "Califica" });
+				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Settings.Hitem) { Title = "Califica" });
 			});
 
 
@@ -112,7 +118,6 @@ namespace fidus
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-			IsBusy = true;
 			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
 			if (!Reach || !CrossConnectivity.Current.IsConnected)
@@ -127,10 +132,9 @@ namespace fidus
 				if (!(bool)Application.Current.Properties["ULogged"])
 					await Navigation.PushModalAsync(new loginPage(), false);
 			}
-            mVM.Load();
+			mVM.Load();
 
-
-        }
+		}
 
 
         private async void Scan()
@@ -226,9 +230,9 @@ namespace fidus
 		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
 		{
 			Place selected = (e.SelectedItem as Place);
-
-			await Navigation.PushAsync(new RewardsPage(selected.Name, selected.Logo));
-		
+			Settings.IsReturn = true;
+			await Navigation.PushAsync(new RewardsPage(selected));
+			selected = null;
 		}
 
     }

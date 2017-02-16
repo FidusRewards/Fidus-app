@@ -3,71 +3,105 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="fidus.RewardsPage">
 	<StackLayout Orientation="Vertical"
-		>
-		<StackLayout Orientation="Horizontal"
-			HorizontalOptions="CenterAndExpand">
-			<Image x:Name="PImage"
-			/>
-			<Label x:Name="PName" />
-		</StackLayout>
-		<StackLayout Orientation="Horizontal" >
-
+		BackgroundColor="#FBFBFB"
+			Spacing="0"
+			>
+			<StackLayout Orientation="Vertical"
+			BackgroundColor="#FBFBFB"
+			Margin="20,0,20,0">
+				<StackLayout Orientation="Horizontal"
+					HorizontalOptions="FillAndExpand"
+					Margin="14,14,14,0"
+					VerticalOptions="Center"
+					BackgroundColor="#FBFBFB">
+					<StackLayout >
+						<Label x:Name="PName"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+						<Label x:Name="PArea"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+					</StackLayout>
+					<Image x:Name="PImage"
+						VerticalOptions="Center"
+						HorizontalOptions="EndAndExpand"/>
+				</StackLayout>
+			<StackLayout Orientation="Horizontal"
+				Margin="14,0,14,0">
+				
+				<Label Text="Tenés "
+					TextColor="Black"
+					FontAttributes="Bold"
+					FontSize="16"/>
 			
-			<Label Text="Tenés "
-			TextColor="Black"
-			FontAttributes="Bold"
-			Margin="5,0,0,0"/>
+				<Label x:Name="UserPoints" 
+					Margin="3,0,3,0"
+					Text="0"
+					TextColor="#9E3B37"
+					FontAttributes="Bold"/>
+				<Label Text="puntos para canjear"
+					TextColor="Black"
+					FontAttributes="Bold"/>
+			</StackLayout>
 			
-			<Label x:Name="UserPoints" 
-				Margin="5,0,5,5"
-				Text="0"
-				TextColor="Blue"
-				FontAttributes="Bold"/>
-			<Label Text="puntos para canjear"
-			TextColor="Black"
-			FontAttributes="Bold"/>
+			<StackLayout x:Name="RewardsTittle"
+				Margin="14,0,14,14"
+				Orientation = "Horizontal">
+			</StackLayout>
 		</StackLayout>
-		<StackLayout x:Name="RewardsTittle"
-				HorizontalOptions = "CenterAndExpand"
-				Orientation = "Horizontal"
-		></StackLayout>
-	<ListView 
-		ItemsSource="{Binding Items}"
-		IsRefreshing="{Binding IsBusy}"
-		IsPullToRefreshEnabled="True"
-		RefreshCommand="{Binding RefreshCommand}"
-		SeparatorColor="Red"
-		HorizontalOptions="FillAndExpand"
-		VerticalOptions="FillAndExpand"
-		RowHeight="100"
-		ItemSelected="Handle_ItemSelected"
+		<Image Source="linewithshadow.png"
+			HorizontalOptions="StartAndExpand"
+			Margin="0"
+		/>
+		<ListView 
+			ItemsSource="{Binding Items}"
+			IsRefreshing="{Binding IsBusy}"
+			IsPullToRefreshEnabled="True"
+			RefreshCommand="{Binding RefreshCommand}"
+			SeparatorVisibility="None"
+			HorizontalOptions="FillAndExpand"
+			VerticalOptions="FillAndExpand"
+			RowHeight="100"	 
+			ItemSelected="Handle_ItemSelected"
+			BackgroundColor="#F9F9F9"
 		>
 
 		<ListView.ItemTemplate>
 			<DataTemplate x:Key="myTaskTemplate">
 				<ViewCell>
 						<Grid 
-							BackgroundColor="Gray">
+							BackgroundColor="Silver"
+							Padding="14,5,14,5"
+							HorizontalOptions="FillAndExpand"
+							VerticalOptions="FillAndExpand"
+							 >
+
 							<Image 
 								Aspect="AspectFill"
 								Source="{Binding Photo}"
 
 							/>
 							<StackLayout
-								>
+								Padding="5"
+								Orientation="Horizontal"
+								VerticalOptions="FillAndExpand"
+								HorizontalOptions="FillAndExpand"
+								BackgroundColor="#77000000">
 									<Label Text="{Binding Name}"
-                                			TextColor="#503026" 
-											BackgroundColor="White"
-											HorizontalOptions="End"/>
-						
-									<Button BorderRadius="35"
-											HeightRequest="70"
-											WidthRequest="70"
-											Text="{Binding ReqPoints}"
+                                			TextColor="White" 
 											FontAttributes="Bold"
-                                			TextColor="#f35e20"
-											BackgroundColor="White"
-											HorizontalOptions="Start"/>
+											BackgroundColor="Transparent"
+											VerticalOptions="Center"
+											HorizontalOptions="StartAndExpand"/>
+						
+									<Button BorderRadius="25"
+											HeightRequest="50"
+											WidthRequest="50"
+											Text="{Binding ReqPoints}"
+                                			TextColor="White"
+											BackgroundColor="#9E3B37"
+											VerticalOptions="Center"
+											HorizontalOptions="EndAndExpand"/>
                                 	
 									
 							</StackLayout>

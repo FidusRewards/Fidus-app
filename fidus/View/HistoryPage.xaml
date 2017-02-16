@@ -5,19 +5,35 @@
 		x:Name="RootPage">
 
 	<ContentPage.Padding>
-		<OnPlatform x:TypeArguments="Thickness"
-        	iOS     ="0,20,0,0"/>
+		<!--<OnPlatform x:TypeArguments="Thickness"
+        	iOS     ="0,20,0,0"/>-->
 		</ContentPage.Padding>
 
 	<StackLayout Orientation="Vertical"
+			Spacing="0"
+		BackgroundColor="#FBFBFB">
+		<StackLayout
+				Orientation="Horizontal"
+				Margin="14,14,14,13"
+				HorizontalOptions="CenterAndExpand"
+				VerticalOptions="Center"
+				BackgroundColor="#FBFBFB"
 			>
 		<Label
 				Text="Historia"
+				BackgroundColor="#FBFBFB"
 				HorizontalOptions="Center"
-				Font="Bold, Large"
+				VerticalOptions="Center"
+				FontSize="20"
+				FontAttributes="Bold"
 				TextColor="#9E3B37"/>
 		
-				
+		</StackLayout>	
+		<Image Source="linewithshadow.png"
+			HorizontalOptions="StartAndExpand"
+			BackgroundColor="#FBFBFB"
+			Margin="0"
+		/>
 		<ListView 
 				ItemsSource="{Binding Items}"
 				IsRefreshing="{Binding IsBusy}"
@@ -29,7 +45,7 @@
 				<ListView.ItemTemplate>
 					<DataTemplate x:Key="myTaskTemplate">
   				        <ViewCell >
-                        <StackLayout BackgroundColor="#eee"
+                        <StackLayout BackgroundColor="White"
                         Orientation="Vertical"
 							Padding="10"
 							>
@@ -54,7 +70,6 @@
 									<Label Text="Negocio: "
 											TextColor="Gray"/>
                                 	<Label Text="{Binding Place}"
-											FontAttributes="Bold"
                                 			TextColor="Black" />
 									
 								</StackLayout>

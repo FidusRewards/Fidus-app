@@ -35,21 +35,21 @@ namespace fidus
 
 		public async void Load()
 		{
-			Settings.CurrentUser.Points = 0;
-			History placeH = new History();
-			placeH.Person = Settings.CurrentUser.Email;
-			placeH.Place = Place;
+			//Settings.CurrentUser.Points = 0;
+			//History placeH = new History();
+			//placeH.Person = Settings.CurrentUser.Email;
+			//placeH.Place = Place;
 
 			Rewards _rew = new Rewards();
 			_rew.Place = Place;
 
-			IsBusy = true;
+			//IsBusy = true;
 			Items.Clear();
 			Items = await LoadCollection.Load(_rew);
 
-			_history.Clear();
-			_history = await LoadHistory.Load(placeH);
-			IsBusy = false;
+			//_history.Clear();
+			//_history = await LoadHistory.Load(placeH);
+			//IsBusy = false;
 
 			if (Items !=null && _history != null)
 			{

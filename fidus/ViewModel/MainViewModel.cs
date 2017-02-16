@@ -26,7 +26,6 @@ namespace fidus
 		private LoadAsync<WhiteList> _itemsW;
         private LoadAsync<History> LoadHistory;
 		private ObservableCollection<History> _history;
-		private ObservableCollection<Place> _tempitems;
 
 		public ObservableCollection<Place> PItems
 		{
@@ -34,12 +33,10 @@ namespace fidus
 			set { _item = value; OnPropertyChanged(); }
 		}
 
-
 		public MainViewModel()
 		{
 			LoadItems = new LoadAsync<Place>();
 			PItems = new ObservableCollection<Place>();
-			_tempitems = new ObservableCollection<Place>();
 			ScanButtonCommand = new Command(ScanCommand);
 			RefreshCommand = new Command(Load);
 			tapCommand = new Command(OnTapped);
@@ -65,32 +62,40 @@ namespace fidus
 			//await _client.PurgeData();
 
 			//Places = new List<Place>();
-			PItems.Clear();
 			//await LoadItems.InitSync();
 			if (Settings.CurrentUser.Email != null)
 			{
-				_tempitems = await LoadItems.Load(_tempitems);
+				IsBusy = true;
 
+
+				if (!Settings.IsReturn)
+				{
+					PItems.Clear();
+
+					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
+				}
 				_history.Clear();
-				foreach (Place _place in _tempitems)
+				foreach (Place _place in Settings.AllPlaces)
 				{
 					placeH.Person = Settings.CurrentUser.Email;
 					placeH.Place = _place.Name;
 
 					_history = await LoadHistory.Load(placeH);
 
-					_tempitems[_tempitems.IndexOf(_place)].Points = Settings.CurrentUser.Points;
+					Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points = Settings.CurrentUser.Points;
 
 				}
 
-				PItems = _tempitems;
+				PItems = Settings.AllPlaces;
 				IsBusy = false;
+				Settings.IsReturn = false;
 
 				if (PItems != null)
 					MessagingCenter.Send(this, "Loaded", PItems);
 				else
 					MessagingCenter.Send(this, "NotLoaded");
 			}
+			IsBusy = false;
 		}
 
 		public ICommand TapCommand
@@ -166,12 +171,12 @@ namespace fidus
             _history.ExchangeCode = points[3];
 			string _placelogo = Settings.ImgSrvProd + points[2];
 
-			int puntos = Convert.ToInt32(points[1]);
+			string puntos = points[1];
 
 			//String[] _array2 = { points[0], _placelogo};
-			String[] _array2 = { points[0], puntos.ToString(), _placelogo, points[5] };
+			String[] _array2 = { points[0], puntos, _placelogo, points[5] };
 
-			Settings.History = _history;
+			Settings.Hitem = _history;
 
 			//await _itemsH.Save(_history);
 
@@ -179,7 +184,6 @@ namespace fidus
 			//MessagingCenter.Send(this, "Rewards1", _array2);
 			MessagingCenter.Send(this, "Thanks", _array2);
 
-			IsBusy = false;
 		}
 	}
 

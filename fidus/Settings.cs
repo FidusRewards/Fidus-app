@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
 namespace fidus
@@ -9,16 +10,19 @@ namespace fidus
 
 		public readonly static Settings Default = new Settings();
 
-		public bool IsLogin { get {return _isLogin; } set {_isLogin=value; } } 
-			
+		public bool IsLogin { get {return _isLogin; } set {_isLogin=value; } }
+		public static bool IsReturn = false;	
 		public bool IsInternetEnabled { get { return _isInetEnabled; } set {_isInetEnabled=value; } }
 
 		public const string AzureUrl = "http://fidus.azurewebsites.net";
 
 		public static Person CurrentUser = new Person();
 		public Person User { get { return CurrentUser; } set { CurrentUser = value;} }
-		public static History History = new History();
-		public History Hitem { get { return History; } set { History = value; } }
+		private static History History = new History();
+		public static History Hitem { get { return History; } set { History = value; } }
+		private static ObservableCollection<Place> _allPlaces = new ObservableCollection<Place>();
+		public static ObservableCollection<Place> AllPlaces { get { return _allPlaces; } set { _allPlaces = value;} }
+
 		public const string FidusColor = "#9E3B37";
 		public const string FidusBlue = "#01baef";
 		public const string FidusIosFont = "Helvetica";
