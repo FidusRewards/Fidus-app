@@ -13,7 +13,9 @@ namespace fidus
 
 		public RewardsPage(Place place)
 		{
-			int count=0, index=0;
+			int count = 0, index=0;
+			NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			this.Title = "Volver";
 			InitializeComponent();
 
 			rVM = new RewardsViewModel(place.Name);
@@ -28,7 +30,7 @@ namespace fidus
 			 	count++;
 
 			}
-			UserPoints.Text = place.Points.ToString();//Settings.AllPlaces[index].Points.ToString();
+			//Settings.AllPlaces[index].Points.ToString();
 			Settings.CurrentUser.Points = place.Points;//Settings.AllPlaces[index].Points;
 			Debug.WriteLine("RewardsPage: Construct - Place: :" + rVM.Place);
 
@@ -81,7 +83,7 @@ namespace fidus
 		{
 			Rewards selected = (e.SelectedItem as Rewards);
 
-			await Navigation.PushAsync(new RewardsDetailsPage(selected, Rplace ) { Title=selected.Name});
+			await Navigation.PushAsync(new RewardsDetailsPage(selected, Rplace ) );
 			//selected = null;
 			//DisplayAlert("Reward", selected, "OK");
 		}

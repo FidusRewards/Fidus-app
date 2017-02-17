@@ -13,6 +13,12 @@ namespace fidus
 		private ObservableCollection<Rewards> _items;
 		private ObservableCollection<History> _history;
 		public string Place;
+		private string _points;
+
+		public string PPoints { 
+			get { return _points;}
+			set { _points = value; OnPropertyChanged();}
+		}
 
 		public ObservableCollection<Rewards> Items
 		{
@@ -39,7 +45,7 @@ namespace fidus
 			//History placeH = new History();
 			//placeH.Person = Settings.CurrentUser.Email;
 			//placeH.Place = Place;
-
+			PPoints = Settings.CurrentUser.Points.ToString();
 			Rewards _rew = new Rewards();
 			_rew.Place = Place;
 

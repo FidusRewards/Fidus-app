@@ -324,6 +324,7 @@
     <BundleResource Include="Resources\merchantB.png" />
     <BundleResource Include="Resources\linewithshadow.png" />
     <BundleResource Include="Resources\Circulopoints.png" />
+    <BundleResource Include="Resources\btn_canjea.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

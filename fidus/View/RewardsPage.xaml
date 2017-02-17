@@ -36,7 +36,7 @@
 			
 				<Label x:Name="UserPoints" 
 					Margin="3,0,3,0"
-					Text="0"
+					Text="{Binding PPoints}"
 					TextColor="#9E3B37"
 					FontAttributes="Bold"/>
 				<Label Text="puntos para canjear"
@@ -92,7 +92,8 @@
 											FontAttributes="Bold"
 											BackgroundColor="Transparent"
 											VerticalOptions="Center"
-											HorizontalOptions="StartAndExpand"/>
+											HorizontalOptions="StartAndExpand"
+											FontSize="14"/>
 						
 									<Button BorderRadius="25"
 											HeightRequest="50"

@@ -37,7 +37,7 @@ namespace fidus
 
 			OKBut.BackgroundColor = Color.FromHex(Settings.FidusColor);
 			OKBut.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
-			Settings.CurrentUser.Points += selectedreward.ReqPoints;
+			//Settings.CurrentUser.Points += -1*selectedreward.ReqPoints;
 
 		}
 

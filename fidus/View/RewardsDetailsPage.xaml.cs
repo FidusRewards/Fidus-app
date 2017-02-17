@@ -14,12 +14,13 @@ namespace fidus
 
 		public RewardsDetailsPage(Rewards selectedReward, Place place)
 		{
+			NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			this.Title = "Volver";
 			InitializeComponent();
 
 
 			BCanje.BackgroundColor = Color.FromHex(Settings.FidusColor);
 			BCanje.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
-			BCanje.Margin = new Thickness(5, 15, 5, 0);
 			//BCanje.SetBinding(Button.CommandProperty, new Binding("debitCommand", 0));
 			_place = place;
 			_reward = selectedReward;
@@ -27,6 +28,20 @@ namespace fidus
 			dVM = new RewardsDetailsViewModel(_reward);
 
 			BindingContext = dVM;
+
+		 	PImage.Source = place.Logo;
+			PImage.HeightRequest = 62;
+			PImage.WidthRequest = 62;
+
+			PName.Text = place.Name;
+			PName.FontSize = 20;
+			PName.FontAttributes = FontAttributes.Bold;
+			PName.TextColor = Color.Black;
+
+			PCat.Text = place.Category;
+			PCat.FontSize = 18;
+			PCat.TextColor = Color.Gray;
+
 
 			Debug.WriteLine("RewardsDetailPage: Construct - Selected reward: "+_reward.Name);
 			//MessagingCenter.Subscribe<RewardsDetailsViewModel, bool>(this, "Debited", (obj, isExchanged) => exchangeOK(isExchanged));
@@ -45,6 +60,9 @@ namespace fidus
 					//var RDPage=Navigation.NavigationStack.GetEnumerator();
 					var exPage = new ExchangePage(_reward, _place);
 					await Navigation.PushModalAsync(exPage);
+
+					Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points += -1*_reward.ReqPoints;
+					Settings.CurrentUser.Points += -1 * _reward.ReqPoints;
 
 					exPage = null;
 					await Navigation.PopAsync();

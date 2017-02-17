@@ -229,11 +229,11 @@ namespace fidus
 
 		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
 		{
+			if (e.SelectedItem == null) return;
 			Place selected = (e.SelectedItem as Place);
 			Settings.IsReturn = true;
 			await Navigation.PushAsync(new RewardsPage(selected));
-			selected = null;
-		}
+			((ListView)sender).SelectedItem = null;		}
 
     }
 }

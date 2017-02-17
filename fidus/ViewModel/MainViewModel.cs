@@ -73,19 +73,19 @@ namespace fidus
 					PItems.Clear();
 
 					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
+
+					_history.Clear();
+					foreach (Place _place in Settings.AllPlaces)
+					{
+						placeH.Person = Settings.CurrentUser.Email;
+						placeH.Place = _place.Name;
+
+						_history = await LoadHistory.Load(placeH);
+
+						Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points = Settings.CurrentUser.Points;
+
+					}
 				}
-				_history.Clear();
-				foreach (Place _place in Settings.AllPlaces)
-				{
-					placeH.Person = Settings.CurrentUser.Email;
-					placeH.Place = _place.Name;
-
-					_history = await LoadHistory.Load(placeH);
-
-					Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points = Settings.CurrentUser.Points;
-
-				}
-
 				PItems = Settings.AllPlaces;
 				IsBusy = false;
 				Settings.IsReturn = false;

@@ -65,7 +65,6 @@ namespace fidus
 				if (CrossConnectivity.Current.IsConnected)
 					await _items.InitSync();
 				//MessagingCenter.Send(this, "Debited", true);
-
 				IsBusy = false;
 				return true;
 				//await Navigation.PushAsync(new ExchangePage(_reward, _place));

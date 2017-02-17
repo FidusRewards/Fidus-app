@@ -247,6 +247,7 @@
     <AndroidResource Include="Resources\drawable\merchantB.png" />
     <AndroidResource Include="Resources\drawable\linewithshadow.png" />
     <AndroidResource Include="Resources\drawable\Circulopoints.png" />
+    <AndroidResource Include="Resources\drawable\btn_canjea.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

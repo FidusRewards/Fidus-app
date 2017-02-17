@@ -3,58 +3,94 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
 	x:Class="fidus.RewardsDetailsPage">
 	<ContentPage.Content>
-		<StackLayout Orientation="Vertical"
+      <StackLayout Orientation="Vertical"
+		BackgroundColor="#FBFBFB"
+			Spacing="0"
 			>
-			<Grid 
-			BackgroundColor="Gray">
+			<StackLayout Orientation="Vertical"
+			BackgroundColor="#FBFBFB"
+			Margin="20,0,20,0">
+				<StackLayout Orientation="Horizontal"
+					HorizontalOptions="FillAndExpand"
+					Margin="14,14,14,0"
+					VerticalOptions="Center"
+					BackgroundColor="#FBFBFB">
+					<StackLayout >
+						<Label x:Name="PName"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+						<Label x:Name="PCat"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+					</StackLayout>
+					<Image x:Name="PImage"
+						VerticalOptions="Center"
+						HorizontalOptions="EndAndExpand"/>
+				</StackLayout>
+		
+			
+
+		</StackLayout>
+		<Image Source="linewithshadow.png"
+			HorizontalOptions="StartAndExpand"
+			Margin="0,10,0,0"
+		/>
+    <StackLayout Orientation="Vertical"
+                 Padding="34,10,34,0"
+				VerticalOptions="FillAndExpand"
+				BackgroundColor="#F9F9F9">
+
+				<Label Text="{Binding Name}"
+                 	TextColor="Black"
+					HorizontalOptions="Center"
+                 	FontSize="18"
+					Margin="0,5,0,10"/>
+			<Grid >
 				<Image 
 					Aspect="AspectFill"
 					Source="{Binding Photo}"
-					HeightRequest="200"/>
+					HeightRequest="180"/>
 				<StackLayout VerticalOptions="End">
 				<Button BorderRadius="35"
 						HeightRequest="70"
 						WidthRequest="70"
 						Text="{Binding ReqPoints}"
+						FontSize="20"	
 						FontAttributes="Bold"
-						TextColor="#f35e20"
-						BackgroundColor="White"
-					HorizontalOptions="Start"/>
+						TextColor="White"
+						BackgroundColor="#9E3B37"
+						Margin="0,0,10,10"
+					HorizontalOptions="End"/>
 				</StackLayout>
 			</Grid>
 
 			<StackLayout Orientation="Vertical"
-					HorizontalOptions="FillAndExpand"
-					Margin="10">
-					<Label Text="{Binding Name}"
-						TextColor="#503026" 
-						FontAttributes="Bold"
-						BackgroundColor="White"
-						HorizontalOptions="Start"/>
-
+					HorizontalOptions="FillAndExpand">
 					<Label Text="{Binding Description}"
-						TextColor="Black"
-						BackgroundColor="White"
-						HorizontalOptions="Start"
-						Margin="10"/>
+						TextColor="Gray"
+						HorizontalOptions="Center"
+						FontSize="16"
+						/>
 
 			</StackLayout>
 
 			<Button 
 				x:Name="BCanje"
-				Text="Canjeá"
-				TextColor="White"
+				Image="btn_canjea.png"
 				Clicked="OnExClicked"
-
-			/>
+				Margin="0,10,0,0"
+        		HeightRequest="70"
+				/>
 			<Label
 				Text="Recordá que las recompensas deben ser canjeadas en el local, en el momento en que vas a solicitarlas, si no, el canje resultará inválido"
-				TextColor="Red"
-				Margin="5,10,5,0"
+				TextColor="#9E3B37"
+				Margin="5"
+				HorizontalTextAlignment="Center"
 				HorizontalOptions="Center"
 				FontSize="12"
 			/>
 
 		</StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

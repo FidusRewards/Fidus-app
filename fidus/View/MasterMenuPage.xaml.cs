@@ -192,6 +192,7 @@ namespace fidus
 
 		internal async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
+			//if (e.SelectedItem == null) return;
 			var item = e.SelectedItem as MasterPageItem;
 
 			if (item != null)
@@ -237,6 +238,8 @@ namespace fidus
 					Debug.WriteLine("Menu : Logout");
 				}
 			}
+			((ListView)sender).SelectedItem = null;
+
 		}
     }
 }
