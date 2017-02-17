@@ -152,7 +152,7 @@ namespace fidus
                     string[] words = result.Text.Split(delimiterChars);
                     string urllogo;
 
-                    if (words.Length > 4)
+                    if (words.Length > 5)
                     {
                         words[1] = words[1].Replace("\n", "");
                         words[2] = words[2].Replace("\n", "");

@@ -13,7 +13,7 @@ namespace fidus
 {
 	public class AzureClient<T> where T: class
 	{
-		static AzureClient<T> defaultInstance = new AzureClient<T>();
+		public static AzureClient<T> defaultInstance = new AzureClient<T>();
 
 		private IMobileServiceClient _client;
 		private IMobileServiceSyncTable<T> _table;

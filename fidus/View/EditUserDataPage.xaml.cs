@@ -35,7 +35,7 @@ namespace fidus
 					if (eVM.EdPass == eVM.EdPass2)
 					{
 
-						_client = new AzureClient<Person>();
+						//_client = new AzureClient<Person>();
 
 						var Datos = new Person()
 						{

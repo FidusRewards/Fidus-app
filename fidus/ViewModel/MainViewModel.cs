@@ -42,7 +42,7 @@ namespace fidus
 			tapCommand = new Command(OnTapped);
 			//SettingsCommand = new Command(SettingsTap);
 			//ExitCommand = new Command(ExitTap);
-            _client = new AzureClient<WhiteList>();
+            //_client = new AzureClient<WhiteList>();
 			LoadHistory = new LoadAsync<History>();
 			_history = new ObservableCollection<History>();
 

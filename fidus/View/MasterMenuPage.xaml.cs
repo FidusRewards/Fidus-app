@@ -18,6 +18,7 @@ namespace fidus
 			SeparatorVisibility = SeparatorVisibility.None,
 			BackgroundColor= Color.Transparent
 		};
+		private AzureClient<Person> _client;
 		private StackLayout MenuBar;
 		private Image MenuIcon;
 		public ListView ListView { get { return listview; } }
@@ -220,7 +221,7 @@ namespace fidus
 
 						if (CrossConnectivity.Current.IsConnected)
 						{
-							var _client = new AzureClient<Person>();
+							//var _client = new AzureClient<Person>();
 							IMobileServiceTable<Person> _tabla = _client.GetPTable();
 							await _tabla.UpdateAsync(Settings.CurrentUser);
 						}
