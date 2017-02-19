@@ -43,7 +43,7 @@
 			VerticalOptions="FillAndExpand"
 			BackgroundColor="White"
 			Padding="27,0,27,3">
-		<ListView 
+			<ListView 
 				ItemsSource="{Binding PItems}"
 				IsRefreshing="{Binding IsBusy}"
 				IsPullToRefreshEnabled="true"
@@ -51,7 +51,6 @@
 				SeparatorColor="Gray"
 				RowHeight="100"
 				ItemSelected="Handle_ItemSelected"
-
 			 >
 				<ListView.ItemTemplate>
 					<DataTemplate x:Key="myTaskTemplate">
@@ -102,22 +101,15 @@
 					</DataTemplate>
 				</ListView.ItemTemplate>
 			</ListView>
-			</StackLayout>
-			<StackLayout Orientation="Vertical"
+		</StackLayout>
+		<StackLayout Orientation="Vertical"
 			HorizontalOptions="FillAndExpand"
 			VerticalOptions="End"
 			BackgroundColor="#F3F3F3"
-			Padding="10">
-			<Button 
-					HorizontalOptions="CenterAndExpand"
-					HeightRequest="60"
-					Image="checkinbutton.png"
-					BackgroundColor="Transparent"
-					BorderColor="Transparent"
-					BorderWidth="0"
-					Command="{Binding ScanButtonCommand}"
-				/>
-			</StackLayout>
+			Padding="10"
+			x:Name="CheckBut">
+
 		</StackLayout>
+	</StackLayout>
 			
 </ContentPage>

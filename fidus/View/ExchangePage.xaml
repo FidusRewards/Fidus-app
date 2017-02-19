@@ -1,59 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="fidus.ExchangePage">
 	<ContentPage.Content>
-		<StackLayout Orientation="Vertical"
-			HorizontalOptions="FillAndExpand"
-			VerticalOptions="Fill"
-			Margin="0">
-			<StackLayout Orientation="Horizontal"
+	 <RelativeLayout>
+			    <Image 
+				    RelativeLayout.XConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+				    RelativeLayout.YConstraint=
+                     "{ConstraintExpression Type=Constant, 
+                                            Constant=0}"
+				    RelativeLayout.WidthConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				    RelativeLayout.HeightConstraint="{ConstraintExpression
+            	    Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+			
+				    Source = "giftly.png"
+				    Aspect = "AspectFill"
+
+			    />
+			<StackLayout 
+        		RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=Constant, 
+                                        Constant=0}"
+				RelativeLayout.WidthConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				RelativeLayout.HeightConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+				
+				BackgroundColor="#9E3B37" 
+				Orientation="Vertical" VerticalOptions="StartAndExpand"
 				HorizontalOptions="FillAndExpand"
-				HeightRequest="60"
-				x:Name="xChangeTit">
-				<Label x:Name="xChangeLab"
-					Text="Canje Exitoso"
-					Margin="0,30,0,0"
-					FontAttributes="Bold"
-					HorizontalOptions="CenterAndExpand"
-					TextColor="White"/>
-			</StackLayout>
-			<StackLayout Orientation="Horizontal"
-					HorizontalOptions="CenterAndExpand">
-				<Image x:Name="EImage"/>
-				<Label x:Name="EName" />
-			</StackLayout>
-			<Label Text="Felicidades!!!"
-				x:Name="Felicidades"
-				FontSize="30"
-				HorizontalOptions="CenterAndExpand"
-				Margin="10,15,10,10"/>
-
-			<Label Text="Canjeaste: "
-				TextColor="Black"
-				FontSize="20"
-				FontAttributes="Bold"
-				HorizontalOptions="StartAndExpand"
-				Margin="10,10,10,10"
-				/>
-			<Label x:Name="reName"/>
-			<Image x:Name="reImg"/>
-
-			<Label x:Name="reDate"/>
-
-			<Label Text="Mostrale este mensaje al empleado o al encargado del local para que te den tu recompensa"
-				TextColor="Black"
-				FontSize="20"
-				FontAttributes="Bold"
-				HorizontalOptions="StartAndExpand"
-				Margin="10,10,10,0"/>
-			<Button Text="OK" 
-				x:Name="OKBut"
-				Clicked="Handle_Clicked"
-				FontAttributes="Bold"
-				HorizontalOptions="FillAndExpand"
-				Margin="10,10,10,0"
-				TextColor="White"
-			/>
-
+				>
+			<StackLayout.HeightRequest>
+              <OnPlatform x:TypeArguments="x:Double" iOS="60" Android="45" />
+            </StackLayout.HeightRequest>
+            <StackLayout.MinimumHeightRequest>
+              <OnPlatform x:TypeArguments="x:Double" iOS="60" Android="45" />
+            </StackLayout.MinimumHeightRequest>
 		</StackLayout>
+
+       	<StackLayout 
+    			RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=Constant,Constant=0}"
+				RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=Constant,Constant=0}"
+				RelativeLayout.WidthConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+				RelativeLayout.HeightConstraint="{ConstraintExpression
+            	Type=RelativeToParent,Property=Height,Factor=1,Constant=0}"
+				    HorizontalOptions="FillAndExpand"
+				    Orientation="Vertical"
+				    BackgroundColor="Transparent"
+					Spacing="0"
+					>
+				<StackLayout.Padding>
+					<OnPlatform x:TypeArguments="Thickness"
+						iOS     ="0,60,0,0"
+						Android ="0,45,0,0"
+    					WinPhone="0,45,0,0" />
+				</StackLayout.Padding>
+      
+       		 	<StackLayout Orientation="Horizontal"
+					HorizontalOptions="FillAndExpand"
+					Padding="34,10,34,10"
+					VerticalOptions="Center"
+					BackgroundColor="#FBFBFB">
+          			<StackLayout >
+            			<Label x:Name="EName"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+            			<Label x:Name="PCat"
+							VerticalOptions="Center"
+							HorizontalOptions="StartAndExpand"/>
+          			</StackLayout>
+          			<Image x:Name="EImage"
+						VerticalOptions="Center"
+						HorizontalOptions="EndAndExpand"/>
+
+      			</StackLayout>
+    		  	<Image Source="linewithshadow.png"
+        			HorizontalOptions="StartAndExpand"
+        			Margin="0"
+					/>
+      			<StackLayout Orientation="Vertical"
+                 	Padding="34,0,34,0"
+					VerticalOptions="FillAndExpand"
+					BackgroundColor="Transparent">
+        
+        			<Image Source="canjeexitoso.png" 
+						HorizontalOptions="Center" 
+						VerticalOptions="Center"
+						HeightRequest = "100"
+						Margin="0,5,0,0"/>
+
+        			<Label Text="Canjeaste: "
+          				TextColor="Black"
+          				FontSize="18"
+          				FontAttributes="Bold"
+          				HorizontalOptions="Center"
+						VerticalOptions="Center"
+          				Margin="0"
+						/>
+        
+					<Grid >
+						<Image 
+							Aspect="AspectFill"
+							x:Name="reImg"
+							HeightRequest="180"/>
+						<StackLayout VerticalOptions="End">
+							<Label x:Name="reName"
+                 				TextColor="White"
+               					HorizontalOptions="Center"
+               					FontAttributes="Bold"
+                 				FontSize="18"
+								Margin="0,5,0,10"/>
+						</StackLayout>
+					</Grid>
+
+        			<Label x:Name="reDate"/>
+        			<StackLayout Orientation="Vertical"	
+						HorizontalOptions="FillAndExpand" Padding="25,10,25,0">
+            			<Label Text="¡IMPORTANTE!" 
+							TextColor="Black" FontSize="18" FontAttributes="Bold"  
+							HorizontalOptions="Center"/>
+            			<Label Text="Mostrale este mensaje al empleado o al encargado del local para que te den tu recompensa"
+              				TextColor="Black"
+				            FontSize="16"
+				            HorizontalOptions="StartAndExpand"
+				            HorizontalTextAlignment="Center"
+				            />
+          			</StackLayout>
+        			<Button 
+          				x:Name="OKBut"
+          				Clicked="Handle_Clicked"
+						Image="btn_volver_gris.png"
+          				HorizontalOptions="FillAndExpand"
+          				Margin="0,5,0,5"
+						HeightRequest="60"
+					 	MinimumHeightRequest="60"
+						/>
+
+    	  		</StackLayout>
+			</StackLayout>
+	</RelativeLayout>
 	</ContentPage.Content>
 </ContentPage>

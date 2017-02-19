@@ -21,6 +21,7 @@ namespace fidus
 
 			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			//this.Title = "Fidus";
+			Settings.IsLogin = true;
 
 			loginVM = new loginViewModel();
 
@@ -138,7 +139,7 @@ namespace fidus
 						HorizontalOptions=LayoutOptions.FillAndExpand,
 						Padding = new Thickness(5),
 						Children={PIcon,Pass}},
-					activityIndicator,
+						activityIndicator,
 					new StackLayout {
 						HorizontalOptions=LayoutOptions.FillAndExpand,
 						Orientation = StackOrientation.Vertical,
@@ -172,18 +173,17 @@ namespace fidus
 					if (result)
 					{
 						//await DisplayAlert("Bienvenido", Email.Text, "OK");
-						loginVM.IsBusy = false;
 
 						//Application.Current.MainPage = new HistoryPage();
 						//var content = new MainPage();
-					
+
 
 						//Application.Current.MainPage 
-				        // var content = new NavigationPage(new MainPage())
+						// var content = new NavigationPage(new MainPage())
 						//{
 						//	BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
 						//	BarTextColor = Color.White,
-							//Title = "Fidus"
+						//Title = "Fidus"
 						//};
 
 						//NavigationPage.SetHasBackButton(content, false);
@@ -191,9 +191,8 @@ namespace fidus
 
 						//await Navigation.PushAsync(content);
 
-						Ingresar.IsVisible = true;
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
-
+						Settings.IsReturn = false;
 						await Navigation.PopModalAsync();
 
 
@@ -202,10 +201,10 @@ namespace fidus
 					{
 						await DisplayAlert("Datos Incorrectos", "Si no sos usuario registrate. " +
 										   "Si no recordas tu contraseña, escribinos a fidusrewards@gmail.com", "OK");
-						loginVM.IsBusy = false;
-                        Ingresar.IsVisible = true;
-
+						
                     }
+					loginVM.IsBusy = false;
+					Ingresar.IsVisible = true;
 				}
 				else {
 					await DisplayAlert("Error", "El usuario y la contraseña no pueden estar vacíos", "OK");

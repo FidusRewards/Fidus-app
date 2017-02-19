@@ -16,7 +16,7 @@ namespace fidus
 
 		public loginViewModel()
 		{
-			//_client = new AzureClient<Person>();
+			_client = new AzureClient<Person>();
 
 		}
 

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using Plugin.Connectivity;
 using System.Linq;
+using System.IO;
 
 namespace fidus
 {
@@ -18,6 +19,7 @@ namespace fidus
 		private IMobileServiceClient _client;
 		private IMobileServiceSyncTable<T> _table;
 		private IMobileServiceTable<T> _tabla;
+		private MobileServiceSQLiteStore store = new MobileServiceSQLiteStore("localstore.db");
 
 		private IMobileServiceTableQuery<Person> PersonQuery;
 
@@ -27,7 +29,6 @@ namespace fidus
 			try
 			{
 				_client = new MobileServiceClient(Settings.AzureUrl);
-				var store = new MobileServiceSQLiteStore("localstore.db");
 				store.DefineTable<T>();
 				_client.SyncContext.InitializeAsync(store);
 
@@ -72,13 +73,15 @@ namespace fidus
 			return _client.GetTable<History>();
 		}
 
-		public async Task PurgeData() { 
-			await _client.SyncContext.PushAsync();
+		public async Task PurgeData() {
+			if (_client.SyncContext.PendingOperations>0)
+				await _client.SyncContext.PushAsync();
 
 			await _table.PurgeAsync();
 
 
 		}
+
 
 		public async Task Push()
 		{
@@ -119,6 +122,7 @@ namespace fidus
 
 		public async Task SyncAsync()
 		{
+			string queryName;
 			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
 			try
@@ -127,7 +131,10 @@ namespace fidus
 
 				// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
 				// Use a different query name for each unique query in your program.
-				string queryName = $"incsync_{typeof(T).Name}";
+				if (Settings.IsLogin)
+					queryName = null;
+				else
+				 	queryName = $"incsync_{typeof(T).Name}";
 				Debug.WriteLine("SyncAsync begin: "+typeof(T));
 
 				//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
@@ -150,6 +157,7 @@ namespace fidus
 					Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
 
 				}
+
 			}
 			catch (MobileServicePushFailedException exc)
 			{

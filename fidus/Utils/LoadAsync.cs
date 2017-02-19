@@ -15,7 +15,7 @@ namespace fidus
 
 		public LoadAsync()
 		{
-			_client = new AzureClient<T>();
+			_client = AzureClient<T>.defaultInstance;  //new AzureClient<T>();
 
 		}
 
@@ -50,9 +50,9 @@ namespace fidus
 
 			Hitems.Clear();
 			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
-
+			
 			int count = 0;
-			var query = _tabla.IncludeTotalCount().Where(history => history.Place.Contains(_history.Place));// && history.Person == _history.Person);
+			var query = _tabla.IncludeTotalCount().Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person);
 			//var result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
 
 			var result = await query.Take(1000).ToEnumerableAsync();
@@ -62,7 +62,7 @@ namespace fidus
 			if (Tcount==0)
 			{
 				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
-				await InitSync();
+				//await InitSync();
 				result = await query.Take(1000).ToEnumerableAsync();
 			}
 
@@ -178,6 +178,9 @@ namespace fidus
 			Pitems = new ObservableCollection<Place>();
 
 			Pitems.Clear();
+			IMobileServiceSyncTable<Place> _tabla = (IMobileServiceSyncTable<Place>)_client.GetTable();
+
+				//await _client.PurgeData();
 
 			IEnumerable<Place> result = (IEnumerable<Place>) await _client.GetData();
 			if (!Utils.IsAny(result))
@@ -205,6 +208,11 @@ namespace fidus
 		public async Task InitSync()
 		{
 			await _client.SyncAsync();
+		}
+
+		public async void PurgeTable()
+		{
+			await _client.PurgeData();
 		}
 
 	}

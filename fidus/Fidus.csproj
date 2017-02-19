@@ -10,7 +10,7 @@
     <AssemblyName>fidus</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <ReleaseVersion>2.0.10</ReleaseVersion>
+    <ReleaseVersion>2.0.11</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,6 +131,7 @@
     <Compile Include="View\QualifyPage.xaml.cs">
       <DependentUpon>QualifyPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ConflictHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

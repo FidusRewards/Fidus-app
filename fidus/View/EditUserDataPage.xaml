@@ -69,7 +69,7 @@
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
 					HorizontalOptions="FillAndExpand" Padding="5" >
 				<Image
-						Source="iconousuario.png"
+						Source="iconotel.png"
 						HeightRequest="30"
 						Margin="0,5,0,0"
 						/>

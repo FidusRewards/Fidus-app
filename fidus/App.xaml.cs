@@ -19,6 +19,19 @@ namespace fidus
 
 			instance = this;
 
+			//var _rewards = new Rewards();
+			//_rewards.Name = "Un Zapato Interesante";
+			//_rewards.Photo = "https://fidusimgsrv.blob.core.windows.net/rewards/Bartok-BBQbondgratis.jpg";
+			//_rewards.Place = "Bartok";
+			//_rewards.ReqPoints = 10;
+			//_rewards.Description = "No se que dice aca, pero es un texto muy largo que me va a dejar ver como qued";
+
+			//var _place = new Place();
+			//_place.Name="Bartok";
+			//_place.Logo = "https://fidusimgsrv.blob.core.windows.net/logos/Bartok_logo.png";
+			//_place.Category = "Resto Bar";
+			//_place.Points = 20;
+
 			content = new MainPage();
 
 			if (Device.OS == TargetPlatform.Android)
@@ -37,7 +50,10 @@ namespace fidus
 			}
 				//MainPage = new loginPage();
 		}
-
+		public static void CleanProperties()
+		{
+			Application.Current.Properties.Clear();
+		}
 		public async static void UpdateProperties()
 		{
 			if (!Application.Current.Properties.ContainsKey("UserEmail")){
@@ -52,7 +68,6 @@ namespace fidus
 				Application.Current.Properties.Add("UserPass", Settings.CurrentUser.Pass);
 				Application.Current.Properties.Add("UserPhone", Settings.CurrentUser.Phone);
 				Application.Current.Properties.Add("UserPoints", Settings.CurrentUser.Points);
-				await Application.Current.SavePropertiesAsync();
 			}
 			else
 			{
@@ -67,8 +82,9 @@ namespace fidus
 				Application.Current.Properties["UserPass"]= Settings.CurrentUser.Pass;
 				Application.Current.Properties["UserPhone"]= Settings.CurrentUser.Phone;
 				Application.Current.Properties["UserPoints"]= Settings.CurrentUser.Points;
-				await Application.Current.SavePropertiesAsync();
 			}
+			await Application.Current.SavePropertiesAsync();
+
 		}
 
 		public static void UpdateUSettings()
@@ -94,8 +110,10 @@ namespace fidus
 			if (Application.Current.Properties.ContainsKey("UserEmail"))
 			{
 				UpdateUSettings();
+				Settings.IsLogin = false;
 			}
 			else {
+				Settings.IsLogin = true;
 				UpdateProperties();
 			}
 				Debug.WriteLine("OnStart");

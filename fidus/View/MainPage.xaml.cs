@@ -57,6 +57,17 @@ namespace fidus
 				Priority = 0
 			});
 
+			var ckbut = new Button()
+			{
+				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HeightRequest = 60,
+				Image = "checkinbutton.png",
+				BackgroundColor = Color.Transparent,
+				BorderColor = Color.Transparent,
+				BorderWidth = 0
+			};
+			ckbut.SetBinding(Button.CommandProperty, new Binding("ScanButtonCommand", 0));
+			CheckBut.Children.Add(ckbut);
 
 			MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
 															  (obj, mplaces) => IsBusy = false);
@@ -115,9 +126,9 @@ namespace fidus
 		}
 
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
+		protected override async void OnAppearing()
+		{
+			base.OnAppearing();
 			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
 			if (!Reach || !CrossConnectivity.Current.IsConnected)
@@ -133,6 +144,7 @@ namespace fidus
 					await Navigation.PushModalAsync(new loginPage(), false);
 			}
 			mVM.Load();
+
 
 		}
 
@@ -198,6 +210,17 @@ namespace fidus
 
         }
 
+
+
+		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+		{
+			if (e.SelectedItem == null) return;
+			Place selected = (e.SelectedItem as Place);
+			Settings.IsReturn = true;
+			await Navigation.PushAsync(new RewardsPage(selected));
+			((ListView)sender).SelectedItem = null;	
+		}
+
 		public Action HideMenuAction
 		{
 			get;
@@ -226,14 +249,6 @@ namespace fidus
 					slideMenu.Parent = this;
 			}
 		}
-
-		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
-		{
-			if (e.SelectedItem == null) return;
-			Place selected = (e.SelectedItem as Place);
-			Settings.IsReturn = true;
-			await Navigation.PushAsync(new RewardsPage(selected));
-			((ListView)sender).SelectedItem = null;		}
 
     }
 }

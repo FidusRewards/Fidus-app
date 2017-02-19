@@ -9,34 +9,32 @@ namespace fidus
 	{
 		public ExchangePage(Rewards selectedreward, Place place)
 		{
+			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			//this.Title = "Volver";
 			InitializeComponent();
-			xChangeTit.BackgroundColor = Color.FromHex(Settings.FidusColor);
-			xChangeLab.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
+
 
 			EImage.Source = place.Logo;
-			EImage.HeightRequest = 50;
-			EImage.WidthRequest = 50;
-			EName.Text = place.Name;
-			EName.VerticalOptions = LayoutOptions.Center;
-			EName.FontAttributes = FontAttributes.Bold;
-			EName.FontSize = 30;
+			EImage.HeightRequest = 62;
+			EImage.WidthRequest = 62;
 
-			Felicidades.TextColor = Color.FromHex(Settings.FidusColor);
-			Felicidades.FontAttributes = FontAttributes.Italic;
+			EName.Text = place.Name;
+			EName.FontSize = 20;
+			EName.FontAttributes = FontAttributes.Bold;
+			EName.TextColor = Color.Black;
+
+			PCat.Text = place.Category;
+			PCat.FontSize = 18;
+			PCat.TextColor = Color.Gray;
+
 
 			reName.Text = selectedreward.Name;
-			reName.TextColor = Color.Black;
-			reName.HorizontalOptions = LayoutOptions.CenterAndExpand;
-			reName.FontSize = 20;
 
 			reImg.Source = selectedreward.Photo;
-			reImg.HorizontalOptions = LayoutOptions.CenterAndExpand;
 
 			reDate.Text = DateTime.Now.ToString("U");
 			reDate.HorizontalOptions = LayoutOptions.CenterAndExpand;
 
-			OKBut.BackgroundColor = Color.FromHex(Settings.FidusColor);
-			OKBut.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			//Settings.CurrentUser.Points += -1*selectedreward.ReqPoints;
 
 		}

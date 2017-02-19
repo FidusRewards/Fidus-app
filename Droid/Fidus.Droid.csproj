@@ -20,7 +20,7 @@
     </AndroidTlsProvider>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;armeabi;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
-    <ReleaseVersion>2.0.10</ReleaseVersion>
+    <ReleaseVersion>2.0.11</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -248,6 +248,9 @@
     <AndroidResource Include="Resources\drawable\linewithshadow.png" />
     <AndroidResource Include="Resources\drawable\Circulopoints.png" />
     <AndroidResource Include="Resources\drawable\btn_canjea.png" />
+    <AndroidResource Include="Resources\drawable\canjeexitoso.png" />
+    <AndroidResource Include="Resources\drawable\btn_volver_gris.png" />
+    <AndroidResource Include="Resources\drawable\iconotel.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderer\" />

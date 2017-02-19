@@ -9,7 +9,7 @@
     <RootNamespace>fidus.iOS</RootNamespace>
     <AssemblyName>fidus.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <ReleaseVersion>2.0.10</ReleaseVersion>
+    <ReleaseVersion>2.0.11</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -325,6 +325,9 @@
     <BundleResource Include="Resources\linewithshadow.png" />
     <BundleResource Include="Resources\Circulopoints.png" />
     <BundleResource Include="Resources\btn_canjea.png" />
+    <BundleResource Include="Resources\canjeexitoso.png" />
+    <BundleResource Include="Resources\btn_volver_gris.png" />
+    <BundleResource Include="Resources\iconotel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

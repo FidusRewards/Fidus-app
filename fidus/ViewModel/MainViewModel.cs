@@ -66,15 +66,16 @@ namespace fidus
 			if (Settings.CurrentUser.Email != null)
 			{
 				IsBusy = true;
-
+				PItems.Clear();
 
 				if (!Settings.IsReturn)
 				{
-					PItems.Clear();
 
 					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
 
 					_history.Clear();
+					await LoadHistory.InitSync();
+
 					foreach (Place _place in Settings.AllPlaces)
 					{
 						placeH.Person = Settings.CurrentUser.Email;
@@ -85,9 +86,9 @@ namespace fidus
 						Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points = Settings.CurrentUser.Points;
 
 					}
+					Settings.IsLogin = false;
 				}
 				PItems = Settings.AllPlaces;
-				IsBusy = false;
 				Settings.IsReturn = false;
 
 				if (PItems != null)
