@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Microsoft.WindowsAzure.MobileServices;
 using Plugin.Connectivity;
 using Microsoft.WindowsAzure.MobileServices.Sync;
+using Newtonsoft.Json.Linq;
 
 namespace fidus
 {
@@ -221,13 +222,16 @@ namespace fidus
 						{
 							_client = new AzureClient<Person>();
 							IMobileServiceTable<Person> _tabla = _client.GetPTable();
-							await _tabla.UpdateAsync(Settings.CurrentUser);
+							JObject data = new JObject {
+								{ "id", Settings.CurrentUser.id },
+								{ "Logged", false }
+							};
+							await _tabla.UpdateAsync(data);
 						}
 						Settings.CurrentUser.Name = "";
 						Settings.CurrentUser.Email = "";
 						Settings.CurrentUser.Points = 0;
 						Settings.CurrentUser.id = "";
-
 						Settings.AllPlaces.Clear();
 						Settings.Hitem.Place = "";
 						Settings.Hitem.id = "";

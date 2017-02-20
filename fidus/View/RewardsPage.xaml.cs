@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 using Xamarin.Forms;
@@ -10,10 +11,11 @@ namespace fidus
 	{
 		private Place Rplace=new Place();
 		private RewardsViewModel rVM;
+		private ObservableCollection<Place> pepe;
 
 		public RewardsPage(Place place)
 		{
-			int count = 0, index=0;
+			//int count = 0, index=0;
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Volver";
 			InitializeComponent();
@@ -23,14 +25,13 @@ namespace fidus
 			BindingContext = rVM;
 			Rplace = place;
 
-			foreach (Place _place in Settings.AllPlaces)
-			{
-				if (_place.Name == place.Name)
-					 index = count;
-			 	count++;
-
-			}
-			//Settings.AllPlaces[index].Points.ToString();
+			//foreach (Place _place in Settings.AllPlaces)
+			//{
+			//	if (_place.Name == place.Name)
+			//		 index = count;
+			// 	count++;
+			//
+			//}
 			Settings.CurrentUser.Points = place.Points;//Settings.AllPlaces[index].Points;
 			Debug.WriteLine("RewardsPage: Construct - Place: :" + rVM.Place);
 
@@ -94,7 +95,14 @@ namespace fidus
 			//Settings.CurrentUser.Points = 0;
 			IsBusy = true;
 			rVM.Load();
+			pepe = Settings.AllPlaces;
 
+
+		}
+		protected override bool OnBackButtonPressed()
+		{
+			Settings.AllPlaces = pepe;
+			return base.OnBackButtonPressed();
 		}
 	}
 }

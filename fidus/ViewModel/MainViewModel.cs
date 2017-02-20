@@ -68,8 +68,8 @@ namespace fidus
 				IsBusy = true;
 				PItems.Clear();
 
-				if (!Settings.IsReturn)
-				{
+				//if (!Settings.IsReturn)
+				//{
 
 					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
 
@@ -87,7 +87,7 @@ namespace fidus
 
 					}
 					Settings.IsLogin = false;
-				}
+				//}
 				PItems = Settings.AllPlaces;
 				Settings.IsReturn = false;
 

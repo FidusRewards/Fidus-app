@@ -5,6 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using HockeyApp;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace fidus
 {
@@ -74,12 +75,25 @@ namespace fidus
 						Birthday = RBday,
 						IsAdmin = false,
 						Logged = true,
+						Phone = " ",
+						Points = 0,
 						LastLogin = System.DateTime.Now
                     };
 
                     var Tabla = _client.GetPTable();
 
                     await Tabla.InsertAsync(Datos);
+
+					IEnumerable<Person> result = await Tabla.Where(person => person.Email == REmail).ToEnumerableAsync();
+					if (!Utils.IsAny(result))
+					{
+						Datos.id = result.FirstOrDefault().id;
+						Datos.Version = result.FirstOrDefault().Version;
+					}else{ 
+						MessagingCenter.Send(this, "NotValid");
+						IsBusy = false;
+						return;
+					}
 
                     Settings.CurrentUser = Datos;
                     MetricsManager.TrackEvent("New User registered", new Dictionary<string, string>
