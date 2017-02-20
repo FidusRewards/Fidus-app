@@ -20,7 +20,7 @@ namespace fidus.iOS
 			manager.Configure(Settings.Hockey_iOs);
 			manager.StartManager();
 			manager.Authenticator.AuthenticateInstallation();
-
+			manager.DisableUpdateManager = true;
 			global::Xamarin.Forms.Forms.Init();
 			global::ZXing.Net.Mobile.Forms.iOS.Platform.Init();
 			global::Refractored.XamForms.PullToRefresh.iOS.PullToRefreshLayoutRenderer.Init();
