@@ -34,7 +34,7 @@ namespace fidus.Droid
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
 			LoadApplication(new App());
-			CheckForUpdates();
+			//CheckForUpdates();
 		}
 
 		private void CheckForUpdates()

@@ -34,9 +34,6 @@ namespace fidus
 
             InitializeComponent();
 
-			NavigationPage.SetTitleIcon(this, "fidus_text.png");
-			this.Title = "Fidus";
-			NavigationPage.SetBackButtonTitle(this, "Volver");
 
 			if (Application.Current.Properties.ContainsKey("UserEmail"))
 			{
@@ -52,39 +49,10 @@ namespace fidus
 			mVM = new MainViewModel();
 
             BindingContext = mVM;
-			//img = new Image();
-			//img.Source = ImageSource.FromFile("userimg.png");
 
-			//mVM.Mname = Settings.CurrentUser.Name;
-			//mVM.Mimg = img;
-			//mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			MenuDrawer();
-			//SlideMenu = new MasterMenuPage();
 
-			//You can add a ToolBar button to show the Menu.
-			this.ToolbarItems.Add(new ToolbarItem
-			{
-				Command = new Command(() =>
-			   {
-				   DependencyService.Get<IToggleDrawer>().ToggleDrawer();
-				}),
-				Icon = "settings1.png",
-				Text = "Settings",
-
-				Priority = 0
-			});
-
-			var ckbut = new Button()
-			{
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-				HeightRequest = 60,
-				Image = "checkinbutton.png",
-				BackgroundColor = Color.Transparent,
-				BorderColor = Color.Transparent,
-				BorderWidth = 0
-			};
-			ckbut.SetBinding(Button.CommandProperty, new Binding("ScanButtonCommand", 0));
-			CheckBut.Children.Add(ckbut);
+			DrawMain();
 
 			MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
 															  (obj, mplaces) => IsBusy = false);
@@ -146,6 +114,7 @@ namespace fidus
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
+
 			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
 			if (!Reach || !CrossConnectivity.Current.IsConnected)
@@ -153,18 +122,56 @@ namespace fidus
 				Settings.Default.IsInternetEnabled = false;
 				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
 				//DependencyService.Get<ICloseApplication>().closeApp();
-			};
+			}
 
 			if (Application.Current.Properties.ContainsKey("ULogged"))
 			{
 				if (!(bool)Application.Current.Properties["ULogged"])
+				{ 
 					await Navigation.PushModalAsync(new loginPage(), false);
+
+				}
+
+				App.UpdateUSettings();
+				
+
+
 			}
 			mVM.Load();
 
 
 		}
+		private void DrawMain()
+		{ 
+			NavigationPage.SetTitleIcon(this, "fidus_text.png");
+			this.Title = "Fidus";
+			NavigationPage.SetBackButtonTitle(this, "Volver");
 
+			this.ToolbarItems.Add(new ToolbarItem
+			{
+				Command = new Command(() =>
+			   {
+				   DependencyService.Get<IToggleDrawer>().ToggleDrawer();
+			   }),
+				Icon = "settings1.png",
+				Text = "Settings",
+
+				Priority = 0
+			});
+
+			var ckbut = new Button()
+			{
+				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				HeightRequest = 60,
+				Image = "checkinbutton.png",
+				BackgroundColor = Color.Transparent,
+				BorderColor = Color.Transparent,
+				BorderWidth = 0
+			};
+			ckbut.SetBinding(Button.CommandProperty, new Binding("ScanButtonCommand", 0));
+			CheckBut.Children.Add(ckbut);
+
+		}
 
         private async void Scan()
         {
@@ -233,7 +240,7 @@ namespace fidus
 		{
 			if (e.SelectedItem == null) return;
 			Place selected = (e.SelectedItem as Place);
-			Settings.IsReturn = true;
+			Settings.IsReturn = false;
 			await Navigation.PushAsync(new RewardsPage(selected));
 			((ListView)sender).SelectedItem = null;	
 		}
@@ -247,9 +254,7 @@ namespace fidus
 				Aspect = Aspect.AspectFill
 			};
 
-			MenuStack.VerticalOptions = LayoutOptions.FillAndExpand;
 
-			MenuStack.Children.Add(BkgImage);
 
 			Image UserImg = new Image()
 			{
@@ -263,18 +268,19 @@ namespace fidus
 
 			Label UsrLab = new Label()
 			{
-				Text = Settings.CurrentUser.Name,
 				FontFamily = Device.OnPlatform("Helvetica-bold", "Roboto-bold", ""),
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center
 			};
+			UsrLab.SetBinding(Label.TextProperty, "CurrUser");
+
 			Label Usrmail = new Label()
 			{
-				Text = Settings.CurrentUser.Email,
 				FontFamily = Device.OnPlatform("Helvetica-bold", "Roboto-bold", ""),
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center
 			};
+			Usrmail.SetBinding(Label.TextProperty, "CurrUmail");
 
 			Image linea = new Image()
 			{
@@ -347,7 +353,10 @@ namespace fidus
 
 			MenuObjects.Children.Add(listview);
 
-			MenuStack.Children.Add(MenuObjects);
+			MenuGrid.VerticalOptions = LayoutOptions.FillAndExpand;
+
+			MenuGrid.Children.Add(BkgImage);
+			MenuGrid.Children.Add(MenuObjects);
 
 			//this.Content = MenuStack;
 
@@ -364,13 +373,14 @@ namespace fidus
 			{
 				if (item.TargetType != null)
 				{
+					Settings.IsReturn = true;
 					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
 
 					await Navigation.PushAsync(Detail);
 
 					Debug.WriteLine("Menu : " + item.Title);
 					//this.HideWithoutAnimations();
-					ListView.SelectedItem = null;
+					listview.SelectedItem = null;
 				}
 				else if (item.Title == "Logout")
 				{
@@ -420,7 +430,7 @@ namespace fidus
 				}
 				DependencyService.Get<IToggleDrawer>().ToggleDrawer();
 
-				((ListView)sender).SelectedItem = null;
+				//((ListView)sender).SelectedItem = null;
 
 			}
 

@@ -26,6 +26,9 @@ namespace fidus
 		private LoadAsync<WhiteList> _itemsW;
         private LoadAsync<History> LoadHistory;
 		private ObservableCollection<History> _history;
+		private string cuser, cmail;
+		public string CurrUser { get { return cuser;} set { cuser = value; OnPropertyChanged();} }
+		public string CurrUmail { get{ return cmail; } set { cmail = value; OnPropertyChanged(); } }
 
 		public ObservableCollection<Place> PItems
 		{
@@ -65,11 +68,14 @@ namespace fidus
 			//await LoadItems.InitSync();
 			if (Settings.CurrentUser.Email != null)
 			{
-				IsBusy = true;
-				PItems.Clear();
+				CurrUser = Settings.CurrentUser.Name;
+				CurrUmail = Settings.CurrentUser.Email;
 
-				//if (!Settings.IsReturn)
-				//{
+				IsBusy = true;
+
+				if (!Settings.IsReturn)
+				{
+					PItems.Clear();
 
 					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
 
@@ -87,8 +93,9 @@ namespace fidus
 
 					}
 					Settings.IsLogin = false;
-				//}
-				PItems = Settings.AllPlaces;
+					PItems = Settings.AllPlaces;
+
+				}
 				Settings.IsReturn = false;
 
 				if (PItems != null)
@@ -112,20 +119,7 @@ namespace fidus
 			MessagingCenter.Send(this, "Rewards", _array);
 
 		}
-		void SettingsTap()
-		{
-			//DependencyService.Get<ICloseApplication>().closeApp();
 
-			MessagingCenter.Send(this, "Settings");
-
-		}
-		void ExitTap()
-		{
-			//DependencyService.Get<ICloseApplication>().closeApp();
-			Debug.WriteLine("MainVW: exit command");
-			MessagingCenter.Send(this, "Exit");
-
-		}
 
         public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
         {

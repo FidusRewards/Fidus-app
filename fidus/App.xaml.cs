@@ -31,12 +31,12 @@ namespace fidus
 			//_place.Logo = "https://fidusimgsrv.blob.core.windows.net/logos/Bartok_logo.png";
 			//_place.Category = "Resto Bar";
 			//_place.Points = 20;
-
 			content = new MainPage();
+
 
 			if (Device.OS == TargetPlatform.Android)
 			{
-				MainPage = new SplashScreen();
+				MainPage = new SplashScreen(content);
 			}
 			else
 			{

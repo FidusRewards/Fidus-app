@@ -231,6 +231,7 @@ namespace fidus
 
 			MessagingCenter.Subscribe<RegisterPage>(this, "PoptoRoot", async (obj) => {
 				await Navigation.PopModalAsync(false);
+				await Navigation.PopModalAsync(false);
 			});
 		}
 

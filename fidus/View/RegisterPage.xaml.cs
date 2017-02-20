@@ -37,9 +37,10 @@ namespace fidus
 				//NavigationPage.SetHasNavigationBar(_mainPage, false);
 				//NavigationPage.SetHasBackButton(_mainPage, false);
 				//await Navigation.PushAsync(_mainPage);
+				//await Navigation.PopModalAsync(false);
+
 				MessagingCenter.Send(this, "PoptoRoot");
 
-				await Navigation.PopModalAsync(false);
             });
 
             MessagingCenter.Subscribe<RegisterViewModel>(this, "NotValid", async (obj) =>

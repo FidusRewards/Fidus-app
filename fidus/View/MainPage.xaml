@@ -50,6 +50,7 @@
 			VerticalOptions="FillAndExpand"
 			BackgroundColor="White"
 			Padding="27,0,27,3">
+
 			<ListView 
 				ItemsSource="{Binding PItems}"
 				IsRefreshing="{Binding IsBusy}"
@@ -58,7 +59,7 @@
 				SeparatorColor="Gray"
 				RowHeight="100"
 				ItemSelected="Handle_ItemSelected"
-			 >
+			 	>
 				<ListView.ItemTemplate>
 					<DataTemplate x:Key="myTaskTemplate">
   				        <ViewCell >
@@ -121,7 +122,7 @@
 	</navigation:SfNavigationDrawer.ContentView>
 
 	<navigation:SfNavigationDrawer.DrawerContentView>
-					<Grid x:Name="MenuStack" 
+					<Grid x:Name="MenuGrid" 
 					BackgroundColor="Transparent"/>
 					<!--list items has to be created in C#-->
 	</navigation:SfNavigationDrawer.DrawerContentView>

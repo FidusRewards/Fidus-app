@@ -10,8 +10,11 @@ namespace fidus
 
 	public partial class SplashScreen : ContentPage
 	{
-		public SplashScreen()
+		private Page Mcontent;
+
+		public SplashScreen(Page content)
 		{
+			Mcontent = content;
 			InitializeComponent();
 			FSplash.BackgroundColor = Color.FromHex(Settings.FidusColor);
 		}
@@ -19,7 +22,7 @@ namespace fidus
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-			Page content = new MainPage();
+			//Page content = new MainPage();
 
 			// await a new task
 			await Task.Factory.StartNew(async () =>
@@ -28,7 +31,7 @@ namespace fidus
 				// delay for a few seconds on the splash screen
 				await Task.Delay(3000);
 
-				var mainPage = new NavigationPage(content)
+				var mainPage = new NavigationPage(Mcontent)
 				{
 					BarBackgroundColor = Color.FromHex(Settings.FidusColor),
 					BarTextColor = Color.White
