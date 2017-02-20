@@ -124,12 +124,6 @@
     <Reference Include="Refractored.XamForms.PullToRefresh.Droid">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.1.0\lib\MonoAndroid10\Refractored.XamForms.PullToRefresh.Droid.dll</HintPath>
     </Reference>
-    <Reference Include="SlideOverKit">
-      <HintPath>..\packages\SlideOverKit.2.1.4\lib\MonoAndroid10\SlideOverKit.dll</HintPath>
-    </Reference>
-    <Reference Include="SlideOverKit.Droid">
-      <HintPath>..\packages\SlideOverKit.2.1.4\lib\MonoAndroid10\SlideOverKit.Droid.dll</HintPath>
-    </Reference>
     <Reference Include="HockeySDK.AndroidBindings">
       <HintPath>..\packages\HockeySDK.Xamarin.4.1.1\lib\MonoAndroid403\HockeySDK.AndroidBindings.dll</HintPath>
     </Reference>
@@ -190,6 +184,15 @@
     <Reference Include="Syncfusion.SfRating.Android">
       <HintPath>..\packages\Syncfusion.Xamarin.SfRating.Android.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfRating.Android.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.Android.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fidus\fidus.csproj">
@@ -203,7 +206,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CloseApp_Droid.cs" />
     <Compile Include="Hash256_Droid.cs" />
-    <Compile Include="Renderer\PageImpInterfaceRendererDroid.cs" />
     <Compile Include="Renderer\CustomImagecellRendererDroid.cs" />
   </ItemGroup>
   <ItemGroup>

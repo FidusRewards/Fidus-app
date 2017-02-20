@@ -152,12 +152,6 @@
     <Reference Include="Refractored.XamForms.PullToRefresh.iOS">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.1.0\lib\Xamarin.iOS10\Refractored.XamForms.PullToRefresh.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="SlideOverKit">
-      <HintPath>..\packages\SlideOverKit.2.1.4\lib\Xamarin.iOS10\SlideOverKit.dll</HintPath>
-    </Reference>
-    <Reference Include="SlideOverKit.iOS">
-      <HintPath>..\packages\SlideOverKit.2.1.4\lib\Xamarin.iOS10\SlideOverKit.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\packages\HockeySDK.Xamarin.4.1.1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
     </Reference>
@@ -211,6 +205,15 @@
     </Reference>
     <Reference Include="Syncfusion.SfRating.iOS">
       <HintPath>..\packages\Syncfusion.Xamarin.SfRating.IOS.15.1.0.33\lib\Xamarin.iOS10\Syncfusion.SfRating.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\Xamarin.iOS10\Syncfusion.SfNavigationDrawer.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms.iOS">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\Xamarin.iOS10\Syncfusion.SfNavigationDrawer.XForms.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.iOS">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.IOS.15.1.0.33\lib\Xamarin.iOS10\Syncfusion.SfNavigationDrawer.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -298,7 +301,6 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="CloseApp_IOS.cs" />
     <Compile Include="Hash256_IOS.cs" />
-    <Compile Include="Renderer\PageImpInterfaceRendereiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\SplashScreen.png" />

@@ -3,21 +3,33 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Refractored.XamForms.PullToRefresh;
-using SlideOverKit;
+//using SlideOverKit;
 using Xamarin.Forms;
 using ZXing.Net.Mobile.Forms;
 using Plugin.Connectivity;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using Syncfusion.SfNavigationDrawer.XForms;
 
 namespace fidus
 {
-	public partial class MainPage : ContentPage, IMenuContainerPage
+	public partial class MainPage : ContentPage  //, IMenuContainerPage
 	{
 
         private MainViewModel mVM;
         private ZXingScannerPage scanPage;
         //private Image img;
+		private ListView listview = new ListView()
+		{
+			VerticalOptions = LayoutOptions.FillAndExpand,
+			SeparatorVisibility = SeparatorVisibility.None,
+			BackgroundColor = Color.Transparent
+		};
+		private AzureClient<Person> _client;
+		public ListView ListView { get { return listview; } }
 
-        public MainPage()
+
+		public MainPage()
         {
 
             InitializeComponent();
@@ -42,25 +54,19 @@ namespace fidus
             BindingContext = mVM;
 			//img = new Image();
 			//img.Source = ImageSource.FromFile("userimg.png");
-	
-			//mVM.Mname = Settings.CurrentUser.Name;
-            //mVM.Mimg = img;
-            //mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
-			SlideMenu = new MasterMenuPage();
-			// You can add a ToolBar button to show the Menu.
+			//mVM.Mname = Settings.CurrentUser.Name;
+			//mVM.Mimg = img;
+			//mVM.Msize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
+			MenuDrawer();
+			//SlideMenu = new MasterMenuPage();
+
+			//You can add a ToolBar button to show the Menu.
 			this.ToolbarItems.Add(new ToolbarItem
 			{
-				Command = new Command( () =>
-				{
-					if (SlideMenu.IsShown)
-					{
-						HideMenuAction?.Invoke();
-					}
-					else
-					{
-						ShowMenuAction?.Invoke();
-					}
+				Command = new Command(() =>
+			   {
+				   DependencyService.Get<IToggleDrawer>().ToggleDrawer();
 				}),
 				Icon = "settings1.png",
 				Text = "Settings",
@@ -232,34 +238,192 @@ namespace fidus
 			((ListView)sender).SelectedItem = null;	
 		}
 
-		public Action HideMenuAction
+		private void MenuDrawer ()
 		{
-			get;
-			set;
-		}
 
-		public Action ShowMenuAction
-		{
-			get;
-			set;
-		}
-
-		SlideMenuView slideMenu;
-		public SlideMenuView SlideMenu
-		{
-			get
+			var BkgImage = new Image()
 			{
-				return slideMenu;
-			}
-			set
+				Source = ImageSource.FromResource("fidus.giftly.png"),
+				Aspect = Aspect.AspectFill
+			};
+
+			MenuStack.VerticalOptions = LayoutOptions.FillAndExpand;
+
+			MenuStack.Children.Add(BkgImage);
+
+			Image UserImg = new Image()
 			{
-				if (slideMenu != null)
-					slideMenu.Parent = null;
-				slideMenu = value;
-				if (slideMenu != null)
-					slideMenu.Parent = this;
-			}
+				Source = "userimg.png",
+				HeightRequest = 70,
+				WidthRequest = 70,
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center,
+				Margin = new Thickness(0, 10, 0, 0)
+			};
+
+			Label UsrLab = new Label()
+			{
+				Text = Settings.CurrentUser.Name,
+				FontFamily = Device.OnPlatform("Helvetica-bold", "Roboto-bold", ""),
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center
+			};
+			Label Usrmail = new Label()
+			{
+				Text = Settings.CurrentUser.Email,
+				FontFamily = Device.OnPlatform("Helvetica-bold", "Roboto-bold", ""),
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center
+			};
+
+			Image linea = new Image()
+			{
+				Source = "menuline.png",
+				HeightRequest = 20,
+				HorizontalOptions = LayoutOptions.CenterAndExpand,
+				VerticalOptions = LayoutOptions.Center,
+				Margin = new Thickness(10, 10, 10, 0)
+			};
+
+			Label menutext = new Label()
+			{
+				Text = "Menú Principal",
+				TextColor = Color.FromHex(Settings.FidusColor),
+				FontFamily = Device.OnPlatform("Helvetica", "Roboto", ""),
+				FontSize = 14,
+				HorizontalOptions = LayoutOptions.Start,
+				VerticalOptions = LayoutOptions.Center,
+				FontAttributes = FontAttributes.Bold,
+				Margin = new Thickness(10, 0, 5, 0)
+			};
+			var cell = new DataTemplate(typeof(Controls.CustomImageCell));
+			cell.SetBinding(TextCell.TextProperty, "Title");
+			cell.SetBinding(TextCell.TextColorProperty, "TextColor");
+			cell.SetBinding(ImageCell.ImageSourceProperty, "IconSource");
+
+			listview.ItemTemplate = cell;
+
+			var masterPageItem = new List<MasterPageItem>();
+
+
+			//masterPageItem.Add(new MasterPageItem
+			//{
+			//    Title = "Inicio",
+			//    TextColor = Color.FromHex(Settings.FidusColor),
+			//    IconSource = "geopin.png",
+			//    TargetType = typeof(MainPage)
+			//});
+			masterPageItem.Add(new MasterPageItem
+			{
+				Title = "Historial de Canjes",
+				TextColor = Color.Black,
+				IconSource = "historial.png",
+				TargetType = typeof(HistoryPage)
+			});
+			masterPageItem.Add(new MasterPageItem
+			{
+				Title = "Editar Perfil",
+				TextColor = Color.Black,
+				IconSource = "iconousuario.png",
+				TargetType = typeof(EditUserDataPage)
+			});
+			masterPageItem.Add(new MasterPageItem
+			{
+				Title = "Logout",
+				TextColor = Color.Black,
+				IconSource = "logout.png"
+			});
+			listview.ItemsSource = masterPageItem;
+			StackLayout MenuObjects = new StackLayout()
+			{
+				Orientation = StackOrientation.Vertical
+			};
+
+			MenuObjects.Children.Add(UserImg);
+			MenuObjects.Children.Add(UsrLab);
+			MenuObjects.Children.Add(Usrmail);
+			MenuObjects.Children.Add(linea);
+			MenuObjects.Children.Add(menutext);
+
+			MenuObjects.Children.Add(listview);
+
+			MenuStack.Children.Add(MenuObjects);
+
+			//this.Content = MenuStack;
+
+			listview.ItemSelected += OnItemSelected;
+					
 		}
 
+		internal async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			//if (e.SelectedItem == null) return;
+			var item = e.SelectedItem as MasterPageItem;
+
+			if (item != null)
+			{
+				if (item.TargetType != null)
+				{
+					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
+
+					await Navigation.PushAsync(Detail);
+
+					Debug.WriteLine("Menu : " + item.Title);
+					//this.HideWithoutAnimations();
+					ListView.SelectedItem = null;
+				}
+				else if (item.Title == "Logout")
+				{
+					try
+					{
+						//this.IsEnabled = false;
+						//await App.instance.UpdateDB();
+						Settings.CurrentUser.Logged = false;
+
+						if (CrossConnectivity.Current.IsConnected)
+						{
+							_client = new AzureClient<Person>();
+							IMobileServiceTable<Person> _tabla = _client.GetPTable();
+							JObject data = new JObject {
+								{ "id", Settings.CurrentUser.id },
+								{ "Logged", false }
+							};
+							await _tabla.UpdateAsync(data);
+						}
+						Settings.CurrentUser.Name = "";
+						Settings.CurrentUser.Email = "";
+						Settings.CurrentUser.Points = 0;
+						Settings.CurrentUser.id = "";
+						Settings.AllPlaces.Clear();
+						Settings.Hitem.Place = "";
+						Settings.Hitem.id = "";
+						App.CleanProperties();
+
+						//var pclient = new LoadAsync<Place>();
+						//pclient.PurgeTable();
+						Settings.IsLogin = true;
+						//_client.CloseDB();
+
+						//this.HideWithoutAnimations();
+
+						await Navigation.PushModalAsync(new loginPage(), false);
+
+						//App.instance.ClearNavigationAndGoLogin();
+
+					}
+					catch (Exception ex)
+					{
+						Debug.WriteLine("MainPage: Exit stack " + ex);
+					}
+
+					Debug.WriteLine("Menu : Logout");
+				}
+				DependencyService.Get<IToggleDrawer>().ToggleDrawer();
+
+				((ListView)sender).SelectedItem = null;
+
+			}
+
+		}
     }
 }

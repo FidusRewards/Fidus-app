@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:navigation="clr-namespace:Syncfusion.SfNavigationDrawer.XForms;assembly=Syncfusion.SfNavigationDrawer.XForms"
 	x:Class="fidus.MainPage"
 	>
-		
+	<navigation:SfNavigationDrawer x:Name="navigationDrawer" Position="Right" 
+		Transition="SlideOnTop" DrawerWidth="250" DrawerHeaderHeight="0" DrawerFooterHeight="0"
+		BackgroundColor="Transparent">
+   
+<!--<Acá va la pantalla PPAL-->		
+  	<navigation:SfNavigationDrawer.ContentView>
+
 		<StackLayout 
 			HorizontalOptions="StartAndExpand"
 			VerticalOptions="FillAndExpand"
@@ -110,6 +117,14 @@
 			x:Name="CheckBut">
 
 		</StackLayout>
-	</StackLayout>
-			
+	</StackLayout>	
+	</navigation:SfNavigationDrawer.ContentView>
+
+	<navigation:SfNavigationDrawer.DrawerContentView>
+					<Grid x:Name="MenuStack" 
+					BackgroundColor="Transparent"/>
+					<!--list items has to be created in C#-->
+	</navigation:SfNavigationDrawer.DrawerContentView>
+
+ </navigation:SfNavigationDrawer>
 </ContentPage>

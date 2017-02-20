@@ -97,9 +97,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="Dependencies\ICloseApplication.cs" />
-    <Compile Include="View\MasterMenuPage.xaml.cs">
-      <DependentUpon>MasterMenuPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
@@ -161,9 +158,6 @@
     <Reference Include="Refractored.XamForms.PullToRefresh">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.1.0\lib\portable-net45+wp80+win8+wpa81\Refractored.XamForms.PullToRefresh.dll</HintPath>
     </Reference>
-    <Reference Include="SlideOverKit">
-      <HintPath>..\packages\SlideOverKit.2.1.4\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\SlideOverKit.dll</HintPath>
-    </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\packages\HockeySDK.Xamarin.4.1.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\HockeySDK.dll</HintPath>
     </Reference>
@@ -200,6 +194,9 @@
     <Reference Include="Syncfusion.SfRating.XForms">
       <HintPath>..\packages\Syncfusion.Xamarin.SfRating.15.1.0.33\lib\portable-win+net45+wp80+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Syncfusion.SfRating.XForms.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\portable-win+net45+wp80+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Syncfusion.SfNavigationDrawer.XForms.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -207,12 +204,6 @@
   <ItemGroup>
     <Folder Include="DataStores\" />
     <Folder Include="Controls\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="View\MasterMenuPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

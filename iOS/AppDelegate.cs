@@ -6,7 +6,7 @@ using Foundation;
 using UIKit;
 using HockeyApp.iOS;
 using Syncfusion.SfRating.XForms.iOS;
-using Syncfusion.SfRating.iOS;
+using Syncfusion.SfNavigationDrawer.XForms.iOS;
 
 namespace fidus.iOS
 {
@@ -26,8 +26,9 @@ namespace fidus.iOS
 			global::Refractored.XamForms.PullToRefresh.iOS.PullToRefreshLayoutRenderer.Init();
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			//SQLitePCL.CurrentPlatform.Init();
-			SlideOverKit.iOS.SlideOverKit.Init();
-			 new SfRatingRenderer();
+			//SlideOverKit.iOS.SlideOverKit.Init();
+		 	new SfRatingRenderer();
+			new SfNavigationDrawerRenderer();
 
 			LoadApplication(new App());
 
