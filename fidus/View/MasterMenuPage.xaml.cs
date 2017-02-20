@@ -256,8 +256,9 @@ namespace fidus
 
 					Debug.WriteLine("Menu : Logout");
 				}
+				((ListView)sender).SelectedItem = null;
+
 			}
-			((ListView)sender).SelectedItem = null;
 
 		}
     }

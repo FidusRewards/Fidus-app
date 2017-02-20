@@ -45,7 +45,7 @@ namespace fidus
 				{
 
 					Settings.CurrentUser.Logged = true;
-					Settings.CurrentUser.LastLogin = System.DateTime.Now;
+					Settings.CurrentUser.LastLogin = System.DateTime.Now.ToLocalTime();
 					App.UpdateProperties();
 					await _tabla.UpdateAsync(Settings.CurrentUser);
 					//await _tabla.UpdateAsync(Settings.CurrentUser);

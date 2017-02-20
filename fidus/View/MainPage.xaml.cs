@@ -26,6 +26,17 @@ namespace fidus
 			this.Title = "Fidus";
 			NavigationPage.SetBackButtonTitle(this, "Volver");
 
+			if (Application.Current.Properties.ContainsKey("UserEmail"))
+			{
+				App.UpdateUSettings();
+				Settings.IsLogin = false;
+			}
+			else
+			{
+				Settings.IsLogin = true;
+				App.UpdateProperties();
+			}
+
 			mVM = new MainViewModel();
 
             BindingContext = mVM;

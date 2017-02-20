@@ -63,7 +63,7 @@ namespace fidus
 			{
                 if (RPass == RPass2)
                 {
-                    //_client = new AzureClient<Person>();
+					_client = AzureClient<Person>.defaultInstance;//new AzureClient<Person>();
 
                     _hPass = DependencyService.Get<IHash256>().Hash256(RPass);
 
@@ -77,23 +77,23 @@ namespace fidus
 						Logged = true,
 						Phone = " ",
 						Points = 0,
-						LastLogin = System.DateTime.Now
+						LastLogin = System.DateTime.Now.ToLocalTime()
                     };
 
                     var Tabla = _client.GetPTable();
 
                     await Tabla.InsertAsync(Datos);
 
-					IEnumerable<Person> result = await Tabla.Where(person => person.Email == REmail).ToEnumerableAsync();
-					if (!Utils.IsAny(result))
-					{
-						Datos.id = result.FirstOrDefault().id;
-						Datos.Version = result.FirstOrDefault().Version;
-					}else{ 
-						MessagingCenter.Send(this, "NotValid");
-						IsBusy = false;
-						return;
-					}
+					//IEnumerable<Person> result = await Tabla.Where(person => person.Email == REmail).ToEnumerableAsync();
+					//if (!Utils.IsAny(result))
+					//{
+					//	Datos.id = result.FirstOrDefault().id;
+					//	Datos.Version = result.FirstOrDefault().Version;
+					//}else{ 
+						//MessagingCenter.Send(this, "NotValid");
+						//IsBusy = false;
+						//return;
+					//}
 
                     Settings.CurrentUser = Datos;
                     MetricsManager.TrackEvent("New User registered", new Dictionary<string, string>

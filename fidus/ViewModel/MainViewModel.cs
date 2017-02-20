@@ -163,7 +163,7 @@ namespace fidus
 
 			History _history = new History();
 
-			_history.DateTime = DateTime.Now;
+			_history.DateTime = DateTime.Now.ToLocalTime();
 			_history.EarnPoints =  Convert.ToInt32(points[1]);
 			_history.Place = points[0];
 			_history.IsDebit = false;

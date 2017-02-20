@@ -106,17 +106,10 @@ namespace fidus
 		protected override void OnStart()
 		{
 			// Handle when your app starts
-			//Settings.Default.IsLogin = await IsLoggedIn();
-			if (Application.Current.Properties.ContainsKey("UserEmail"))
-			{
-				UpdateUSettings();
-				Settings.IsLogin = false;
-			}
-			else {
-				Settings.IsLogin = true;
-				UpdateProperties();
-			}
-				Debug.WriteLine("OnStart");
+			//Settings.Default.IsLogin = await IsLoggedIn()
+
+
+			base.OnStart();
 
 		}
 
@@ -127,14 +120,26 @@ namespace fidus
 			UpdateProperties();
 			//await _client.InitSync();
 			Debug.WriteLine("OnSleep");
-
+			base.OnSleep();
 		}
 
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
-			Debug.WriteLine("OnResume");
 
+			if (Application.Current.Properties.ContainsKey("UserEmail"))
+			{
+				UpdateUSettings();
+				Settings.IsLogin = false;
+			}
+			else
+			{
+				Settings.IsLogin = true;
+				UpdateProperties();
+			}
+
+			Debug.WriteLine("OnResume");
+			base.OnResume();
 		}
 	}
 }

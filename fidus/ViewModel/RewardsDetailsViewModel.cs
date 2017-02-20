@@ -53,7 +53,7 @@ namespace fidus
 				var _items = new LoadAsync<History>();
 				History _history = new History();
 
-				_history.DateTime = DateTime.Now;
+				_history.DateTime = DateTime.Now.ToLocalTime();
 				_history.EarnPoints = -1*Convert.ToInt32(_reward.ReqPoints);
 				_history.Place = _reward.Place;
 				_history.IsDebit = true;
