@@ -24,8 +24,8 @@ namespace fidus.Droid
 
 			base.OnCreate(bundle);
 
-			CrashManager.Register(this, Settings.Hockey_And);
-			MetricsManager.Register(Application, Settings.Hockey_And);
+			CrashManager.Register(this, Helpers.Settings.Hockey_And);
+			MetricsManager.Register(Application, Helpers.Settings.Hockey_And);
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
@@ -40,7 +40,7 @@ namespace fidus.Droid
 		private void CheckForUpdates()
 		{
 			// Remove this for store builds!
-			UpdateManager.Register(this, Settings.Hockey_And);
+			UpdateManager.Register(this, Helpers.Settings.Hockey_And);
 		}
 
 		private void UnregisterManagers()
