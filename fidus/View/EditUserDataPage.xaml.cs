@@ -25,7 +25,7 @@ namespace fidus
 
 			eVM.FSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 
-			bt_Guardar.FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, "");
+			bt_Guardar.FontFamily = Device.OnPlatform(Helpers.Settings.FidusIosFont, Helpers.Settings.FidusAndFont, "");
 
 			bt_Guardar.Clicked += async (sender, e) =>
 			{
@@ -35,18 +35,21 @@ namespace fidus
 					if (eVM.EdPass == eVM.EdPass2)
 					{
 
-						//_client = new AzureClient<Person>();
+						_client = AzureClient<Person>.defaultInstance; //new AzureClient<Person>();
 
 						var Datos = new Person()
 						{
-							Email = Settings.CurrentUser.Email,
-							id = Settings.CurrentUser.id,
-							Version = Settings.CurrentUser.Version,
+							Email = Helpers.Settings.CurrentUser.Email,
+							id = Helpers.Settings.CurrentUser.id,
+							Version = Helpers.Settings.CurrentUser.Version,
 							Phone = eVM.EdPhone,
 							Name = eVM.EdName,
 							Birthday = eVM.EdBday,
-							IsAdmin = Settings.CurrentUser.IsAdmin,
-							Logged = true
+							IsAdmin = Helpers.Settings.CurrentUser.IsAdmin,
+							Logged = true,
+							LastLogin = System.DateTime.Now.ToLocalTime(),
+							Pass = Helpers.Settings.CurrentUser.Pass,
+							Points = Helpers.Settings.CurrentUser.Points
 						};
 
 						if (eVM.EdPass != null && eVM.EdPass != " ")
@@ -61,8 +64,7 @@ namespace fidus
 
 						await Tabla.UpdateAsync(Datos);
 
-						Settings.CurrentUser = Datos;
-						App.UpdateProperties();
+						Helpers.Settings.CurrentUser = Datos;
 
 						await DisplayAlert("Listo", "Tus datos han sidos cambiados exitosamente", "OK");
 						await Navigation.PopToRootAsync();

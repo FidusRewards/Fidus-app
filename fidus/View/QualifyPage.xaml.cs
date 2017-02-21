@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Syncfusion.SfRating.XForms;
 
-
 using Xamarin.Forms;
 
 namespace fidus
@@ -13,7 +12,7 @@ namespace fidus
 	public partial class QualifyPage : ContentPage
 	{
 
-		public QualifyPage(string place="Fidus", string puntos="0", string logo=Settings.ImgSrvProd+"logofidus.png", string category="Resto Bar", History _history=null)
+		public QualifyPage(string place="Fidus", string puntos="0", string logo=Helpers.Settings.ImgSrvProd+"logofidus.png", string category="Resto Bar", History _history=null)
 		{
 			InitializeComponent();
 
@@ -34,9 +33,9 @@ namespace fidus
 			PCat.Text = category;
 
 			PPuntos.Text = "Sumaste " + puntos + " puntos";
-			PPuntos.TextColor = Color.FromHex(Settings.FidusColor);
+			PPuntos.TextColor = Color.FromHex(Helpers.Settings.FidusColor);
 			PPuntos.VerticalOptions = LayoutOptions.Center;
-			PPuntos.FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, "");
+			PPuntos.FontFamily = Device.OnPlatform(Helpers.Settings.FidusIosFont, Helpers.Settings.FidusAndFont, "");
 			PPuntos.FontAttributes = FontAttributes.Bold;
 			PPuntos.FontSize = 20;
 			PPuntos.Margin = new Thickness(0, 5, 0, 5);
@@ -47,8 +46,7 @@ namespace fidus
 			PGracias.HorizontalOptions = LayoutOptions.Center;
 			PGracias.HeightRequest = 100;
 
-
-			ratingst.RatingSettings.RatedFill = Color.FromHex(Settings.FidusColor);
+			ratingst.RatingSettings.RatedFill = Color.FromHex(Helpers.Settings.FidusColor);
 			ratingst.RatingSettings.UnRatedFill = Color.Silver;
 			ratingst.ItemSize = 40;
 			ratingst.RatingSettings.RatedStroke = Color.Transparent;

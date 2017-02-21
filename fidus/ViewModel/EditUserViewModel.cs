@@ -18,12 +18,12 @@ namespace fidus
 
 		public EditUserViewModel()
 		{
-			if (!(Settings.CurrentUser.Phone == "") && !(Settings.CurrentUser.Phone==" "))
-				EdPhone = Settings.CurrentUser.Phone;
+			if (!(Helpers.Settings.CurrentUser.Phone == "") && !(Helpers.Settings.CurrentUser.Phone==" "))
+				EdPhone = Helpers.Settings.CurrentUser.Phone;
 			
-			EdName = Settings.CurrentUser.Name;
-			EdBday = Settings.CurrentUser.Birthday;
-			EdEmail = Settings.CurrentUser.Email;
+			EdName = Helpers.Settings.CurrentUser.Name;
+			EdBday = Helpers.Settings.CurrentUser.Birthday;
+			EdEmail = Helpers.Settings.CurrentUser.Email;
 
 		}
 

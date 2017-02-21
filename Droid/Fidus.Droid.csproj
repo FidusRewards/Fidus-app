@@ -193,6 +193,12 @@
     <Reference Include="Refractored.XamForms.PullToRefresh.Droid">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.0.10\lib\MonoAndroid10\Refractored.XamForms.PullToRefresh.Droid.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\MonoAndroid10\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\MonoAndroid10\Plugin.Settings.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fidus\fidus.csproj">
@@ -207,6 +213,7 @@
     <Compile Include="CloseApp_Droid.cs" />
     <Compile Include="Hash256_Droid.cs" />
     <Compile Include="Renderer\CustomImagecellRendererDroid.cs" />
+    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

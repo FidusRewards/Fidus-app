@@ -29,7 +29,7 @@ namespace fidus
 		{
 			IsBusy = true;
 			Items.Clear();
-			Items = await LoadCollection.Load(Settings.CurrentUser.Email);
+			Items = await LoadCollection.Load(Helpers.Settings.CurrentUser.Email);
 
 			IsBusy = false;
 			if (Items != null)

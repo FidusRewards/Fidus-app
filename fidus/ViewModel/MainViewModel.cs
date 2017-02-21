@@ -66,37 +66,37 @@ namespace fidus
 
 			//Places = new List<Place>();
 			//await LoadItems.InitSync();
-			if (Settings.CurrentUser.Email != null)
+			if (Helpers.Settings.CurrentUser.Email != null)
 			{
-				CurrUser = Settings.CurrentUser.Name;
-				CurrUmail = Settings.CurrentUser.Email;
+				CurrUser = Helpers.Settings.CurrentUser.Name;
+				CurrUmail = Helpers.Settings.CurrentUser.Email;
 
 				IsBusy = true;
 
-				if (!Settings.IsReturn)
+				if (!Helpers.Settings.IsReturn)
 				{
 					PItems.Clear();
 
-					Settings.AllPlaces = await LoadItems.Load(Settings.AllPlaces);
+					Helpers.Settings.AllPlaces = await LoadItems.Load(Helpers.Settings.AllPlaces);
 
 					_history.Clear();
 					await LoadHistory.InitSync();
 
-					foreach (Place _place in Settings.AllPlaces)
+					foreach (Place _place in Helpers.Settings.AllPlaces)
 					{
-						placeH.Person = Settings.CurrentUser.Email;
+						placeH.Person = Helpers.Settings.CurrentUser.Email;
 						placeH.Place = _place.Name;
 
 						_history = await LoadHistory.Load(placeH);
 
-						Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points = Settings.CurrentUser.Points;
+						Helpers.Settings.AllPlaces[Helpers.Settings.AllPlaces.IndexOf(_place)].Points = Helpers.Settings.UserPoints;
 
 					}
-					Settings.IsLogin = false;
-					PItems = Settings.AllPlaces;
+					Helpers.Settings.IsLogin = false;
+					PItems = Helpers.Settings.AllPlaces;
 
 				}
-				Settings.IsReturn = false;
+				Helpers.Settings.IsReturn = false;
 
 				if (PItems != null)
 					MessagingCenter.Send(this, "Loaded", PItems);
@@ -161,17 +161,17 @@ namespace fidus
 			_history.EarnPoints =  Convert.ToInt32(points[1]);
 			_history.Place = points[0];
 			_history.IsDebit = false;
-			_history.Person = Settings.CurrentUser.Email;
+			_history.Person = Helpers.Settings.CurrentUser.Email;
             _history.Branch = points[4];
             _history.ExchangeCode = points[3];
-			string _placelogo = Settings.ImgSrvProd + points[2];
+			string _placelogo = Helpers.Settings.ImgSrvProd + points[2];
 
 			string puntos = points[1];
 
 			//String[] _array2 = { points[0], _placelogo};
 			String[] _array2 = { points[0], puntos, _placelogo, points[5] };
 
-			Settings.Hitem = _history;
+			Helpers.Settings.Hitem = _history;
 
 			//await _itemsH.Save(_history);
 

@@ -17,7 +17,7 @@ namespace fidus.iOS
 		{
 			
 			var manager = BITHockeyManager.SharedHockeyManager;
-			manager.Configure(Settings.Hockey_iOs);
+			manager.Configure(Helpers.Settings.Hockey_iOs);
 			manager.StartManager();
 			manager.Authenticator.AuthenticateInstallation();
 			manager.DisableUpdateManager = true;
@@ -31,6 +31,7 @@ namespace fidus.iOS
 			new SfNavigationDrawerRenderer();
 
 			LoadApplication(new App());
+
 
 			return base.FinishedLaunching(app, options);
 		}

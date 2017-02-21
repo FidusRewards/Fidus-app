@@ -50,5 +50,7 @@
 	<string>2.0.13</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.13</string>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 </dict>
 </plist>

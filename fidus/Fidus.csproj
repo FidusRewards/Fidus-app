@@ -94,7 +94,6 @@
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\loginViewModel.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="Dependencies\ICloseApplication.cs" />
     <Compile Include="View\RegisterPage.xaml.cs">
@@ -129,6 +128,7 @@
       <DependentUpon>QualifyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ConflictHandler.cs" />
+    <Compile Include="Helpers\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -196,6 +196,12 @@
     </Reference>
     <Reference Include="Refractored.XamForms.PullToRefresh">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.0.10\lib\portable-net45+wp8+win8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\Refractored.XamForms.PullToRefresh.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.2.5.4\lib\portable-net45+wp80+win8+wpa81\Plugin.Settings.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@ namespace fidus
 		public async Task<bool> LoginQuery(string userEmail, string userPass)
 		{
 			//await _client.PurgeData();
-			Settings.CurrentUser.Name = userEmail;
+			Helpers.Settings.CurrentUser.Name = userEmail;
 			//await _client.SyncAsync();
 
 			IMobileServiceTable<Person> _tabla = _client.GetPTable();
@@ -34,9 +34,9 @@ namespace fidus
 				IEnumerable<Person> result = await _tabla.Where(email => email.Email == userEmail && email.Pass == _hPass).ToEnumerableAsync();
 				foreach (Person _person in result)
 				{
-					Settings.CurrentUser = _person;
+					Helpers.Settings.CurrentUser = _person;
 					if (_person.Phone == null)
-						Settings.CurrentUser.Phone = " ";
+						Helpers.Settings.CurrentUser.Phone = " ";
 					Debug.WriteLine("foreachperson: " + _person.Name);
 
 				};
@@ -44,10 +44,10 @@ namespace fidus
 				if (result.GetEnumerator().MoveNext())
 				{
 
-					Settings.CurrentUser.Logged = true;
-					Settings.CurrentUser.LastLogin = System.DateTime.Now.ToLocalTime();
-					App.UpdateProperties();
-					await _tabla.UpdateAsync(Settings.CurrentUser);
+					Helpers.Settings.CurrentUser.Logged = true;
+					Helpers.Settings.CurrentUser.LastLogin = System.DateTime.Now.ToLocalTime();
+				
+					await _tabla.UpdateAsync(Helpers.Settings.CurrentUser);
 					//await _tabla.UpdateAsync(Settings.CurrentUser);
 					return true;
 				}

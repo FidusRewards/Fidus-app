@@ -28,7 +28,7 @@ namespace fidus
 
 			try
 			{
-				_client = new MobileServiceClient(Settings.AzureUrl);
+				_client = new MobileServiceClient(Helpers.Settings.AzureUrl);
 				store.DefineTable<T>();
 				_client.SyncContext.InitializeAsync(store);
 
@@ -131,7 +131,7 @@ namespace fidus
 
 				// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
 				// Use a different query name for each unique query in your program.
-				if (Settings.IsLogin)
+				if (Helpers.Settings.IsLogin)
 					queryName = null;
 				else
 				 	queryName = $"incsync_{typeof(T).Name}";
@@ -141,12 +141,12 @@ namespace fidus
 
 				if ( CrossConnectivity.Current.IsConnected)
 				{
-					Settings.Default.IsInternetEnabled = true;
+					Helpers.Settings.IsInternetEnabled = true;
 
 					if (_table.TableName == "History")
 					{
 						IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
-						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Settings.CurrentUser.Email));
+						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.CurrentUser.Email));
 						Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
 					}else
 					{

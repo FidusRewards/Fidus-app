@@ -16,7 +16,7 @@ namespace fidus
 		{
 			Mcontent = content;
 			InitializeComponent();
-			FSplash.BackgroundColor = Color.FromHex(Settings.FidusColor);
+			FSplash.BackgroundColor = Color.FromHex(Helpers.Settings.FidusColor);
 		}
 
 		protected override async void OnAppearing()
@@ -33,7 +33,7 @@ namespace fidus
 
 				var mainPage = new NavigationPage(Mcontent)
 				{
-					BarBackgroundColor = Color.FromHex(Settings.FidusColor),
+					BarBackgroundColor = Color.FromHex(Helpers.Settings.FidusColor),
 					BarTextColor = Color.White
 					//Title="Ingreso"
 				};

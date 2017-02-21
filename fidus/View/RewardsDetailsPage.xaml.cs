@@ -19,7 +19,7 @@ namespace fidus
 			InitializeComponent();
 
 
-			BCanje.BackgroundColor = Color.FromHex(Settings.FidusColor);
+			BCanje.BackgroundColor = Color.FromHex(Helpers.Settings.FidusColor);
 			BCanje.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
 			//BCanje.SetBinding(Button.CommandProperty, new Binding("debitCommand", 0));
 			_place = place;
@@ -61,8 +61,8 @@ namespace fidus
 					var exPage = new ExchangePage(_reward, _place);
 					await Navigation.PushModalAsync(exPage);
 
-					Settings.AllPlaces[Settings.AllPlaces.IndexOf(_place)].Points += -1*_reward.ReqPoints;
-					Settings.CurrentUser.Points += -1 * _reward.ReqPoints;
+					Helpers.Settings.AllPlaces[Helpers.Settings.AllPlaces.IndexOf(_place)].Points += -1*_reward.ReqPoints;
+					Helpers.Settings.UserPoints += -1 * _reward.ReqPoints;
 
 					exPage = null;
 					await Navigation.PopAsync();
@@ -70,7 +70,7 @@ namespace fidus
 				}
 				else
 					await DisplayAlert("Puntos insuficientes", "Te faltan "
-								 + (_reward.ReqPoints - Settings.CurrentUser.Points).ToString(), "OK");
+								 + (_reward.ReqPoints - Helpers.Settings.UserPoints).ToString(), "OK");
 				}
 
 			}

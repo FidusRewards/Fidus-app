@@ -32,13 +32,13 @@ namespace fidus
 			// 	count++;
 			//
 			//}
-			Settings.CurrentUser.Points = place.Points;//Settings.AllPlaces[index].Points;
+			Helpers.Settings.UserPoints = place.Points;//Settings.AllPlaces[index].Points;
 			Debug.WriteLine("RewardsPage: Construct - Place: :" + rVM.Place);
 
 			MessagingCenter.Subscribe<RewardsViewModel>(this, "Loaded", (obj) => {
 				//UserName.Text = Settings.CurrentUser.Name;
-				UserPoints.Text = Settings.CurrentUser.Points.ToString();
-				Debug.WriteLine("RewardsPage: Construct - Actualicé " + Settings.CurrentUser.Name 
+				UserPoints.Text = Helpers.Settings.UserPoints.ToString();
+				Debug.WriteLine("RewardsPage: Construct - Actualicé " + Helpers.Settings.CurrentUser.Name 
 				                + " " + UserPoints.Text);
 				IsBusy = false;
 			});
@@ -61,7 +61,7 @@ namespace fidus
 			var ScrollTitle = new Label
 			{
 				Text = "Recompensas Disponibles",
-				TextColor = Color.FromHex(Settings.FidusColor),
+				TextColor = Color.FromHex(Helpers.Settings.FidusColor),
 				FontSize = 16,
 				FontAttributes = FontAttributes.Bold,
 				VerticalOptions= LayoutOptions.Center,
@@ -95,13 +95,13 @@ namespace fidus
 			//Settings.CurrentUser.Points = 0;
 			IsBusy = true;
 			rVM.Load();
-			pepe = Settings.AllPlaces;
+			pepe = Helpers.Settings.AllPlaces;
 
 
 		}
 		protected override bool OnBackButtonPressed()
 		{
-			Settings.AllPlaces = pepe;
+			Helpers.Settings.AllPlaces = pepe;
 			return base.OnBackButtonPressed();
 		}
 	}

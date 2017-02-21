@@ -33,18 +33,8 @@ namespace fidus
         {
 
             InitializeComponent();
+			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
 
-
-			if (Application.Current.Properties.ContainsKey("UserEmail"))
-			{
-				App.UpdateUSettings();
-				Settings.IsLogin = false;
-			}
-			else
-			{
-				Settings.IsLogin = true;
-				App.UpdateProperties();
-			}
 
 			mVM = new MainViewModel();
 
@@ -103,7 +93,7 @@ namespace fidus
 			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
 			{
 
-				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Settings.Hitem) { Title = "Califica" });
+				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Helpers.Settings.Hitem) { Title = "Califica" });
 			});
 
 
@@ -115,28 +105,35 @@ namespace fidus
 		{
 			base.OnAppearing();
 
+			//Settings.IsLogin = true;
+			//App.UpdateProperties();
+
+			//if (Application.Current.Properties.ContainsKey("UserEmail"))
+			//	if (Application.Current.Properties["UserEmail"] != null)
+			//	{
+			//		App.UpdateUSettings();
+			//		Settings.IsLogin = false;
+			//	}
+			Helpers.Settings.IsLogin = true;
+			if (Helpers.Settings.UserEmail == "fidus@com")
+			{
+				await Navigation.PushModalAsync(new loginPage(), false);
+			}else {
+				Helpers.Settings.IsLogin = false;
+			
+			}
+
+			Debug.WriteLine("MainPage Settings after update : " + Helpers.Settings.UserEmail);
+
 			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
 			if (!Reach || !CrossConnectivity.Current.IsConnected)
 			{
-				Settings.Default.IsInternetEnabled = false;
+				Helpers.Settings.IsInternetEnabled = false;
 				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
 				//DependencyService.Get<ICloseApplication>().closeApp();
 			}
 
-			if (Application.Current.Properties.ContainsKey("ULogged"))
-			{
-				if (!(bool)Application.Current.Properties["ULogged"])
-				{ 
-					await Navigation.PushModalAsync(new loginPage(), false);
-
-				}
-
-				App.UpdateUSettings();
-				
-
-
-			}
 			mVM.Load();
 
 
@@ -198,7 +195,7 @@ namespace fidus
 
                         bool convert = Int32.TryParse(words[1], out points);
 
-                        urllogo = Settings.ImgSrvProd + words[2];
+                        urllogo = Helpers.Settings.ImgSrvProd + words[2];
 
                         string place = words[0].ToString();
                         string exchangecode = words[3].ToString();
@@ -240,7 +237,7 @@ namespace fidus
 		{
 			if (e.SelectedItem == null) return;
 			Place selected = (e.SelectedItem as Place);
-			Settings.IsReturn = false;
+			Helpers.Settings.IsReturn = false;
 			await Navigation.PushAsync(new RewardsPage(selected));
 			((ListView)sender).SelectedItem = null;	
 		}
@@ -294,7 +291,7 @@ namespace fidus
 			Label menutext = new Label()
 			{
 				Text = "Menú Principal",
-				TextColor = Color.FromHex(Settings.FidusColor),
+				TextColor = Color.FromHex(Helpers.Settings.FidusColor),
 				FontFamily = Device.OnPlatform("Helvetica", "Roboto", ""),
 				FontSize = 14,
 				HorizontalOptions = LayoutOptions.Start,
@@ -373,7 +370,7 @@ namespace fidus
 			{
 				if (item.TargetType != null)
 				{
-					Settings.IsReturn = true;
+					Helpers.Settings.IsReturn = true;
 					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
 
 					await Navigation.PushAsync(Detail);
@@ -388,30 +385,29 @@ namespace fidus
 					{
 						//this.IsEnabled = false;
 						//await App.instance.UpdateDB();
-						Settings.CurrentUser.Logged = false;
+						Helpers.Settings.CurrentUser.Logged = false;
 
 						if (CrossConnectivity.Current.IsConnected)
 						{
 							_client = new AzureClient<Person>();
 							IMobileServiceTable<Person> _tabla = _client.GetPTable();
 							JObject data = new JObject {
-								{ "id", Settings.CurrentUser.id },
+								{ "id", Helpers.Settings.CurrentUser.id },
 								{ "Logged", false }
 							};
 							await _tabla.UpdateAsync(data);
 						}
-						Settings.CurrentUser.Name = "";
-						Settings.CurrentUser.Email = "";
-						Settings.CurrentUser.Points = 0;
-						Settings.CurrentUser.id = "";
-						Settings.AllPlaces.Clear();
-						Settings.Hitem.Place = "";
-						Settings.Hitem.id = "";
-						App.CleanProperties();
+						Helpers.Settings.CurrentUser.Name = "fidus";
+						Helpers.Settings.CurrentUser.Email = "fidus@com";
+						Helpers.Settings.CurrentUser.Points = 0;
+						Helpers.Settings.CurrentUser.id = "AA";
+						Helpers.Settings.AllPlaces.Clear();
+						Helpers.Settings.Hitem.Place = "";
+						Helpers.Settings.Hitem.id = "";
 
 						//var pclient = new LoadAsync<Place>();
 						//pclient.PurgeTable();
-						Settings.IsLogin = true;
+						Helpers.Settings.IsLogin = true;
 						//_client.CloseDB();
 
 						//this.HideWithoutAnimations();

@@ -21,7 +21,7 @@ namespace fidus
 
 			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			//this.Title = "Fidus";
-			Settings.IsLogin = true;
+			Helpers.Settings.IsLogin = true;
 
 			loginVM = new loginViewModel();
 
@@ -46,7 +46,7 @@ namespace fidus
 			{
 				Placeholder = "Email",
 				BackgroundColor = Color.Transparent,
-				FontFamily=Device.OnPlatform(Settings.FidusIosFont,Settings.FidusAndFont,""),
+				FontFamily=Device.OnPlatform(Helpers.Settings.FidusIosFont,Helpers.Settings.FidusAndFont,""),
 				TextColor = Color.Gray,
 				Keyboard = Keyboard.Email,
 				Margin = new Thickness(0, 10, 0, 0),
@@ -62,7 +62,7 @@ namespace fidus
 			{
 				Placeholder = "Contraseña",
 				IsPassword = true,
-				FontFamily=Device.OnPlatform(Settings.FidusIosFont,Settings.FidusAndFont,""),
+				FontFamily=Device.OnPlatform(Helpers.Settings.FidusIosFont,Helpers.Settings.FidusAndFont,""),
 				BackgroundColor = Color.Transparent,
 				TextColor = Color.Gray,
 				HorizontalOptions=LayoutOptions.FillAndExpand
@@ -71,9 +71,9 @@ namespace fidus
 			Button Ingresar = new Button
 			{
 				Text = "Ingresá",
-				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
+				FontFamily = Device.OnPlatform(Helpers.Settings.FidusIosFont, Helpers.Settings.FidusAndFont, ""),
 				FontAttributes = FontAttributes.Bold,
-                BackgroundColor = Color.FromHex(Settings.FidusColor),
+                BackgroundColor = Color.FromHex(Helpers.Settings.FidusColor),
                 TextColor = Color.White,
                 FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
                 Margin = new Thickness(0, 20, 0, 0)
@@ -82,16 +82,16 @@ namespace fidus
 			{
 				Text = "Registrate",
 				TextColor = Color.White,
-				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
+				FontFamily = Device.OnPlatform(Helpers.Settings.FidusIosFont, Helpers.Settings.FidusAndFont, ""),
 				FontAttributes = FontAttributes.Bold,
-				BackgroundColor = Color.FromHex(Settings.FidusBlue),
+				BackgroundColor = Color.FromHex(Helpers.Settings.FidusBlue),
 				FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
 				Margin = new Thickness(0, 15, 0, 0)
             };
 
 			var activityIndicator = new ActivityIndicator
 			{
-				Color = Color.FromHex(Settings.FidusColor),
+				Color = Color.FromHex(Helpers.Settings.FidusColor),
 			};
 			activityIndicator.SetBinding(ActivityIndicator.IsVisibleProperty, "IsBusy");
 			activityIndicator.SetBinding(ActivityIndicator.IsRunningProperty, "IsBusy");
@@ -100,7 +100,7 @@ namespace fidus
 				Text = "Ingresá tu email y contraseña",
 				Margin = new Thickness(2,15,2,2),
 				HorizontalTextAlignment = TextAlignment.Center,
-				FontFamily = Device.OnPlatform(Settings.FidusIosFont, Settings.FidusAndFont, ""),
+				FontFamily = Device.OnPlatform(Helpers.Settings.FidusIosFont, Helpers.Settings.FidusAndFont, ""),
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				FontAttributes=FontAttributes.Bold
 			};
@@ -147,7 +147,7 @@ namespace fidus
 						Padding = new Thickness(5),
 						Children = {Ingresar, Registro}
 					},
-					new Label {Text=Settings.AppVersion,
+					new Label {Text=Helpers.Settings.AppVersion,
 						HorizontalOptions=LayoutOptions.EndAndExpand,
 						VerticalOptions=LayoutOptions.End,
 						TextColor=Color.Gray
@@ -192,7 +192,7 @@ namespace fidus
 						//await Navigation.PushAsync(content);
 
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
-						Settings.IsReturn = false;
+						Helpers.Settings.IsReturn = false;
 						await Navigation.PopModalAsync();
 
 

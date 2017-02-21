@@ -46,7 +46,8 @@ namespace fidus
 		}
 
 		public async Task<bool> OnExClicked() {
-			if (_reward.ReqPoints <= Settings.CurrentUser.Points)
+			int _points = Helpers.Settings.UserPoints;
+			if (_reward.ReqPoints <= _points)
 			{
 
 
@@ -57,7 +58,7 @@ namespace fidus
 				_history.EarnPoints = -1*Convert.ToInt32(_reward.ReqPoints);
 				_history.Place = _reward.Place;
 				_history.IsDebit = true;
-				_history.Person = Settings.CurrentUser.Email;
+				_history.Person = Helpers.Settings.CurrentUser.Email;
 				_history.Reward = _reward.Name;
 
 				await _items.Save(_history);

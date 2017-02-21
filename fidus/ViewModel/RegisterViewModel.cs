@@ -95,7 +95,7 @@ namespace fidus
 						//return;
 					//}
 
-                    Settings.CurrentUser = Datos;
+                    Helpers.Settings.CurrentUser = Datos;
                     MetricsManager.TrackEvent("New User registered", new Dictionary<string, string>
                         {
                             {"User", Datos.Email},
@@ -103,7 +103,6 @@ namespace fidus
                         },
                         new Dictionary<string, double> { });
 
-					App.UpdateProperties();
                     MessagingCenter.Send(this, "Registered");
                 }
                 else {

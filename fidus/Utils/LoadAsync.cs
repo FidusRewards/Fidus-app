@@ -66,17 +66,19 @@ namespace fidus
 				result = await query.Take(1000).ToEnumerableAsync();
 			}
 
-			Settings.CurrentUser.Points = 0;
+			int _points = 0;
+			Helpers.Settings.CurrentUser.Points = 0;
 			foreach (History item in result)
 			{
 				//History _temp = (History)(object)item;
 
 				Hitems.Add((History)item);
-				Settings.CurrentUser.Points += item.EarnPoints;
+				_points += item.EarnPoints;
 				count++;
 				Debug.WriteLine("LoadAsync:Load(History) Type History: " + item.EarnPoints);
 
-			};
+			};				
+			Helpers.Settings.UserPoints = _points;
 			Debug.WriteLine("LoadAsync:Load(History) Count of entries: " + count );
                                    
 			//var result = await _client.GetData();
@@ -178,7 +180,7 @@ namespace fidus
 			Pitems = new ObservableCollection<Place>();
 
 			Pitems.Clear();
-			IMobileServiceSyncTable<Place> _tabla = (IMobileServiceSyncTable<Place>)_client.GetTable();
+			//IMobileServiceSyncTable<Place> _tabla = (IMobileServiceSyncTable<Place>)_client.GetTable();
 
 				//await _client.PurgeData();
 
@@ -193,9 +195,9 @@ namespace fidus
 			foreach (Place item in result)
 			{
 				Debug.WriteLine("Load Places -> " + item.Name);
-				item.Logo = Settings.ImgSrvProd + item.Logo;
+				item.Logo = Helpers.Settings.ImgSrvProd + item.Logo;
 				if (item.Admin == "YES")
-				{	if (Settings.CurrentUser.IsAdmin)
+				{	if (Helpers.Settings.CurrentUser.IsAdmin)
 						Pitems.Add((Place)item);
 				}
 				else

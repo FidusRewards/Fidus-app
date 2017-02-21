@@ -45,7 +45,8 @@ namespace fidus
 			//History placeH = new History();
 			//placeH.Person = Settings.CurrentUser.Email;
 			//placeH.Place = Place;
-			PPoints = Settings.CurrentUser.Points.ToString();
+			int _points = Helpers.Settings.UserPoints;
+			PPoints = _points.ToString();
 			Rewards _rew = new Rewards();
 			_rew.Place = Place;
 
@@ -59,7 +60,7 @@ namespace fidus
 
 			if (Items !=null && _history != null)
 			{
-				Debug.WriteLine("RewardsVM: Load - AddedPoints " + Settings.CurrentUser.Points);
+				Debug.WriteLine("RewardsVM: Load - AddedPoints " + Helpers.Settings.CurrentUser.Points);
 				MessagingCenter.Send(this, "Loaded");
 			}
 			else {
