@@ -221,6 +221,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
     <None Include="valueorwaste.keystore" />
+    <None Include="NuGet.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
