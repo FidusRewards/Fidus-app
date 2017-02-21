@@ -103,7 +103,9 @@ namespace fidus
                         },
                         new Dictionary<string, double> { });
 
-                    MessagingCenter.Send(this, "Registered");
+					MessagingCenter.Send(this, "PoptoRoot");
+
+					//MessagingCenter.Send(this, "Registered");
                 }
                 else {
                     MessagingCenter.Send(this, "PassNotSame");

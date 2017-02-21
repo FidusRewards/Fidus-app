@@ -229,9 +229,16 @@ namespace fidus
 				await DisplayAlert("Advertencia", "No hay conexión a internet, algunas funciones pueden no estar disponibles", "OK");
 			});
 
-			MessagingCenter.Subscribe<RegisterPage>(this, "PoptoRoot", async (obj) => {
-				await Navigation.PopModalAsync(false);
-				await Navigation.PopModalAsync(false);
+			MessagingCenter.Subscribe<RegisterViewModel>(this, "PoptoRoot", async (obj) => {
+				var Mcount=Navigation.ModalStack.Count;
+				if (Mcount == 2)
+				{
+					await Navigation.PopModalAsync(false);
+					await Navigation.PopModalAsync(false);
+
+				}else{
+					await DisplayAlert("Error","En el PopModal: "+Mcount,"OK");
+				}
 			});
 		}
 

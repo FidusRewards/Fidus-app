@@ -39,8 +39,6 @@ namespace fidus
 				//await Navigation.PushAsync(_mainPage);
 				//await Navigation.PopModalAsync(false);
 
-				MessagingCenter.Send(this, "PoptoRoot");
-
             });
 
             MessagingCenter.Subscribe<RegisterViewModel>(this, "NotValid", async (obj) =>

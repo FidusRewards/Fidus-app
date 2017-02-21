@@ -131,7 +131,7 @@ namespace fidus
 
 				// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
 				// Use a different query name for each unique query in your program.
-				if (Helpers.Settings.IsLogin)
+				if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
 					queryName = null;
 				else
 				 	queryName = $"incsync_{typeof(T).Name}";

@@ -9,7 +9,7 @@
     <RootNamespace>fidus.iOS</RootNamespace>
     <AssemblyName>fidus.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <ReleaseVersion>2.0.13</ReleaseVersion>
+    <ReleaseVersion>2.0.15</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>

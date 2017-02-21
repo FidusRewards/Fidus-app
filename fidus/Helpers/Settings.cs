@@ -47,10 +47,11 @@ namespace fidus.Helpers
 		private static readonly DateTime uLastLogin = System.DateTime.Now.ToLocalTime();
 	#endregion
 	#region Fidus Settings
-		private static bool _isLogin = false, _isInetEnabled;
+		private static bool _isLogin = false, _isInetEnabled=true;
 
 		public static bool IsLogin { get { return _isLogin; } set { _isLogin = value; } }
 		public static bool IsReturn = false;
+		public static bool IsBoot = true;
 		public static bool IsInternetEnabled { get { return _isInetEnabled; } set { _isInetEnabled = value; } }
 
 		public const string AzureUrl = "http://fidus.azurewebsites.net";
@@ -65,7 +66,7 @@ namespace fidus.Helpers
 		public const string FidusBlue = "#01baef";
 		public const string FidusIosFont = "Helvetica";
 		public const string FidusAndFont = "sans-serif";
-		public const string AppVersion = "Versión: 2.0.13";
+		public const string AppVersion = "Versión: 2.0.15";
 
 		public const string Hockey_iOs = "bf5bd0e001fe4cf0928002a4dd273e66";
 		public const string Hockey_And = "d21e6cb5b8214000a98e63313150813d";

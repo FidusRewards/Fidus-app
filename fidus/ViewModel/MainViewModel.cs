@@ -73,7 +73,7 @@ namespace fidus
 
 				IsBusy = true;
 
-				if (!Helpers.Settings.IsReturn)
+				if (!Helpers.Settings.IsReturn || Helpers.Settings.IsBoot)
 				{
 					PItems.Clear();
 
@@ -104,6 +104,7 @@ namespace fidus
 					MessagingCenter.Send(this, "NotLoaded");
 			}
 			IsBusy = false;
+			Helpers.Settings.IsBoot = false;
 		}
 
 		public ICommand TapCommand

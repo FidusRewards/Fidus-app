@@ -34,7 +34,7 @@ namespace fidus
 
             InitializeComponent();
 			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
-
+			Helpers.Settings.IsBoot = true;
 
 			mVM = new MainViewModel();
 
