@@ -18,17 +18,17 @@ namespace fidus
 		private ObservableCollection<Place> _item;
 		public Command ScanButtonCommand { get; set; }
 		public Command RefreshCommand { get; set; }
-		public LoadAsync<Place> LoadItems;
 		ICommand tapCommand;
 		public Command SettingsCommand { get; set;}
 		public Command ExitCommand { get; set; }
         private AzureClient<WhiteList> _client;
 		private LoadAsync<WhiteList> _itemsW;
         private LoadAsync<History> LoadHistory;
-		private ObservableCollection<History> _history;
+		private IEnumerable<History> _history;
 		private string cuser, cmail;
 		public string CurrUser { get { return cuser;} set { cuser = value; OnPropertyChanged();} }
 		public string CurrUmail { get{ return cmail; } set { cmail = value; OnPropertyChanged(); } }
+		private int counter, index;
 
 		public ObservableCollection<Place> PItems
 		{
@@ -38,17 +38,14 @@ namespace fidus
 
 		public MainViewModel()
 		{
-			LoadItems = new LoadAsync<Place>();
 			PItems = new ObservableCollection<Place>();
 			ScanButtonCommand = new Command(ScanCommand);
-			RefreshCommand = new Command(Load);
+			RefreshCommand = new Command(Load1);
 			tapCommand = new Command(OnTapped);
 			//SettingsCommand = new Command(SettingsTap);
 			//ExitCommand = new Command(ExitTap);
             //_client = new AzureClient<WhiteList>();
 			LoadHistory = new LoadAsync<History>();
-			_history = new ObservableCollection<History>();
-
 
 			Debug.WriteLine("MainPage : Antes del IF del DoLogin");
 
@@ -59,50 +56,95 @@ namespace fidus
 			MessagingCenter.Send(this, "ScanRequest");
 		}
 
+		private async Task InitDb()
+		{
+			LoadAsync<Place> LoadItems = new LoadAsync<Place>();
+			await LoadItems.InitSync(Helpers.Settings.UserEmail + "InitDb");
+
+			Helpers.Settings.AllPlaces = await LoadItems.Load(Helpers.Settings.AllPlaces);
+			index = 0;
+
+			if (Helpers.Settings.AllPlaces.IsAny())
+			{
+				foreach (Place item in Helpers.Settings.AllPlaces)
+				{
+					if (Helpers.Settings.AllPlaces[index].Logo!=null)
+					{	
+						string fullpath = Helpers.Settings.ImgSrvProd + Helpers.Settings.AllPlaces[index].Logo;
+						Helpers.Settings.AllPlaces[index].Logo = fullpath;
+					}
+					index++;
+				}
+			}else
+					Debug.WriteLine(" -- Error de Inicio al Cargar Comercios -- ");
+
+			Debug.WriteLine("InitDB en Main ejecución nro: " + counter);
+			counter++;
+			return;
+		}
+
+		public void Load1() {
+			Helpers.Settings.IsReturn = false;
+			Load();
+		}
+
 		public async void Load()
 		{
 			History placeH = new History();
+			ObservableCollection<Place> _places=new ObservableCollection<Place>();
 			//await _client.PurgeData();
 
 			//Places = new List<Place>();
 			//await LoadItems.InitSync();
-			if (Helpers.Settings.CurrentUser.Email != null)
-			{
-				CurrUser = Helpers.Settings.CurrentUser.Name;
-				CurrUmail = Helpers.Settings.CurrentUser.Email;
+			CurrUser = Helpers.Settings.CurrentUser.Name;
+			CurrUmail = Helpers.Settings.CurrentUser.Email;
 
+			if (!Helpers.Settings.IsReturn||Helpers.Settings.IsBoot)
+			{
 				IsBusy = true;
 
-				if (!Helpers.Settings.IsReturn || Helpers.Settings.IsBoot)
-				{
-					PItems.Clear();
+				await InitDb();
 
-					Helpers.Settings.AllPlaces = await LoadItems.Load(Helpers.Settings.AllPlaces);
+				PItems.Clear();
 
-					_history.Clear();
-					await LoadHistory.InitSync();
-
-					foreach (Place _place in Helpers.Settings.AllPlaces)
+				if (Helpers.Settings.AllPlaces.IsAny())
 					{
-						placeH.Person = Helpers.Settings.CurrentUser.Email;
-						placeH.Place = _place.Name;
+						await LoadHistory.InitSync("history" + Helpers.Settings.UserEmail);
 
-						_history = await LoadHistory.Load(placeH);
+						if (Helpers.Settings.UserIsAdmin)
+						{
+							_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces);
 
-						Helpers.Settings.AllPlaces[Helpers.Settings.AllPlaces.IndexOf(_place)].Points = Helpers.Settings.UserPoints;
+						}else{
+							_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces.Where(place => place.Admin == "NO"));
+						}
 
+						foreach (Place items in _places)
+						{
+							placeH.Person = Helpers.Settings.CurrentUser.Email;
+							placeH.Place = items.Name;
+
+							var hpoints = await LoadHistory.Load(placeH);
+
+							_places[_places.IndexOf(items)].Points = hpoints;
+
+						}
+
+						if (_places != null)
+						{
+							Helpers.Settings.AllPlaces = _places;
+							PItems = _places;
+							//MessagingCenter.Send(this, "Loaded", PItems);
+						}
+						else
+							MessagingCenter.Send(this, "NotLoaded");
+					}else{
+						MessagingCenter.Send(this, "NotLoaded");
 					}
-					Helpers.Settings.IsLogin = false;
-					PItems = Helpers.Settings.AllPlaces;
 
-				}
-				Helpers.Settings.IsReturn = false;
-
-				if (PItems != null)
-					MessagingCenter.Send(this, "Loaded", PItems);
-				else
-					MessagingCenter.Send(this, "NotLoaded");
 			}
+			Helpers.Settings.IsReturn = true;
+
 			IsBusy = false;
 			Helpers.Settings.IsBoot = false;
 		}

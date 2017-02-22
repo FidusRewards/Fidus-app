@@ -17,6 +17,7 @@ namespace fidus
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Volver";
 			InitializeComponent();
+			Helpers.Settings.IsReturn = true;
 
 
 			BCanje.BackgroundColor = Color.FromHex(Helpers.Settings.FidusColor);
@@ -58,6 +59,7 @@ namespace fidus
 				if (res)
 				{
 					//var RDPage=Navigation.NavigationStack.GetEnumerator();
+
 					var exPage = new ExchangePage(_reward, _place);
 					await Navigation.PushModalAsync(exPage);
 
@@ -65,6 +67,9 @@ namespace fidus
 					Helpers.Settings.UserPoints += -1 * _reward.ReqPoints;
 
 					exPage = null;
+					Helpers.Settings.IsReturn = false;
+
+					IsBusy = false;
 					await Navigation.PopAsync();
 					//await Navigation.PushAsync(new ExchangePage(_reward, _place));
 				}

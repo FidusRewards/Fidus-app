@@ -50,7 +50,7 @@ namespace fidus.Helpers
 		private static bool _isLogin = false, _isInetEnabled=true;
 
 		public static bool IsLogin { get { return _isLogin; } set { _isLogin = value; } }
-		public static bool IsReturn = false;
+		public static bool IsReturn = true;
 		public static bool IsBoot = true;
 		public static bool IsInternetEnabled { get { return _isInetEnabled; } set { _isInetEnabled = value; } }
 
@@ -61,6 +61,7 @@ namespace fidus.Helpers
 		public static History Hitem { get { return History; } set { History = value; } }
 		private static ObservableCollection<Place> _allPlaces = new ObservableCollection<Place>();
 		public static ObservableCollection<Place> AllPlaces { get { return _allPlaces; } set { _allPlaces = value; } }
+		public static int Points;
 
 		public const string FidusColor = "#9E3B37";
 		public const string FidusBlue = "#01baef";

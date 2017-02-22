@@ -19,6 +19,7 @@ namespace fidus
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Volver";
 			InitializeComponent();
+			Helpers.Settings.IsReturn = true;
 
 			rVM = new RewardsViewModel(place.Name);
 

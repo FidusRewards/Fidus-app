@@ -46,6 +46,7 @@ namespace fidus
 		}
 
 		public async Task<bool> OnExClicked() {
+			IsBusy = true;
 			int _points = Helpers.Settings.UserPoints;
 			if (_reward.ReqPoints <= _points)
 			{
@@ -64,15 +65,13 @@ namespace fidus
 				await _items.Save(_history);
 
 				if (CrossConnectivity.Current.IsConnected)
-					await _items.InitSync();
+					await _items.InitSync("history"+Helpers.Settings.UserEmail);
 				//MessagingCenter.Send(this, "Debited", true);
-				IsBusy = false;
 				return true;
 				//await Navigation.PushAsync(new ExchangePage(_reward, _place));
 			}
 			else
 				//MessagingCenter.Send(this, "Debited", false);
-				IsBusy = false;
 				return false;
 		}
 	

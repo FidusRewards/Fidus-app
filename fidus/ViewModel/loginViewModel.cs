@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Xamarin.Forms;
@@ -16,14 +17,14 @@ namespace fidus
 
 		public loginViewModel()
 		{
-			_client = new AzureClient<Person>();
+			_client = AzureClient<Person>.defaultInstance; // new AzureClient<Person>();
 
 		}
 
 		public async Task<bool> LoginQuery(string userEmail, string userPass)
 		{
 			//await _client.PurgeData();
-			Helpers.Settings.CurrentUser.Name = userEmail;
+			Helpers.Settings.UserName = userEmail;
 			//await _client.SyncAsync();
 
 			IMobileServiceTable<Person> _tabla = _client.GetPTable();
@@ -31,18 +32,17 @@ namespace fidus
 
 			try
 			{
+
 				IEnumerable<Person> result = await _tabla.Where(email => email.Email == userEmail && email.Pass == _hPass).ToEnumerableAsync();
-				foreach (Person _person in result)
+
+				Person _person = result.FirstOrDefault();
+
+				if (_person !=null)
 				{
 					Helpers.Settings.CurrentUser = _person;
 					if (_person.Phone == null)
-						Helpers.Settings.CurrentUser.Phone = " ";
+						Helpers.Settings.UserPhone = " ";
 					Debug.WriteLine("foreachperson: " + _person.Name);
-
-				};
-
-				if (result.GetEnumerator().MoveNext())
-				{
 
 					Helpers.Settings.CurrentUser.Logged = true;
 					Helpers.Settings.CurrentUser.LastLogin = System.DateTime.Now.ToLocalTime();

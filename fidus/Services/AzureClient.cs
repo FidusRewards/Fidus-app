@@ -120,9 +120,9 @@ namespace fidus
 			}
 		}
 
-		public async Task SyncAsync()
+		public async Task SyncAsync(string queryName=null)
 		{
-			string queryName;
+			//string queryName;
 			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
 			try
@@ -131,11 +131,11 @@ namespace fidus
 
 				// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
 				// Use a different query name for each unique query in your program.
-				if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
-					queryName = null;
-				else
-				 	queryName = $"incsync_{typeof(T).Name}";
-				Debug.WriteLine("SyncAsync begin: "+typeof(T));
+				//if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
+				//	queryName = null;
+				//else
+				// 	queryName = $"incsync_{typeof(T).Name}";
+				//Debug.WriteLine("SyncAsync begin: "+typeof(T));
 
 				//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 

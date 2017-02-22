@@ -103,7 +103,7 @@ namespace fidus
                         },
                         new Dictionary<string, double> { });
 
-					MessagingCenter.Send(this, "PoptoRoot");
+					MessagingCenter.Send(this, "VOLVERMAIN");
 
 					//MessagingCenter.Send(this, "Registered");
                 }

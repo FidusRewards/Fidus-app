@@ -10,6 +10,7 @@ using Plugin.Connectivity;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json.Linq;
 using Syncfusion.SfNavigationDrawer.XForms;
+using System.Threading.Tasks;
 
 namespace fidus
 {
@@ -18,7 +19,8 @@ namespace fidus
 
         private MainViewModel mVM;
         private ZXingScannerPage scanPage;
-        //private Image img;
+		//private Image img;
+
 		private ListView listview = new ListView()
 		{
 			VerticalOptions = LayoutOptions.FillAndExpand,
@@ -35,6 +37,12 @@ namespace fidus
             InitializeComponent();
 			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
 			Helpers.Settings.IsBoot = true;
+			Helpers.Settings.IsLogin = false;
+
+			if (Helpers.Settings.UserEmail == "fidus@com" || Helpers.Settings.UserEmail == null)
+			{
+				Helpers.Settings.IsLogin = true;
+			}
 
 			mVM = new MainViewModel();
 
@@ -44,13 +52,13 @@ namespace fidus
 
 			DrawMain();
 
-			MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
-															  (obj, mplaces) => IsBusy = false);
+			//MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
+			//												  (obj, mplaces) => IsBusy = false);
 			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
 													 async (obj) =>
 													 {
 														 IsBusy = false;
-														 await DisplayAlert("Error", "Problemas de conexión", "OK");
+														 await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
 													});
 
 
@@ -114,13 +122,11 @@ namespace fidus
 			//		App.UpdateUSettings();
 			//		Settings.IsLogin = false;
 			//	}
-			Helpers.Settings.IsLogin = true;
-			if (Helpers.Settings.UserEmail == "fidus@com")
+			if (Helpers.Settings.IsLogin)
 			{
 				await Navigation.PushModalAsync(new loginPage(), false);
-			}else {
 				Helpers.Settings.IsLogin = false;
-			
+
 			}
 
 			Debug.WriteLine("MainPage Settings after update : " + Helpers.Settings.UserEmail);
@@ -134,7 +140,8 @@ namespace fidus
 				//DependencyService.Get<ICloseApplication>().closeApp();
 			}
 
-			mVM.Load();
+			if (Helpers.Settings.UserEmail!="fidus@com")
+				mVM.Load();
 
 
 		}
@@ -169,6 +176,7 @@ namespace fidus
 			CheckBut.Children.Add(ckbut);
 
 		}
+
 
         private async void Scan()
         {
@@ -233,7 +241,7 @@ namespace fidus
 
 
 
-		async void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+		async void Handle_ItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			if (e.SelectedItem == null) return;
 			Place selected = (e.SelectedItem as Place);
@@ -357,11 +365,11 @@ namespace fidus
 
 			//this.Content = MenuStack;
 
-			listview.ItemSelected += OnItemSelected;
+			listview.ItemSelected += MenuItemSelected;
 					
 		}
 
-		internal async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		internal async void MenuItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
 			//if (e.SelectedItem == null) return;
 			var item = e.SelectedItem as MasterPageItem;
@@ -377,7 +385,7 @@ namespace fidus
 
 					Debug.WriteLine("Menu : " + item.Title);
 					//this.HideWithoutAnimations();
-					listview.SelectedItem = null;
+					//listview.SelectedItem = null;
 				}
 				else if (item.Title == "Logout")
 				{
@@ -397,10 +405,10 @@ namespace fidus
 							};
 							await _tabla.UpdateAsync(data);
 						}
-						Helpers.Settings.CurrentUser.Name = "fidus";
-						Helpers.Settings.CurrentUser.Email = "fidus@com";
-						Helpers.Settings.CurrentUser.Points = 0;
-						Helpers.Settings.CurrentUser.id = "AA";
+						Helpers.Settings.UserName = "fidus";
+						Helpers.Settings.UserEmail = "fidus@com";
+						Helpers.Settings.UserPoints = 0;
+						Helpers.Settings.UserID = "AA";
 						Helpers.Settings.AllPlaces.Clear();
 						Helpers.Settings.Hitem.Place = "";
 						Helpers.Settings.Hitem.id = "";
@@ -408,6 +416,7 @@ namespace fidus
 						//var pclient = new LoadAsync<Place>();
 						//pclient.PurgeTable();
 						Helpers.Settings.IsLogin = true;
+						Helpers.Settings.IsReturn = false;
 						//_client.CloseDB();
 
 						//this.HideWithoutAnimations();
@@ -426,7 +435,7 @@ namespace fidus
 				}
 				DependencyService.Get<IToggleDrawer>().ToggleDrawer();
 
-				//((ListView)sender).SelectedItem = null;
+				((ListView)sender).SelectedItem = null;
 
 			}
 

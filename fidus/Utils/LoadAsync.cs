@@ -43,42 +43,41 @@ namespace fidus
 			return Items;
 		}
 
-		public async Task<ObservableCollection<History>> Load(History _history)
+		public async Task<int> Load(History _history)
 		{
-			ObservableCollection<History> Hitems;
-			Hitems = new ObservableCollection<History>();
 
-			Hitems.Clear();
 			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
 			
 			int count = 0;
-			var query = _tabla.IncludeTotalCount().Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person);
+			var query = _tabla.CreateQuery().IncludeTotalCount().Take(1000).Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person);
+			var result = await query.ToEnumerableAsync();
+			//.Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person).Take(1000).ToEnumerableAsync();
+
 			//var result = await query.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
 
-			var result = await query.Take(1000).ToEnumerableAsync();
+			//var result = await query.Take(1000).ToEnumerableAsync();
 
 			long Tcount = ((IQueryResultEnumerable<History>)result).TotalCount;
 
-			if (Tcount==0)
-			{
-				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
-				//await InitSync();
-				result = await query.Take(1000).ToEnumerableAsync();
-			}
-
+			//if (Tcount==0)
+			//{
+			//	Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
+			//	await InitSync();
+			//	result = await query.Take(1000).ToEnumerableAsync();
+			//}
 			int _points = 0;
-			Helpers.Settings.CurrentUser.Points = 0;
-			foreach (History item in result)
+
+			if (Tcount!=0)
 			{
-				//History _temp = (History)(object)item;
+				foreach (History item in result)
+				{
+					//History _temp = (History)(object)item;
+					_points += item.EarnPoints;
+					count++;
+					Debug.WriteLine("LoadAsync:Load(History) Type History: " + item.EarnPoints);
 
-				Hitems.Add((History)item);
-				_points += item.EarnPoints;
-				count++;
-				Debug.WriteLine("LoadAsync:Load(History) Type History: " + item.EarnPoints);
-
-			};				
-			Helpers.Settings.UserPoints = _points;
+				};
+			}
 			Debug.WriteLine("LoadAsync:Load(History) Count of entries: " + count );
                                    
 			//var result = await _client.GetData();
@@ -90,7 +89,7 @@ namespace fidus
 
 			//}
 
-			return Hitems;
+			return _points;
 		}
 
 		public async Task<ObservableCollection<Rewards>> Load(Rewards _rewards)
@@ -185,31 +184,36 @@ namespace fidus
 				//await _client.PurgeData();
 
 			IEnumerable<Place> result = (IEnumerable<Place>) await _client.GetData();
-			if (!Utils.IsAny(result))
-			{
-				Debug.WriteLine("Load Places null -> Syncing");
-				await InitSync();
-				result = (IEnumerable<Place>)await _client.GetData();
+			//if (!Utils.IsAny(result))
+			//{
+			//	Debug.WriteLine("Load Places null -> Syncing");
+			//	await InitSync();
+			//	result = (IEnumerable<Place>)await _client.GetData();
 
-			}
-			foreach (Place item in result)
+			//}
+			if (result.IsAny())
 			{
-				Debug.WriteLine("Load Places -> " + item.Name);
-				item.Logo = Helpers.Settings.ImgSrvProd + item.Logo;
-				if (item.Admin == "YES")
-				{	if (Helpers.Settings.CurrentUser.IsAdmin)
-						Pitems.Add((Place)item);
-				}
-				else
-					Pitems.Add((Place)item);
+				Pitems = new ObservableCollection<Place>(result);
 			}
-
+			//	foreach (Place item in result)
+			//	{
+			//		Debug.WriteLine("Load Places -> " + item.Name);
+			//		item.Logo = Helpers.Settings.ImgSrvProd + item.Logo;
+			//		if (item.Admin == "YES")
+			//		{
+			//			if (Helpers.Settings.UserIsAdmin)
+			//				Pitems.Add((Place)item);
+			//		}
+			//		else
+			//			Pitems.Add((Place)item);
+			//	}
+			//}
 			return Pitems;
 		}
 
-		public async Task InitSync()
+		public async Task InitSync(string qName=null)
 		{
-			await _client.SyncAsync();
+			await _client.SyncAsync(qName);
 		}
 
 		public async void PurgeTable()

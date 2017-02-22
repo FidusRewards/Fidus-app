@@ -21,7 +21,6 @@ namespace fidus
 
 			//NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			//this.Title = "Fidus";
-			Helpers.Settings.IsLogin = true;
 
 			loginVM = new loginViewModel();
 
@@ -193,6 +192,7 @@ namespace fidus
 
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 						Helpers.Settings.IsReturn = false;
+						Helpers.Settings.IsLogin = false;
 						await Navigation.PopModalAsync();
 
 
@@ -229,7 +229,8 @@ namespace fidus
 				await DisplayAlert("Advertencia", "No hay conexión a internet, algunas funciones pueden no estar disponibles", "OK");
 			});
 
-			MessagingCenter.Subscribe<RegisterViewModel>(this, "PoptoRoot", async (obj) => {
+			MessagingCenter.Subscribe<RegisterViewModel>(this, "VOLVERMAIN", async (obj) => {
+				Helpers.Settings.IsReturn = false;
 				var Mcount=Navigation.ModalStack.Count;
 				if (Mcount == 2)
 				{
