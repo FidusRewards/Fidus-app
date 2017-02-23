@@ -92,6 +92,10 @@
 					HeightRequest="45"
 					Margin="0,0,0,15"
 					/>
+		     <ActivityIndicator
+		     		x:Name="IndicatorRegister"
+					IsRunning="{Binding IsBusy}"
+					/>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
 					HorizontalOptions="FillAndExpand" Padding="5" >
 
@@ -238,10 +242,7 @@
 				FontSize="10"
 				TextColor="#0B4F6C"
 			/>
-      <ActivityIndicator
-				IsRunning="{Binding IsBusy}"
-
-			/>
+ 
 
     </StackLayout>
     </RelativeLayout>

@@ -146,7 +146,7 @@ namespace fidus
 					if (_table.TableName == "History")
 					{
 						IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
-						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.CurrentUser.Email));
+						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
 						Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
 					}else
 					{

@@ -16,7 +16,7 @@ namespace fidus
             rVM = new RegisterViewModel();
 
             BindingContext = rVM;
-
+			IndicatorRegister.Color = Color.FromHex(Helpers.Settings.FidusColor);
             //DisplayAlert(email, pass, "OK");
             rVM.REmail = email;
             rVM.RPass = pass;

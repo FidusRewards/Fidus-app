@@ -192,7 +192,7 @@ namespace fidus
 
 						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 						Helpers.Settings.IsReturn = false;
-						Helpers.Settings.IsLogin = false;
+						//Helpers.Settings.IsLogin = false;
 						await Navigation.PopModalAsync();
 
 
@@ -231,6 +231,8 @@ namespace fidus
 
 			MessagingCenter.Subscribe<RegisterViewModel>(this, "VOLVERMAIN", async (obj) => {
 				Helpers.Settings.IsReturn = false;
+				Helpers.Settings.IsLogin = false;
+
 				var Mcount=Navigation.ModalStack.Count;
 				if (Mcount == 2)
 				{

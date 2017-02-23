@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,27 +6,24 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
-using Plugin.Connectivity;
-using Microsoft.WindowsAzure.MobileServices;
 using System.Linq;
 
 namespace fidus
 {
-	public class MainViewModel: BaseViewModel, INotifyPropertyChanged
+	public class MainViewModel : BaseViewModel, INotifyPropertyChanged
 	{
 		private ObservableCollection<Place> _item;
 		public Command ScanButtonCommand { get; set; }
 		public Command RefreshCommand { get; set; }
 		ICommand tapCommand;
-		public Command SettingsCommand { get; set;}
+		public Command SettingsCommand { get; set; }
 		public Command ExitCommand { get; set; }
-        private AzureClient<WhiteList> _client;
+		private AzureClient<WhiteList> _client;
 		private LoadAsync<WhiteList> _itemsW;
-        private LoadAsync<History> LoadHistory;
-		private IEnumerable<History> _history;
+		private LoadAsync<History> LoadHistory;
 		private string cuser, cmail;
-		public string CurrUser { get { return cuser;} set { cuser = value; OnPropertyChanged();} }
-		public string CurrUmail { get{ return cmail; } set { cmail = value; OnPropertyChanged(); } }
+		public string CurrUser { get { return cuser; } set { cuser = value; OnPropertyChanged(); } }
+		public string CurrUmail { get { return cmail; } set { cmail = value; OnPropertyChanged(); } }
 		private int counter, index;
 
 		public ObservableCollection<Place> PItems
@@ -44,15 +40,16 @@ namespace fidus
 			tapCommand = new Command(OnTapped);
 			//SettingsCommand = new Command(SettingsTap);
 			//ExitCommand = new Command(ExitTap);
-            //_client = new AzureClient<WhiteList>();
+			_client = new AzureClient<WhiteList>();
 			LoadHistory = new LoadAsync<History>();
 
 			Debug.WriteLine("MainPage : Antes del IF del DoLogin");
 
 
-        }
+		}
 
-        private void ScanCommand() {
+		private void ScanCommand()
+		{
 			MessagingCenter.Send(this, "ScanRequest");
 		}
 
@@ -68,30 +65,32 @@ namespace fidus
 			{
 				foreach (Place item in Helpers.Settings.AllPlaces)
 				{
-					if (Helpers.Settings.AllPlaces[index].Logo!=null)
-					{	
+					if (Helpers.Settings.AllPlaces[index].Logo != null)
+					{
 						string fullpath = Helpers.Settings.ImgSrvProd + Helpers.Settings.AllPlaces[index].Logo;
 						Helpers.Settings.AllPlaces[index].Logo = fullpath;
 					}
 					index++;
 				}
-			}else
-					Debug.WriteLine(" -- Error de Inicio al Cargar Comercios -- ");
+			}
+			else
+				Debug.WriteLine(" -- Error de Inicio al Cargar Comercios -- ");
 
 			Debug.WriteLine("InitDB en Main ejecución nro: " + counter);
 			counter++;
 			return;
 		}
 
-		public void Load1() {
+		public void Load1()
+		{
 			Helpers.Settings.IsReturn = false;
 			Load();
 		}
 
 		public async void Load()
 		{
-			History placeH = new History();
-			ObservableCollection<Place> _places=new ObservableCollection<Place>();
+			var placeH = new History();
+			var _places = new ObservableCollection<Place>();
 			//await _client.PurgeData();
 
 			//Places = new List<Place>();
@@ -99,7 +98,7 @@ namespace fidus
 			CurrUser = Helpers.Settings.CurrentUser.Name;
 			CurrUmail = Helpers.Settings.CurrentUser.Email;
 
-			if (!Helpers.Settings.IsReturn||Helpers.Settings.IsBoot)
+			if (!Helpers.Settings.IsReturn || Helpers.Settings.IsBoot)
 			{
 				IsBusy = true;
 
@@ -108,42 +107,46 @@ namespace fidus
 				PItems.Clear();
 
 				if (Helpers.Settings.AllPlaces.IsAny())
+				{
+					await LoadHistory.InitSync("history" + Helpers.Settings.UserEmail);
+
+					if (Helpers.Settings.UserIsAdmin)
 					{
-						await LoadHistory.InitSync("history" + Helpers.Settings.UserEmail);
+						_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces);
 
-						if (Helpers.Settings.UserIsAdmin)
-						{
-							_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces);
-
-						}else{
-							_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces.Where(place => place.Admin == "NO"));
-						}
-
-						foreach (Place items in _places)
-						{
-							placeH.Person = Helpers.Settings.CurrentUser.Email;
-							placeH.Place = items.Name;
-
-							var hpoints = await LoadHistory.Load(placeH);
-
-							_places[_places.IndexOf(items)].Points = hpoints;
-
-						}
-
-						if (_places != null)
-						{
-							Helpers.Settings.AllPlaces = _places;
-							PItems = _places;
-							//MessagingCenter.Send(this, "Loaded", PItems);
-						}
-						else
-							MessagingCenter.Send(this, "NotLoaded");
-					}else{
-						MessagingCenter.Send(this, "NotLoaded");
+					}
+					else
+					{
+						_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces.Where(place => place.Admin == "NO"));
 					}
 
+					foreach (Place items in _places)
+					{
+						placeH.Person = Helpers.Settings.CurrentUser.Email;
+						placeH.Place = items.Name;
+
+						var hpoints = await LoadHistory.Load(placeH);
+
+						_places[_places.IndexOf(items)].Points = hpoints;
+
+					}
+
+					if (_places != null)
+					{
+						Helpers.Settings.AllPlaces = _places;
+						PItems = _places;
+						//MessagingCenter.Send(this, "Loaded", PItems);
+					}
+					else
+						MessagingCenter.Send(this, "NotLoaded");
+				}
+				else
+				{
+					MessagingCenter.Send(this, "NotLoaded");
+				}
+				Helpers.Settings.IsReturn = true;
+
 			}
-			Helpers.Settings.IsReturn = true;
 
 			IsBusy = false;
 			Helpers.Settings.IsBoot = false;
@@ -157,15 +160,16 @@ namespace fidus
 
 		void OnTapped(object place)
 		{
-			Place _place = (Place) place;
+			var _place = (Place)place;
 			String[] _array = { _place.Name, _place.Logo };
 			MessagingCenter.Send(this, "Rewards", _array);
 
 		}
 
 
-        public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
-        {
+		public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
+		{
+			IsBusy = true;
 			_itemsW = new LoadAsync<WhiteList>();
 
 
@@ -173,56 +177,114 @@ namespace fidus
 
 			IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
 
-            try
-            {
+			try
+			{
 
-				var result = (await _tabla.Where(whitelist => whitelist.Place == place && whitelist.Branch == branch && whitelist.ExchangeCode == qrcode)
-															.Take(1)
-				              .ToEnumerableAsync()).FirstOrDefault();                
-               if (result!=null)
-                {
-                    return true;
-                }
-                
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("MainVM: Error en Conexíon qrcode" + ex);
-                MessagingCenter.Send(this, "NOINET");
-                return false;
-            }
-        }
+				var query = _tabla.CreateQuery().IncludeTotalCount().Where(whitelist => whitelist.Place == place && whitelist.Branch == branch && whitelist.ExchangeCode == qrcode);
+				var result = await query.ToEnumerableAsync();
+
+				if (result.FirstOrDefault() != null)
+				{
+					var tempcheck = await IsQRtempValid(result.FirstOrDefault());
+					IsBusy = false;
+
+					if (tempcheck)
+						return true;
+
+					return false;
+				}
+
+				IsBusy = false;
+				return false;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("MainVM: Error en Conexíon qrcode" + ex);
+				MessagingCenter.Send(this, "NOINET");
+
+				IsBusy = false;
+				return false;
+			}
+		}
 
 
-        public void UpdatePoints(String[] points)
+		public void UpdatePoints(String[] points)
 		{
 
-			History _history = new History();
+			History _Uhistory = new History();
 
-			_history.DateTime = DateTime.Now.ToLocalTime();
-			_history.EarnPoints =  Convert.ToInt32(points[1]);
-			_history.Place = points[0];
-			_history.IsDebit = false;
-			_history.Person = Helpers.Settings.CurrentUser.Email;
-            _history.Branch = points[4];
-            _history.ExchangeCode = points[3];
+			_Uhistory.DateTime = DateTime.Now.ToLocalTime();
+			_Uhistory.EarnPoints = Convert.ToInt32(points[1]);
+			_Uhistory.Place = points[0];
+			_Uhistory.IsDebit = false;
+			_Uhistory.Person = Helpers.Settings.UserEmail;
+			_Uhistory.Branch = points[4];
+			_Uhistory.ExchangeCode = points[3];
 			string _placelogo = Helpers.Settings.ImgSrvProd + points[2];
 
 			string puntos = points[1];
 
-			//String[] _array2 = { points[0], _placelogo};
 			String[] _array2 = { points[0], puntos, _placelogo, points[5] };
 
-			Helpers.Settings.Hitem = _history;
+			Helpers.Settings.Hitem = _Uhistory;
 
-			//await _itemsH.Save(_history);
-
-
-			//MessagingCenter.Send(this, "Rewards1", _array2);
 			MessagingCenter.Send(this, "Thanks", _array2);
 
 		}
-	}
 
+		public async Task<bool> IsQRtempValid(WhiteList qrcode)
+		{
+
+			if (qrcode != null)
+			{
+
+				try
+				{
+					// CONSULTA DE LOS REGISTROS EN LOS QUE EL CODIGO QR SEA = AL ESCANEADO, EL ESCANEO SE HAYAN HECHO HOY 
+					//  Y LA PERSONA QUE ESCANEO ES EL QUE AHORA ESTA ESCANEANDO      
+
+					var result2 = await LoadHistory.Load(Helpers.Settings.UserEmail, qrcode);
+
+					// SI NO HUBO NINGUN ESCANEO EN ESTE CODIGO HOY PASA
+					if (result2.Count == 0 || result2 == null)
+					{
+						return true;
+					}
+
+					// PERO SI HAY :
+					int count = 0;
+
+					foreach (History dates in result2)
+					{
+
+						// COMPARAMOS LAS 2 FECHAS 
+						TimeSpan difference = new TimeSpan();
+						difference = (DateTime.Now - dates.DateTime);
+						Debug.WriteLine("MainVM: Differemce = " + difference);
+
+						if (difference.TotalHours < 1)
+						{
+							// SI LA DIFERENCIA ENTRE UNO Y EL OTRO ES MENOR A 1 COUNT SE SUMA
+							// SUPUESTAMENTE EL TotalHours CUENTA HORA CON MINUTOS : EJ : 13:15 - 12:10 = 1,05 o ALGO POR EL ESTILO 
+							count++;
+						}
+
+					}
+					// SI ALGUN VALOR COMAPRADOS ANTES DIO CON MENOS DE 1 HORA DE DIFERENCIA SALE ERROR
+					if (count == 0)
+					{
+						return true;
+					}
+
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine("MainVM: Error en Conexíon qrcode" + ex);
+					MessagingCenter.Send(this, "NOINET");
+					return false;
+				}
+			}
+			return false;
+		}
+	}
 }

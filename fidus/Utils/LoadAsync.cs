@@ -144,29 +144,39 @@ namespace fidus
 			return true;
 		}
 
-		public async Task<ObservableCollection<History>> Load(string person)
+		public async Task<ObservableCollection<History>> Load(string person, WhiteList qrcode=null)
 		{
 			ObservableCollection<History> Hitems;
-			Hitems = new ObservableCollection<History>();
+			IEnumerable<History> result;
 
-			Hitems.Clear();
+			//Hitems.Clear();
 			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>)_client.GetTable();
 
-			var result = await _tabla.Where(history => history.Person == person)
-			                         .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
-			if (!Utils.IsAny(result))
+			if (qrcode == null)
 			{
-				Debug.WriteLine("Load History null -> Syncing");
-				await InitSync();
 				result = await _tabla.Where(history => history.Person == person)
-									 .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
-			}
-			foreach (History item in result)
-			{
+										.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+				if (!Utils.IsAny(result))
+				{
+					Debug.WriteLine("Load History null -> Syncing");
+					await InitSync();
+					result = await _tabla.Where(history => history.Person == person)
+										 .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+				}
 
-					Hitems.Add((History)item);
-
+			}else {
+				IMobileServiceTableQuery<History> _query = _tabla.CreateQuery().Where(history => (history.ExchangeCode == qrcode.ExchangeCode) && (history.DateTime.Day == DateTime.Now.Day) && (history.Person == person));
+				result = await _query.ToEnumerableAsync();
 			}
+
+			Hitems = new ObservableCollection<History>(result);
+
+			//foreach (History item in result)
+			//{
+
+			//		Hitems.Add((History)item);
+
+			//}
 
 			return Hitems;
 		}

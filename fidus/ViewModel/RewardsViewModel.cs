@@ -45,8 +45,9 @@ namespace fidus
 			//History placeH = new History();
 			//placeH.Person = Settings.CurrentUser.Email;
 			//placeH.Place = Place;
-			int _points = Helpers.Settings.UserPoints;
-			PPoints = _points.ToString();
+			IsBusy = true;
+			int _pointsL = Helpers.Settings.UserPoints;
+			PPoints = _pointsL.ToString();
 			Rewards _rew = new Rewards();
 			_rew.Place = Place;
 
@@ -66,6 +67,7 @@ namespace fidus
 			else {
 				MessagingCenter.Send(this, "NotLoaded");
 			}
+			IsBusy = false;
 		}
 	}
 }

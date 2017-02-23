@@ -32,8 +32,13 @@ namespace fidus
 
 			reImg.Source = selectedreward.Photo;
 
-			reDate.Text = DateTime.Now.ToLocalTime().ToString("U");
+			DateTime convertedDate = DateTime.SpecifyKind(
+				DateTime.Parse(DateTime.Now.ToString()),
+						DateTimeKind.Utc);
+
+			reDate.Text = convertedDate.ToLocalTime().ToString("U");
 			reDate.HorizontalOptions = LayoutOptions.CenterAndExpand;
+			reDate.FontSize = 16;
 
 			//Settings.CurrentUser.Points += -1*selectedreward.ReqPoints;
 

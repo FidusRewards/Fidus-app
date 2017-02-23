@@ -38,6 +38,7 @@ namespace fidus
 			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
 			Helpers.Settings.IsBoot = true;
 			Helpers.Settings.IsLogin = false;
+			Helpers.Settings.IsReturn = false;
 
 			if (Helpers.Settings.UserEmail == "fidus@com" || Helpers.Settings.UserEmail == null)
 			{
@@ -181,17 +182,28 @@ namespace fidus
         private async void Scan()
         {
             int points;
-            scanPage = new ZXingScannerPage();
-            scanPage.OnScanResult += (result) =>
-            {
-                scanPage.IsScanning = false;
-                char[] delimiterChars = { ',', '\t' };
+			//string[] words;							//DECOMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+
+			scanPage = new ZXingScannerPage();			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+			scanPage.OnScanResult += (result) =>		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+			{											//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+			scanPage.IsScanning = false;     			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+			char[] delimiterChars = { ',', '\t' };		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await Navigation.PopAsync();
-                    string[] words = result.Text.Split(delimiterChars);
-                    string urllogo;
+					await Navigation.PopAsync();		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+					string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+#region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
+					//words = new string[6];
+					//words[0] = "BedFord Station";
+					//words[1] = "50";
+					//words[2] = "Bedford_logo.png";
+					//words[3] = "S-0003";
+					//words[4] = "República Arabe Siria 3041";
+					//words[5] = "DEMOTEST";
+#endregion
+					string urllogo;
 
                     if (words.Length > 5)
                     {
@@ -205,13 +217,14 @@ namespace fidus
 
                         urllogo = Helpers.Settings.ImgSrvProd + words[2];
 
-                        string place = words[0].ToString();
-                        string exchangecode = words[3].ToString();
+                        string place = words[0];
+                        string exchangecode = words[3];
                         string branch = words[4];
-						//string category = words[5];
+						string category = words[5];
 
-                        if (convert && urllogo.Length >= 47 && urllogo.Contains("fidusimgsrv") && exchangecode != null && branch != null)
+                        if (convert && urllogo.Length >= 47 && urllogo.Contains("fidusimgsrv") && exchangecode != null && branch != null && category != null)
                         {
+							Debug.WriteLine("Datos enviados \n Lugar " + words[0] + " \n Puntos : " + words[1] + " \n Sucursal : " + branch + " \n Codigo de Confirmación: " + exchangecode + " \n Categoria: " + category);
                             bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
                             if (result2)
                             {
@@ -230,10 +243,10 @@ namespace fidus
                     else
                         await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
                 });
-            };
+			};			//COMENTAR el }; PARA PRUEBA DE SCAN CODE  
 
-            await Navigation.PushAsync(scanPage);
-            //Device.OpenUri(new Uri(url));
+            await Navigation.PushAsync(scanPage);  // COMENTAR ESTA LINEA PARA PRUEBA DEL SCAN CODE
+                  //Device.OpenUri(new Uri(url));
 
 
 
@@ -415,7 +428,7 @@ namespace fidus
 
 						//var pclient = new LoadAsync<Place>();
 						//pclient.PurgeTable();
-						Helpers.Settings.IsLogin = true;
+						Helpers.Settings.IsLogin = false;
 						Helpers.Settings.IsReturn = false;
 						//_client.CloseDB();
 

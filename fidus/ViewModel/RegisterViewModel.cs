@@ -102,7 +102,7 @@ namespace fidus
                             {"Name", Datos.Name}
                         },
                         new Dictionary<string, double> { });
-
+					Helpers.Settings.IsReturn = false;
 					MessagingCenter.Send(this, "VOLVERMAIN");
 
 					//MessagingCenter.Send(this, "Registered");
