@@ -16,7 +16,6 @@ namespace fidus
 			get { return _items; }
 			set { _items = value; OnPropertyChanged(); }
 		}
-		public Color Lcolor { get { return _color;} set { _color = value; OnPropertyChanged();} }
 		public HistoryViewModel()
 		{
 			LoadCollection = new LoadAsync<History>();

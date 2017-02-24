@@ -138,26 +138,32 @@ namespace fidus
 				//Debug.WriteLine("SyncAsync begin: "+typeof(T));
 
 				//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
-
-				if ( CrossConnectivity.Current.IsConnected)
+				try
 				{
-					Helpers.Settings.IsInternetEnabled = true;
+					if (CrossConnectivity.Current.IsConnected)
+					{
+						Helpers.Settings.IsInternetEnabled = true;
 
-					if (_table.TableName == "History")
-					{
-						IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
-						await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
-						Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
-					}else
-					{
-						await _table.PullAsync(queryName, _table.CreateQuery());
-						Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
+						if (_table.TableName == "History")
+						{
+							IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
+							await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
+							Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
+						}
+						else
+						{
+							await _table.PullAsync(queryName, _table.CreateQuery());
+							Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
+						}
+						var itemsInLocalTable = (await _table.ReadAsync()).Count();
+						Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
+
 					}
-					var itemsInLocalTable = (await _table.ReadAsync()).Count();
-					Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
-
+				}catch (MobileServiceInvalidOperationException e)
+				{
+					// Handle error
+					Debug.WriteLine(e.StackTrace);
 				}
-
 			}
 			catch (MobileServicePushFailedException exc)
 			{

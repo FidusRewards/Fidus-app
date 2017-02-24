@@ -65,11 +65,12 @@ namespace fidus
 			{
 				Helpers.Settings.IsReturn = false;
 				var _itemsH = new LoadAsync<History>();
-				_history.Rating = Convert.ToInt32(ratingst.Value);
+				_history.Rating = 0;//Convert.ToInt32(ratingst.Value);
 				string temp="";
 				string temp1="";
+				var max = Helpers.Settings.qrdate.Count;
 
-				for (int i = 0; i <= Helpers.Settings.qrbranch.Count; i++)
+				for (int i = 0; i < max; i++)
 				{
 					temp += Helpers.Settings.qrdate.Dequeue().ToString();
 					temp1 += Helpers.Settings.qrbranch.Dequeue().ToString();

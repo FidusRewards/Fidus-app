@@ -195,7 +195,6 @@ namespace fidus
 						//Helpers.Settings.IsLogin = false;
 						await Navigation.PopModalAsync();
 
-
 					}
 					else
 					{
@@ -238,6 +237,8 @@ namespace fidus
 				{
 					await Navigation.PopModalAsync(false);
 					await Navigation.PopModalAsync(false);
+					MessagingCenter.Send(this, "LOGGEDIN");
+
 
 				}else{
 					await DisplayAlert("Error","En el PopModal: "+Mcount,"OK");

@@ -49,6 +49,8 @@ namespace fidus
 				
 					await _tabla.UpdateAsync(Helpers.Settings.CurrentUser);
 					//await _tabla.UpdateAsync(Settings.CurrentUser);
+
+					MessagingCenter.Send(this, "LOGGEDIN");
 					return true;
 				}
 

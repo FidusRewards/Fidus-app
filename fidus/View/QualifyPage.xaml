@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="fidus.QualifyPage"
-             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms">
+			xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+	>
   <RelativeLayout>
     <Image
       RelativeLayout.XConstraint=
@@ -68,14 +69,17 @@
 				FontSize="16"
 					TextColor="Gray"
 					HorizontalOptions="Center"/>
+				
      		 	<rating:SfRating x:Name="ratingst" HorizontalOptions="Center" ItemCount="5" Margin="5,20,5,10" Precision="Standard"/>
-     		 	<Label 
+				
+				<Label 
      		 		BindingContext="{x:Reference ratingst}"
 					Text="{Binding Value, StringFormat='{0:F0}/5'}"
      		 		FontSize="20"
 					FontAttributes="Bold"
 					HorizontalOptions="Center"
 					/>
+				
      		 	<Button x:Name="bt_Avanzar"
                   Margin="0, 50, 0, 0"/>
 		</StackLayout>

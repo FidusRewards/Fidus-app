@@ -50,7 +50,6 @@
 							Padding="10"
 							>
                             <StackLayout Orientation="Vertical"
-								BackgroundColor="{Binding Lcolor}"
 								VerticalOptions="StartAndExpand">
 
 								<StackLayout Orientation="Horizontal"

@@ -29,11 +29,11 @@ namespace fidus
 		};
 		private AzureClient<Person> _client;
 		public ListView ListView { get { return listview; } }
-
+		public static ContentPage instance;
 
 		public MainPage()
         {
-
+			instance = this;
             InitializeComponent();
 			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
 			Helpers.Settings.IsBoot = true;
@@ -53,59 +53,12 @@ namespace fidus
 
 			DrawMain();
 
-			//MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
-			//												  (obj, mplaces) => IsBusy = false);
-			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
-													 async (obj) =>
-													 {
-														 IsBusy = false;
-														 await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
-													});
 
+			MessagingCenter.Subscribe<loginViewModel>(this, "LOGGEDIN", (obj) =>
+				{
+				ReDraw();
 
-
-            MessagingCenter.Subscribe<MainViewModel>(this, "ScanRequest", (obj) => Scan());
-
-            //MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards", async (obj, _place) =>
-            //{
-			//	Settings.IsReturn = true;
-            //    Debug.WriteLine("MaingPage: OnTapp Mesg desde MainviewModel -> Rewards " + _place[0]);
-            //    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-            //});
-
-            //MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards1", async (obj, _place) =>
-            //{
-			//	Settings.IsReturn = true;
-            //    Debug.WriteLine("MainPage: Command Mesg desde MainviewModel -> Rewards1 " + _place[0]);
-            //    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-            //});
-
-            MessagingCenter.Subscribe<MainViewModel>(this, "Settings", async (obj) => {
-                await Navigation.PushAsync(new HistoryPage());
-            });
-            MessagingCenter.Subscribe<MainViewModel>(this, "Exit", async (obj) =>
-            {
-                Debug.WriteLine("MainPage: Exit via MessagingCenter");
-                try
-                {
-					await Navigation.PopToRootAsync();
-                    //App.instance.ClearNavigationAndGoLogin();
-
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("MainPage: Exit stack " + ex);
-                }
-
-            });
-
-			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
-			{
-
-				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Helpers.Settings.Hitem) { Title = "Califica" });
-			});
-
-
+				});
 
 		}
 
@@ -123,6 +76,8 @@ namespace fidus
 			//		App.UpdateUSettings();
 			//		Settings.IsLogin = false;
 			//	}
+			SubscribeMsg();
+
 			if (Helpers.Settings.IsLogin)
 			{
 				await Navigation.PushModalAsync(new loginPage(), false);
@@ -146,6 +101,12 @@ namespace fidus
 
 
 		}
+
+		public void ReDraw() {
+			Helpers.Settings.IsReturn = false;
+			mVM.Load();
+		}
+
 		private void DrawMain()
 		{ 
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
@@ -197,10 +158,10 @@ namespace fidus
 #region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
 					//words = new string[6];
 					//words[0] = "Bartok";
-					//words[1] = "50";
+					//words[1] = "20";
 					//words[2] = "Bartok_logo.png";
-					//words[3] = "Catunga";
-					//words[4] = "Suc01";
+					//words[3] = "T-0002";
+					//words[4] = "Suc02";
 					//words[5] = "DEMOTEST";
 #endregion
 					string urllogo;
@@ -452,6 +413,72 @@ namespace fidus
 
 			}
 
+		}
+		protected override void OnDisappearing() {
+			MessagingCenter.Unsubscribe<MainViewModel>(this, "NotLoaded");
+			MessagingCenter.Unsubscribe<MainViewModel>(this, "ScanRequest");
+			MessagingCenter.Unsubscribe<MainViewModel>(this, "Settings");
+			MessagingCenter.Unsubscribe<MainViewModel>(this, "Exit");
+			MessagingCenter.Unsubscribe<MainViewModel>(this, "Thanks");
+
+		}
+
+		private void SubscribeMsg()
+		{ 
+			//MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
+			//												  (obj, mplaces) => IsBusy = false);
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
+													 async (obj) =>
+													 {
+														 IsBusy = false;
+														 await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
+													 });
+
+
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "ScanRequest", (obj) => Scan());
+
+			//MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards", async (obj, _place) =>
+			//{
+			//	Settings.IsReturn = true;
+			//    Debug.WriteLine("MaingPage: OnTapp Mesg desde MainviewModel -> Rewards " + _place[0]);
+			//    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
+			//});
+
+			//MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards1", async (obj, _place) =>
+			//{
+			//	Settings.IsReturn = true;
+			//    Debug.WriteLine("MainPage: Command Mesg desde MainviewModel -> Rewards1 " + _place[0]);
+			//    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
+			//});
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "Settings", async (obj) =>
+			{
+				await Navigation.PushAsync(new HistoryPage());
+			});
+			MessagingCenter.Subscribe<MainViewModel>(this, "Exit", async (obj) =>
+			{
+				Debug.WriteLine("MainPage: Exit via MessagingCenter");
+				try
+				{
+					await Navigation.PopToRootAsync();
+					//App.instance.ClearNavigationAndGoLogin();
+
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine("MainPage: Exit stack " + ex);
+				}
+
+			});
+
+			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
+			{
+
+				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Helpers.Settings.Hitem) { Title = "Califica" });
+			});
+		
 		}
     }
 }

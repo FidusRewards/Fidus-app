@@ -190,9 +190,15 @@ namespace fidus
 					IsBusy = false;
 
 					if (tempcheck)
+					{
+						if (qrcode.StartsWith("T", StringComparison.CurrentCultureIgnoreCase))
+						{
+							await _tabla.DeleteAsync(result.FirstOrDefault());
+						}
 						return true;
-
+					}
 					return false;
+
 				}
 
 				IsBusy = false;
@@ -248,13 +254,14 @@ namespace fidus
 									
 					var _qrdatetime = Helpers.Settings.QRLastTimes.Split(',');
 					var _qrbranch = Helpers.Settings.QRLastBranches.Split(',');
-
+					Helpers.Settings.qrdate.Clear();
+					Helpers.Settings.qrbranch.Clear();
+					       
 					if (!_qrdatetime.Contains("nada"))
 					{
 						for (int i = 0; i < _qrbranch.Count(); i++)
 						{
-							Helpers.Settings.qrdate.Enqueue(_qrdatetime[i]);
-							Helpers.Settings.qrbranch.Enqueue(_qrbranch[i]);
+							
 						
 							DateTime convertedDate = DateTime.SpecifyKind(
 									DateTime.Parse(_qrdatetime[i]),
@@ -266,6 +273,14 @@ namespace fidus
 							else{
 								difference = TimeSpan.Parse("01:01:00");
 							}
+
+							if (i > 0)
+							{
+								_qrbranch[i] = "," + _qrbranch[i];
+								_qrdatetime[i] = "," + _qrdatetime[i];
+							}
+							Helpers.Settings.qrdate.Enqueue(_qrdatetime[i]);
+							Helpers.Settings.qrbranch.Enqueue(_qrbranch[i]);
 
 							if (difference.Hours < 1)
 							{
