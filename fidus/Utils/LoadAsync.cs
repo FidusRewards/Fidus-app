@@ -15,7 +15,7 @@ namespace fidus
 
 		public LoadAsync()
 		{
-			_client = AzureClient<T>.defaultInstance;  //new AzureClient<T>();
+			_client = AzureClient<T>.defaultInstance; //new AzureClient<T>();
 
 		}
 

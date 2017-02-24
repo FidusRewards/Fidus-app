@@ -63,7 +63,7 @@ namespace fidus
 			{
                 if (RPass == RPass2)
                 {
-					_client = AzureClient<Person>.defaultInstance;//new AzureClient<Person>();
+					_client = new AzureClient<Person>();
 
                     _hPass = DependencyService.Get<IHash256>().Hash256(RPass);
 

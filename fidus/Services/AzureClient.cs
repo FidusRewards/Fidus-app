@@ -127,22 +127,23 @@ namespace fidus
 
 			try
 			{
-				await _client.SyncContext.PushAsync();
-
-				// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
-				// Use a different query name for each unique query in your program.
-				//if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
-				//	queryName = null;
-				//else
-				// 	queryName = $"incsync_{typeof(T).Name}";
-				//Debug.WriteLine("SyncAsync begin: "+typeof(T));
-
-				//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
-				try
+				if (CrossConnectivity.Current.IsConnected)
 				{
-					if (CrossConnectivity.Current.IsConnected)
+					Helpers.Settings.IsInternetEnabled = true;
+					await _client.SyncContext.PushAsync();
+
+					// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
+					// Use a different query name for each unique query in your program.
+					//if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
+					//	queryName = null;
+					//else
+					// 	queryName = $"incsync_{typeof(T).Name}";
+					//Debug.WriteLine("SyncAsync begin: "+typeof(T));
+
+					//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
+					try
 					{
-						Helpers.Settings.IsInternetEnabled = true;
+
 
 						if (_table.TableName == "History")
 						{
@@ -158,11 +159,13 @@ namespace fidus
 						var itemsInLocalTable = (await _table.ReadAsync()).Count();
 						Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
 
+
 					}
-				}catch (MobileServiceInvalidOperationException e)
-				{
-					// Handle error
-					Debug.WriteLine(e.StackTrace);
+					catch (MobileServiceInvalidOperationException e)
+					{
+						// Handle error
+						Debug.WriteLine(e.StackTrace);
+					}
 				}
 			}
 			catch (MobileServicePushFailedException exc)

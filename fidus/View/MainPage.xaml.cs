@@ -53,6 +53,8 @@ namespace fidus
 
 			DrawMain();
 
+			SubscribeMsg();
+
 
 			MessagingCenter.Subscribe<loginViewModel>(this, "LOGGEDIN", (obj) =>
 				{
@@ -76,7 +78,6 @@ namespace fidus
 			//		App.UpdateUSettings();
 			//		Settings.IsLogin = false;
 			//	}
-			SubscribeMsg();
 
 			if (Helpers.Settings.IsLogin)
 			{
@@ -414,14 +415,14 @@ namespace fidus
 			}
 
 		}
-		protected override void OnDisappearing() {
-			MessagingCenter.Unsubscribe<MainViewModel>(this, "NotLoaded");
-			MessagingCenter.Unsubscribe<MainViewModel>(this, "ScanRequest");
-			MessagingCenter.Unsubscribe<MainViewModel>(this, "Settings");
-			MessagingCenter.Unsubscribe<MainViewModel>(this, "Exit");
-			MessagingCenter.Unsubscribe<MainViewModel>(this, "Thanks");
+		//protected override void OnDisappearing() {
+		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "NotLoaded");
+		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "ScanRequest");
+		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Settings");
+		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Exit");
+		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Thanks");
 
-		}
+		//}
 
 		private void SubscribeMsg()
 		{ 
