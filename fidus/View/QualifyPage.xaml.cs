@@ -66,9 +66,32 @@ namespace fidus
 				Helpers.Settings.IsReturn = false;
 				var _itemsH = new LoadAsync<History>();
 				_history.Rating = Convert.ToInt32(ratingst.Value);
-				await Navigation.PopToRootAsync();
-				await _itemsH.Save(_history);
+				string temp="";
+				string temp1="";
 
+				for (int i = 0; i <= Helpers.Settings.qrbranch.Count; i++)
+				{
+					temp += Helpers.Settings.qrdate.Dequeue().ToString();
+					temp1 += Helpers.Settings.qrbranch.Dequeue().ToString();
+				}
+				Helpers.Settings.QRLastTimes = temp;
+				Helpers.Settings.QRLastBranches = temp1;
+
+				//for (int i=0, 
+				//Helpers.Settings.QRBranch.Enqueue(_history.Branch);
+				//Helpers.Settings.QRLastCode.Enqueue(_history.ExchangeCode);
+				//Helpers.Settings.QRDateTime.Enqueue(DateTime.Now.ToLocalTime());
+
+				//if (Helpers.Settings.QRBranch.Count > 10)
+				//{
+				//	Helpers.Settings.QRBranch.Dequeue();
+				//	Helpers.Settings.QRDateTime.Dequeue();
+				//	Helpers.Settings.QRLastCode.Dequeue();
+				//}
+
+				await Navigation.PopToRootAsync();
+
+				await _itemsH.Save(_history);
 
 			};
 		}

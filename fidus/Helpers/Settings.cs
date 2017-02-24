@@ -1,5 +1,6 @@
 // Helpers/Settings.cs
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
@@ -45,15 +46,20 @@ namespace fidus.Helpers
 		private static readonly bool uIsLogged = false;
 		private const string ULastLogin = "UserLastLogin";
 		private static readonly DateTime uLastLogin = System.DateTime.Now.ToLocalTime();
+		private static readonly string qrTimes = "QRTimes";
+		private const string _qrtimes = "nada";
+		private static readonly string qrBranches = "QRBranches";
+		private const string _qrbranches = "nada";
+	
 	#endregion
 	#region Fidus Settings
 		private static bool _isLogin = false, _isInetEnabled=true;
-
 		public static bool IsLogin { get { return _isLogin; } set { _isLogin = value; } }
 		public static bool IsReturn = false;
 		public static bool IsBoot = true;
 		public static bool IsInternetEnabled { get { return _isInetEnabled; } set { _isInetEnabled = value; } }
 
+		public const int CantQR = 5;
 		public const string AzureUrl = "http://fidus.azurewebsites.net";
 
 		private static Person currentuser = new Person();
@@ -62,6 +68,8 @@ namespace fidus.Helpers
 		private static ObservableCollection<Place> _allPlaces = new ObservableCollection<Place>();
 		public static ObservableCollection<Place> AllPlaces { get { return _allPlaces; } set { _allPlaces = value; } }
 		public static int Points;
+		public static Queue<string> qrbranch = new Queue<string>();
+		public static Queue<string> qrdate = new Queue<string>();
 
 		public const string FidusColor = "#9E3B37";
 		public const string FidusBlue = "#01baef";
@@ -106,6 +114,18 @@ namespace fidus.Helpers
 			}
 		
 		}
+
+	public static string QRLastTimes 
+		{
+			get { return AppSettings.GetValueOrDefault<string>(qrTimes,_qrtimes);}
+			set { AppSettings.AddOrUpdateValue<string>(qrTimes, value); }
+		}
+	public static string QRLastBranches
+		{
+			get { return AppSettings.GetValueOrDefault<string>(qrBranches, _qrbranches); }
+			set { AppSettings.AddOrUpdateValue<string>(qrBranches, value); }
+		}
+	
 	public static string UserEmail
 		{
 			get{ return AppSettings.GetValueOrDefault<string>(UEmail, uEmail);}

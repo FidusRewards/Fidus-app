@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace fidus
 {
@@ -185,7 +186,7 @@ namespace fidus
 
 				if (result.FirstOrDefault() != null)
 				{
-					var tempcheck = await IsQRtempValid(result.FirstOrDefault());
+					var tempcheck = IsQRtempValid(result.FirstOrDefault());
 					IsBusy = false;
 
 					if (tempcheck)
@@ -232,8 +233,10 @@ namespace fidus
 
 		}
 
-		public async Task<bool> IsQRtempValid(WhiteList qrcode)
+		public bool IsQRtempValid(WhiteList qrcode)
 		{
+			TimeSpan difference;
+			bool flag = false;
 
 			if (qrcode != null)
 			{
@@ -242,39 +245,53 @@ namespace fidus
 				{
 					// CONSULTA DE LOS REGISTROS EN LOS QUE EL CODIGO QR SEA = AL ESCANEADO, EL ESCANEO SE HAYAN HECHO HOY 
 					//  Y LA PERSONA QUE ESCANEO ES EL QUE AHORA ESTA ESCANEANDO      
+									
+					var _qrdatetime = Helpers.Settings.QRLastTimes.Split(',');
+					var _qrbranch = Helpers.Settings.QRLastBranches.Split(',');
 
-					var result2 = await LoadHistory.Load(Helpers.Settings.UserEmail, qrcode);
-
-					// SI NO HUBO NINGUN ESCANEO EN ESTE CODIGO HOY PASA
-					if (result2.Count == 0 || result2 == null)
+					if (!_qrdatetime.Contains("nada"))
 					{
-						return true;
-					}
-
-					// PERO SI HAY :
-					int count = 0;
-
-					foreach (History dates in result2)
-					{
-
-						// COMPARAMOS LAS 2 FECHAS 
-						TimeSpan difference = new TimeSpan();
-						difference = (DateTime.Now - dates.DateTime);
-						Debug.WriteLine("MainVM: Differemce = " + difference);
-
-						if (difference.TotalHours < 1)
+						for (int i = 0; i < _qrbranch.Count(); i++)
 						{
-							// SI LA DIFERENCIA ENTRE UNO Y EL OTRO ES MENOR A 1 COUNT SE SUMA
-							// SUPUESTAMENTE EL TotalHours CUENTA HORA CON MINUTOS : EJ : 13:15 - 12:10 = 1,05 o ALGO POR EL ESTILO 
-							count++;
+							Helpers.Settings.qrdate.Enqueue(_qrdatetime[i]);
+							Helpers.Settings.qrbranch.Enqueue(_qrbranch[i]);
+						
+							DateTime convertedDate = DateTime.SpecifyKind(
+									DateTime.Parse(_qrdatetime[i]),
+									DateTimeKind.Local);
+							if (_qrbranch[i] == qrcode.Branch)  //_qrlastcode[i]==qrcode.ExchangeCode && 
+							{
+								difference = (DateTime.Now.ToLocalTime() - convertedDate);
+							}
+							else{
+								difference = TimeSpan.Parse("01:01:00");
+							}
+
+							if (difference.Hours < 1)
+							{
+								flag=true;
+							}
+
+						}
+						Helpers.Settings.qrdate.Enqueue(","+DateTime.Now.ToString());
+						Helpers.Settings.qrbranch.Enqueue(","+qrcode.Branch);
+
+						if (Helpers.Settings.qrbranch.Count > Helpers.Settings.CantQR)
+						{
+							Helpers.Settings.qrdate.Dequeue();
+							Helpers.Settings.qrbranch.Dequeue();
 						}
 
+						if (flag)
+							return false;
+						else
+							return true;
 					}
-					// SI ALGUN VALOR COMAPRADOS ANTES DIO CON MENOS DE 1 HORA DE DIFERENCIA SALE ERROR
-					if (count == 0)
-					{
-						return true;
-					}
+
+					Helpers.Settings.qrbranch.Enqueue(qrcode.Branch);
+					Helpers.Settings.qrdate.Enqueue(DateTime.Now.ToString());
+					return true;
+
 
 				}
 				catch (Exception ex)

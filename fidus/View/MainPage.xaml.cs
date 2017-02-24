@@ -196,11 +196,11 @@ namespace fidus
 					string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 #region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
 					//words = new string[6];
-					//words[0] = "BedFord Station";
+					//words[0] = "Bartok";
 					//words[1] = "50";
-					//words[2] = "Bedford_logo.png";
-					//words[3] = "S-0003";
-					//words[4] = "República Arabe Siria 3041";
+					//words[2] = "Bartok_logo.png";
+					//words[3] = "Catunga";
+					//words[4] = "Suc01";
 					//words[5] = "DEMOTEST";
 #endregion
 					string urllogo;
@@ -246,9 +246,9 @@ namespace fidus
 			};			//COMENTAR el }; PARA PRUEBA DE SCAN CODE  
 
             await Navigation.PushAsync(scanPage);  // COMENTAR ESTA LINEA PARA PRUEBA DEL SCAN CODE
-                  //Device.OpenUri(new Uri(url));
-
-
+            
+			//Ejemplo para abir una URL desde el QR     
+			//Device.OpenUri(new Uri(url));
 
         }
 
