@@ -47,9 +47,9 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>CFBundleVersion</key>
-	<string>2.0.17</string>
+	<string>2.0.18</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.17</string>
+	<string>2.0.18</string>
 	<key>UIRequiresPersistentWiFi</key>
 	<true/>
 </dict>
