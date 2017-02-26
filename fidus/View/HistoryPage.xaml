@@ -54,7 +54,7 @@
 
 								<StackLayout Orientation="Horizontal"
 									HorizontalOptions="FillAndExpand">
-									<Label Text="{Binding DateTime}"
+									<Label Text="{Binding DateTime, StringFormat='{0:d MMMM, yyyy, HH:mm}'}"
 											HorizontalOptions="FillAndExpand"
                                 			TextColor="#9E3B37" />
 									<Label Text="Puntos Ganados: "

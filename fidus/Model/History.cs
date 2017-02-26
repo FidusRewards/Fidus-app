@@ -38,6 +38,9 @@ namespace fidus
 		[JsonProperty]
 		public int Rating { get; set;}
 
+		[JsonProperty]
+		public string Comment { get; set;}
+
         [Version]
 		public string Version { get; set; }
 

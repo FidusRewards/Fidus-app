@@ -8,6 +8,9 @@ using Microsoft.WindowsAzure.MobileServices.Sync;
 using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
+using Plugin.Connectivity;
+using Newtonsoft.Json.Linq;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace fidus
 {
@@ -19,13 +22,22 @@ namespace fidus
 		ICommand tapCommand;
 		public Command SettingsCommand { get; set; }
 		public Command ExitCommand { get; set; }
-		private AzureClient<WhiteList> _client;
-		private LoadAsync<WhiteList> _itemsW;
-		private LoadAsync<History> LoadHistory;
+
+		public static MobileServiceClient _client = new MobileServiceClient(Helpers.Settings.AzureUrl);
+
+		//private LoadAsync<WhiteList> _itemsW = new LoadAsync<WhiteList>(_client);
+		//private LoadAsync<History> LoadHistory = new LoadAsync<History>(_client);
+
 		private string cuser, cmail;
 		public string CurrUser { get { return cuser; } set { cuser = value; OnPropertyChanged(); } }
 		public string CurrUmail { get { return cmail; } set { cmail = value; OnPropertyChanged(); } }
 		private int counter, index;
+
+		private LoadAsync<Place> _clientPl = new LoadAsync<Place>(_client);
+		private LoadAsync<History> _clientH = new LoadAsync<History>(_client);
+		private LoadAsync<WhiteList> _clientW = new LoadAsync<WhiteList>(_client);
+
+		private IMobileServiceTable<Person> _tablaP;
 
 		public ObservableCollection<Place> PItems
 		{
@@ -41,8 +53,7 @@ namespace fidus
 			tapCommand = new Command(OnTapped);
 			//SettingsCommand = new Command(SettingsTap);
 			//ExitCommand = new Command(ExitTap);
-			_client = new AzureClient<WhiteList>();
-			LoadHistory = new LoadAsync<History>();
+			_tablaP = _client.GetTable<Person>();
 
 			Debug.WriteLine("MainPage : Antes del IF del DoLogin");
 
@@ -56,10 +67,18 @@ namespace fidus
 
 		private async Task InitDb()
 		{
-			LoadAsync<Place> LoadItems = new LoadAsync<Place>();
-			await LoadItems.InitSync(Helpers.Settings.UserEmail + "InitDb");
 
-			Helpers.Settings.AllPlaces = await LoadItems.Load(Helpers.Settings.AllPlaces);
+			var dif = (DateTime.Now - Helpers.Settings.LastPlaceInit.ToLocalTime()).Minutes;
+			if (CrossConnectivity.Current.IsConnected)
+			{	if (dif > 10)
+					{
+					await _clientPl.SyncAsync();
+					Helpers.Settings.LastPlaceInit = DateTime.Now.ToLocalTime();
+					}
+			}else
+				MessagingCenter.Send(this, "NOINET");
+			
+			Helpers.Settings.AllPlaces = await _clientPl.Load(Helpers.Settings.AllPlaces);
 			index = 0;
 
 			if (Helpers.Settings.AllPlaces.IsAny())
@@ -94,8 +113,6 @@ namespace fidus
 			var _places = new ObservableCollection<Place>();
 			//await _client.PurgeData();
 
-			//Places = new List<Place>();
-			//await LoadItems.InitSync();
 			CurrUser = Helpers.Settings.CurrentUser.Name;
 			CurrUmail = Helpers.Settings.CurrentUser.Email;
 
@@ -109,8 +126,16 @@ namespace fidus
 
 				if (Helpers.Settings.AllPlaces.IsAny())
 				{
-					await LoadHistory.InitSync("history" + Helpers.Settings.UserEmail);
-
+					var dif = (DateTime.Now - Helpers.Settings.LastHistoryInit.ToLocalTime()).Minutes;
+					if (CrossConnectivity.Current.IsConnected)
+					{	if (dif > 10)
+							{	
+							await _clientH.SyncAsync();
+							Helpers.Settings.LastHistoryInit = DateTime.Now.ToLocalTime();
+							}
+					}else
+							MessagingCenter.Send(this, "NOINET");
+					
 					if (Helpers.Settings.UserIsAdmin)
 					{
 						_places = new ObservableCollection<Place>(Helpers.Settings.AllPlaces);
@@ -126,7 +151,7 @@ namespace fidus
 						placeH.Person = Helpers.Settings.CurrentUser.Email;
 						placeH.Place = items.Name;
 
-						var hpoints = await LoadHistory.Load(placeH);
+						var hpoints = await _clientH.Load(placeH);
 
 						_places[_places.IndexOf(items)].Points = hpoints;
 
@@ -171,18 +196,20 @@ namespace fidus
 		public async Task<bool> ConfirmQRCode(string place, string branch, string qrcode)
 		{
 			IsBusy = true;
-			_itemsW = new LoadAsync<WhiteList>();
-
-
-			await _itemsW.InitSync();
-
-			IMobileServiceSyncTable<WhiteList> _tabla = _client.GetTable();
 
 			try
 			{
-
-				var query = _tabla.CreateQuery().IncludeTotalCount().Where(whitelist => whitelist.Place == place && whitelist.Branch == branch && whitelist.ExchangeCode == qrcode);
-				var result = await query.ToEnumerableAsync();
+				var dif = (DateTime.Now - Helpers.Settings.LastWhiteListInit.ToLocalTime()).Minutes;
+				if (CrossConnectivity.Current.IsConnected)
+				{ if (dif > 10)
+					{
+						await _clientW.SyncAsync();//Helpers.Settings.UserID + "WhiteList");
+						Helpers.Settings.LastWhiteListInit = DateTime.Now.ToLocalTime();
+					}
+				}else
+					MessagingCenter.Send(this, "NOINET");
+				
+				var result = await _clientW.LoadW(place, branch, qrcode);
 
 				if (result.FirstOrDefault() != null)
 				{
@@ -193,25 +220,22 @@ namespace fidus
 					{
 						if (qrcode.StartsWith("T", StringComparison.CurrentCultureIgnoreCase))
 						{
-							await _tabla.DeleteAsync(result.FirstOrDefault());
+							await _clientW.Delete(result.FirstOrDefault());
 						}
 						return true;
 					}
 					return false;
-
 				}
 
-				IsBusy = false;
-				return false;
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine("MainVM: Error en Conexíon qrcode" + ex);
 				MessagingCenter.Send(this, "NOINET");
 
-				IsBusy = false;
-				return false;
 			}
+			IsBusy = false;
+			return false;
 		}
 
 
@@ -227,6 +251,7 @@ namespace fidus
 			_Uhistory.Person = Helpers.Settings.UserEmail;
 			_Uhistory.Branch = points[4];
 			_Uhistory.ExchangeCode = points[3];
+			_Uhistory.Reward = " ";
 			string _placelogo = Helpers.Settings.ImgSrvProd + points[2];
 
 			string puntos = points[1];
@@ -318,5 +343,56 @@ namespace fidus
 			}
 			return false;
 		}
+
+		public async void DoLogout()
+		{ 
+			try
+			{
+				//this.IsEnabled = false;
+				//await App.instance.UpdateDB();
+				IsBusy = true;
+				Helpers.Settings.CurrentUser.Logged = false;
+
+				if (CrossConnectivity.Current.IsConnected)
+				{
+
+					JObject data = new JObject {
+								{ "id", Helpers.Settings.CurrentUser.id },
+								{ "Logged", false }
+							};
+					await _tablaP.UpdateAsync(data);
+				}
+
+				Helpers.Settings.UserName = "fidus";
+				Helpers.Settings.UserEmail = "fidus@com";
+				Helpers.Settings.UserPoints = 0;
+				Helpers.Settings.UserID = "AA";
+				Helpers.Settings.AllPlaces.Clear();
+				Helpers.Settings.Hitem.Place = "";
+				Helpers.Settings.Hitem.id = "";
+
+				//var pclient = new LoadAsync<Place>();
+				//pclient.PurgeTable();
+				Helpers.Settings.IsLogin = false;
+				Helpers.Settings.IsReturn = false;
+				//_client.CloseDB();
+				Helpers.Settings.LastPlaceInit = DateTime.Parse("2017-01-01 00:00:01");
+				Helpers.Settings.LastHistoryInit = DateTime.Parse("2017-01-01 00:00:01");
+				Helpers.Settings.LastWhiteListInit = DateTime.Parse("2017-01-01 00:00:01");
+				Helpers.Settings.LastRewardsInit = DateTime.Parse("2017-01-01 00:00:01");
+
+				//this.HideWithoutAnimations();
+				MessagingCenter.Send(this, "LOGOUT");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("MainPage: Exit stack " + ex);
+			}
+
+			IsBusy = false;
+			Debug.WriteLine("Menu : Logout");
+		}
+		
+
 	}
 }

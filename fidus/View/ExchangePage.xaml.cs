@@ -27,6 +27,9 @@ namespace fidus
 			PCat.FontSize = 18;
 			PCat.TextColor = Color.Gray;
 
+			OKBut.Image = "btn_volver_gris.png";
+			OKBut.BackgroundColor = Color.FromHex("#646464");
+			OKBut.BorderColor = Color.FromHex("#646464");
 
 			reName.Text = selectedreward.Name;
 
@@ -41,13 +44,13 @@ namespace fidus
 			reDate.FontSize = 16;
 
 			//Settings.CurrentUser.Points += -1*selectedreward.ReqPoints;
+			OKBut.Clicked += async (object sender, EventArgs e) => {
+				OKBut.IsEnabled = false;		
+				await Navigation.PopModalAsync();
+			};
 
 		}
 
-		async void Handle_Clicked(object sender, System.EventArgs e)
-		{
-			await Navigation.PopModalAsync();
-		}
 		protected override bool OnBackButtonPressed()
 		{
 			return true;

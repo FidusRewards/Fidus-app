@@ -11,15 +11,10 @@ namespace fidus
 {
 	public class loginViewModel: BaseViewModel
 	{
-		private AzureClient<Person> _client;
+		private AzureClient<Person> _client= new AzureClient<Person>();
+		private IMobileServiceTable<Person> _tabla;
 		public ObservableCollection<Person> Items { get; set; }
         public bool BusyHide = true;
-
-		public loginViewModel()
-		{
-			_client = new AzureClient<Person>();
-
-		}
 
 		public async Task<bool> LoginQuery(string userEmail, string userPass)
 		{
@@ -27,7 +22,7 @@ namespace fidus
 			Helpers.Settings.UserName = userEmail;
 			//await _client.SyncAsync();
 
-			IMobileServiceTable<Person> _tabla = _client.GetPTable();
+			_tabla = _client.GetPTable();
 			string _hPass = DependencyService.Get<IHash256>().Hash256(userPass);
 
 			try
@@ -48,7 +43,6 @@ namespace fidus
 					Helpers.Settings.CurrentUser.LastLogin = System.DateTime.Now.ToLocalTime();
 				
 					await _tabla.UpdateAsync(Helpers.Settings.CurrentUser);
-					//await _tabla.UpdateAsync(Settings.CurrentUser);
 
 					MessagingCenter.Send(this, "LOGGEDIN");
 					return true;

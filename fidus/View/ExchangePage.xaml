@@ -62,7 +62,7 @@
 						Android ="0,45,0,0"
     					WinPhone="0,45,0,0" />
 				</StackLayout.Padding>
-      
+				
        		 	<StackLayout Orientation="Horizontal"
 					HorizontalOptions="FillAndExpand"
 					Padding="34,10,34,10"
@@ -135,8 +135,6 @@
           			</StackLayout>
         			<Button 
           				x:Name="OKBut"
-          				Clicked="Handle_Clicked"
-						Image="btn_volver_gris.png"
           				Margin="0,5,0,5"
 						/>
 

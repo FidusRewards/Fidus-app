@@ -27,14 +27,15 @@ namespace fidus
 			SeparatorVisibility = SeparatorVisibility.None,
 			BackgroundColor = Color.Transparent
 		};
-		private AzureClient<Person> _client;
 		public ListView ListView { get { return listview; } }
 		public static ContentPage instance;
 
+
+
 		public MainPage()
-        {
+		{
 			instance = this;
-            InitializeComponent();
+			InitializeComponent();
 			Debug.WriteLine("MainPage Settings : " + Helpers.Settings.UserEmail);
 			Helpers.Settings.IsBoot = true;
 			Helpers.Settings.IsLogin = false;
@@ -47,37 +48,59 @@ namespace fidus
 
 			mVM = new MainViewModel();
 
-            BindingContext = mVM;
+			BindingContext = mVM;
 
 			MenuDrawer();
 
 			DrawMain();
 
-			SubscribeMsg();
-
-
-			MessagingCenter.Subscribe<loginViewModel>(this, "LOGGEDIN", (obj) =>
-				{
-				ReDraw();
-
+			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",async (obj) =>{
+				IsBusy = false;
+				await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
 				});
 
+			MessagingCenter.Subscribe<MainViewModel>(this, "ScanRequest", (obj) => Scan());
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "Settings", async (obj) =>{
+				await Navigation.PushAsync(new HistoryPage());
+				});
+			MessagingCenter.Subscribe<MainViewModel>(this, "Exit", async (obj) =>{
+				Debug.WriteLine("MainPage: Exit via MessagingCenter");
+				try
+				{
+					await Navigation.PopToRootAsync();
+					//App.instance.ClearNavigationAndGoLogin();
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine("MainPage: Exit stack " + ex);
+				}
+			});
+
+			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>{
+				var qPage = new QualifyPage(_place[0], _place[1], _place[2], _place[3], Helpers.Settings.Hitem) { Title = "Califica" };
+				NavigationPage.SetHasBackButton(qPage, false);
+				await Navigation.PushAsync(qPage);
+			});
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "LOGOUT", async (obj) => {
+				await Navigation.PushModalAsync(new loginPage(), false);                                        
+			});
+
+			MessagingCenter.Subscribe<loginViewModel>(this, "LOGGEDIN", (obj) => {
+				ReDraw();
+			});
+
+			MessagingCenter.Subscribe<MainViewModel>(this, "NOINET", async (obj) => { 
+				Helpers.Settings.IsInternetEnabled = false;
+				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
+			});
 		}
 
 
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-
-			//Settings.IsLogin = true;
-			//App.UpdateProperties();
-
-			//if (Application.Current.Properties.ContainsKey("UserEmail"))
-			//	if (Application.Current.Properties["UserEmail"] != null)
-			//	{
-			//		App.UpdateUSettings();
-			//		Settings.IsLogin = false;
-			//	}
 
 			if (Helpers.Settings.IsLogin)
 			{
@@ -161,8 +184,8 @@ namespace fidus
 					//words[0] = "Bartok";
 					//words[1] = "20";
 					//words[2] = "Bartok_logo.png";
-					//words[3] = "T-0002";
-					//words[4] = "Suc02";
+					//words[3] = "Catunga";
+					//words[4] = "Suc01";
 					//words[5] = "DEMOTEST";
 #endregion
 					string urllogo;
@@ -346,140 +369,30 @@ namespace fidus
 
 		internal async void MenuItemSelected(object sender, SelectedItemChangedEventArgs e)
 		{
-			//if (e.SelectedItem == null) return;
+			if (e.SelectedItem == null) return;
 			var item = e.SelectedItem as MasterPageItem;
 
-			if (item != null)
+			if (item.TargetType != null)
 			{
-				if (item.TargetType != null)
-				{
-					Helpers.Settings.IsReturn = true;
-					Page Detail = (Page)Activator.CreateInstance(item.TargetType);
+				Helpers.Settings.IsReturn = true;
+				Page Detail = (Page)Activator.CreateInstance(item.TargetType);
 
-					await Navigation.PushAsync(Detail);
+				await Navigation.PushAsync(Detail);
 
-					Debug.WriteLine("Menu : " + item.Title);
-					//this.HideWithoutAnimations();
-					//listview.SelectedItem = null;
-				}
-				else if (item.Title == "Logout")
-				{
-					try
-					{
-						//this.IsEnabled = false;
-						//await App.instance.UpdateDB();
-						Helpers.Settings.CurrentUser.Logged = false;
-
-						if (CrossConnectivity.Current.IsConnected)
-						{
-							_client = new AzureClient<Person>();
-							IMobileServiceTable<Person> _tabla = _client.GetPTable();
-							JObject data = new JObject {
-								{ "id", Helpers.Settings.CurrentUser.id },
-								{ "Logged", false }
-							};
-							await _tabla.UpdateAsync(data);
-						}
-						Helpers.Settings.UserName = "fidus";
-						Helpers.Settings.UserEmail = "fidus@com";
-						Helpers.Settings.UserPoints = 0;
-						Helpers.Settings.UserID = "AA";
-						Helpers.Settings.AllPlaces.Clear();
-						Helpers.Settings.Hitem.Place = "";
-						Helpers.Settings.Hitem.id = "";
-
-						//var pclient = new LoadAsync<Place>();
-						//pclient.PurgeTable();
-						Helpers.Settings.IsLogin = false;
-						Helpers.Settings.IsReturn = false;
-						//_client.CloseDB();
-
-						//this.HideWithoutAnimations();
-
-						await Navigation.PushModalAsync(new loginPage(), false);
-
-						//App.instance.ClearNavigationAndGoLogin();
-
-					}
-					catch (Exception ex)
-					{
-						Debug.WriteLine("MainPage: Exit stack " + ex);
-					}
-
-					Debug.WriteLine("Menu : Logout");
-				}
-				DependencyService.Get<IToggleDrawer>().ToggleDrawer();
-
-				((ListView)sender).SelectedItem = null;
-
+				Debug.WriteLine("Menu : " + item.Title);
+				//this.HideWithoutAnimations();
+				//listview.SelectedItem = null;
 			}
+			else if (item.Title == "Logout")
+			{
+				mVM.DoLogout();
+
+			}	
+			DependencyService.Get<IToggleDrawer>().ToggleDrawer();
+
+			((ListView)sender).SelectedItem = null;
 
 		}
-		//protected override void OnDisappearing() {
-		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "NotLoaded");
-		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "ScanRequest");
-		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Settings");
-		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Exit");
-		//	MessagingCenter.Unsubscribe<MainViewModel>(this, "Thanks");
 
-		//}
-
-		private void SubscribeMsg()
-		{ 
-			//MessagingCenter.Subscribe<MainViewModel, ObservableCollection<Place>>(this, "Loaded",
-			//												  (obj, mplaces) => IsBusy = false);
-
-			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",
-													 async (obj) =>
-													 {
-														 IsBusy = false;
-														 await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
-													 });
-
-
-
-			MessagingCenter.Subscribe<MainViewModel>(this, "ScanRequest", (obj) => Scan());
-
-			//MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards", async (obj, _place) =>
-			//{
-			//	Settings.IsReturn = true;
-			//    Debug.WriteLine("MaingPage: OnTapp Mesg desde MainviewModel -> Rewards " + _place[0]);
-			//    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-			//});
-
-			//MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Rewards1", async (obj, _place) =>
-			//{
-			//	Settings.IsReturn = true;
-			//    Debug.WriteLine("MainPage: Command Mesg desde MainviewModel -> Rewards1 " + _place[0]);
-			//    await Navigation.PushAsync(new RewardsPage(_place[0], _place[1]) { Title = "Recompensas" });
-			//});
-
-			MessagingCenter.Subscribe<MainViewModel>(this, "Settings", async (obj) =>
-			{
-				await Navigation.PushAsync(new HistoryPage());
-			});
-			MessagingCenter.Subscribe<MainViewModel>(this, "Exit", async (obj) =>
-			{
-				Debug.WriteLine("MainPage: Exit via MessagingCenter");
-				try
-				{
-					await Navigation.PopToRootAsync();
-					//App.instance.ClearNavigationAndGoLogin();
-
-				}
-				catch (Exception ex)
-				{
-					Debug.WriteLine("MainPage: Exit stack " + ex);
-				}
-
-			});
-
-			MessagingCenter.Subscribe<MainViewModel, string[]>(this, "Thanks", async (obj, _place) =>
-			{
-
-				await Navigation.PushAsync(new QualifyPage(_place[0], _place[1], _place[2], _place[3], Helpers.Settings.Hitem) { Title = "Califica" });
-			});
-		
-		}
     }
 }

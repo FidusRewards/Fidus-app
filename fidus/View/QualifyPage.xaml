@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="fidus.QualifyPage"
-			xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
 	>
   <RelativeLayout>
     <Image
@@ -37,6 +36,7 @@
         Orientation="Vertical"
         BackgroundColor="Transparent"
 			    >
+		
       <StackLayout Orientation="Horizontal"
 			HorizontalOptions="FillAndExpand"
 				BackgroundColor="White"
@@ -53,7 +53,7 @@
 			/>
       </StackLayout>
 			
-		<StackLayout Orientation="Vertical" Padding="60,20,60,5">
+		<StackLayout Orientation="Vertical" Padding="60,10,60,5">
       			<Image x:Name="PGracias" />
 				<Label x:Name="PPuntos"
 						Margin="5"
@@ -66,22 +66,34 @@
 					HorizontalOptions="Center"
 					Margin="0,20,0,0"/>
 				<Label Text="Dejanos por favor tu opinión"
-				FontSize="16"
+					FontSize="16"
 					TextColor="Gray"
 					HorizontalOptions="Center"/>
 				
-     		 	<rating:SfRating x:Name="ratingst" HorizontalOptions="Center" ItemCount="5" Margin="5,20,5,10" Precision="Standard"/>
+     		 	<StackLayout x:Name="ratingctl" 
+					HorizontalOptions="Center" 
+					Margin="5,20,5,10"/>
 				
-				<Label 
-     		 		BindingContext="{x:Reference ratingst}"
+				<!--<Label
+					x:Name="valueratio"
+     		 		BindingContext="{x:Reference ratingctl}"
 					Text="{Binding Value, StringFormat='{0:F0}/5'}"
      		 		FontSize="20"
 					FontAttributes="Bold"
 					HorizontalOptions="Center"
+					/>-->
+				<Entry
+					x:Name="comment"
+					HorizontalOptions="FillAndExpand"
+					HeightRequest="70"
+				 	Placeholder = "Comentarios"
+				    BackgroundColor = "White"
+				    TextColor = "Black"
+				    Keyboard = "Text"
+				    Margin="0,5,0,0"
 					/>
-				
      		 	<Button x:Name="bt_Avanzar"
-                  Margin="0, 50, 0, 0"/>
+                  Margin="0, 20, 0, 0"/>
 		</StackLayout>
 
     </StackLayout>

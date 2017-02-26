@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using HockeyApp;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.WindowsAzure.MobileServices.Sync;
 
 namespace fidus
 {
 	public class RegisterViewModel: BaseViewModel
 	{
-		private AzureClient<Person> _client;
+		private AzureClient<Person> _clientP = new AzureClient<Person>();
+		private IMobileServiceTable<Person> _tablaP;
 		private string _email;
 		private string _pass;
 		private string _passconfirm;
@@ -54,6 +56,7 @@ namespace fidus
 		public RegisterViewModel()
 		{
 			RegButtonCommand = new Command(RegisterCmd);
+			_tablaP = _clientP.GetPTable();
 		}
 
 		public async void RegisterCmd()
@@ -63,8 +66,6 @@ namespace fidus
 			{
                 if (RPass == RPass2)
                 {
-					_client = new AzureClient<Person>();
-
                     _hPass = DependencyService.Get<IHash256>().Hash256(RPass);
 
 					var Datos = new Person()
@@ -77,12 +78,12 @@ namespace fidus
 						Logged = true,
 						Phone = " ",
 						Points = 0,
-						LastLogin = System.DateTime.Now.ToLocalTime()
+						LastLogin = DateTime.Now.ToLocalTime()
+						                    
                     };
 
-                    var Tabla = _client.GetPTable();
 
-                    await Tabla.InsertAsync(Datos);
+					await _tablaP.InsertAsync(Datos);
 
 					//IEnumerable<Person> result = await Tabla.Where(person => person.Email == REmail).ToEnumerableAsync();
 					//if (!Utils.IsAny(result))
@@ -102,6 +103,7 @@ namespace fidus
                             {"Name", Datos.Name}
                         },
                         new Dictionary<string, double> { });
+
 					Helpers.Settings.IsReturn = false;
 					MessagingCenter.Send(this, "VOLVERMAIN");
 

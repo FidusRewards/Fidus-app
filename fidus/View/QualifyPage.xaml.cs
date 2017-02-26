@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Syncfusion.SfRating.XForms;
 
 using Xamarin.Forms;
@@ -11,6 +8,8 @@ namespace fidus
 {
 	public partial class QualifyPage : ContentPage
 	{
+		LoadAsync<History> _clientH = new LoadAsync<History>(MainViewModel._client);
+		SfRating ratingst = new SfRating();
 
 		public QualifyPage(string place="Fidus", string puntos="0", string logo=Helpers.Settings.ImgSrvProd+"logofidus.png", string category="Resto Bar", History _history=null)
 		{
@@ -18,7 +17,6 @@ namespace fidus
 
 			NavigationPage.SetTitleIcon(this, "fidus_text.png");
 			this.Title = "Fidus";
-
 
 			PImage.Source = logo;
 			PImage.HeightRequest = 62;
@@ -44,28 +42,30 @@ namespace fidus
 			PGracias.BackgroundColor = Color.Transparent;
 			PGracias.VerticalOptions = LayoutOptions.Center;
 			PGracias.HorizontalOptions = LayoutOptions.Center;
-			PGracias.HeightRequest = 100;
+			PGracias.HeightRequest = 70;
+
+			bt_Avanzar.Image = "btn_continuargris.png";
+			bt_Avanzar.BackgroundColor = Color.FromHex("#646464");
+			bt_Avanzar.BorderColor = Color.FromHex("#646464");
 
 			ratingst.RatingSettings.RatedFill = Color.FromHex(Helpers.Settings.FidusColor);
 			ratingst.RatingSettings.UnRatedFill = Color.Silver;
 			ratingst.ItemSize = 40;
 			ratingst.RatingSettings.RatedStroke = Color.Transparent;
 			ratingst.RatingSettings.UnRatedStroke = Color.Transparent;
-			//qVM.NRating = Convert.ToString(ratingst.Value);
+			ratingst.ItemCount = 5;
+			ratingst.Precision = Precision.Standard;
 
-			//bt_Avanzar.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
-			bt_Avanzar.Image = "btn_continuargris.png";
-			bt_Avanzar.BackgroundColor = Color.FromHex("#646464");
-			bt_Avanzar.BorderColor = Color.FromHex("#646464");
+			ratingctl.Children.Add (ratingst);
 
-
-			//bt_Avanzar.BackgroundColor = Color.FromHex(Settings.FidusBlue);
 
 			bt_Avanzar.Clicked += async (sender, e) =>
 			{
+				bt_Avanzar.IsEnabled = false;
 				Helpers.Settings.IsReturn = false;
-				var _itemsH = new LoadAsync<History>();
+
 				_history.Rating = 0;//Convert.ToInt32(ratingst.Value);
+				_history.Comment = comment.Text;
 				string temp="";
 				string temp1="";
 				var max = Helpers.Settings.qrdate.Count;
@@ -78,24 +78,26 @@ namespace fidus
 				Helpers.Settings.QRLastTimes = temp;
 				Helpers.Settings.QRLastBranches = temp1;
 
-				//for (int i=0, 
-				//Helpers.Settings.QRBranch.Enqueue(_history.Branch);
-				//Helpers.Settings.QRLastCode.Enqueue(_history.ExchangeCode);
-				//Helpers.Settings.QRDateTime.Enqueue(DateTime.Now.ToLocalTime());
-
-				//if (Helpers.Settings.QRBranch.Count > 10)
-				//{
-				//	Helpers.Settings.QRBranch.Dequeue();
-				//	Helpers.Settings.QRDateTime.Dequeue();
-				//	Helpers.Settings.QRLastCode.Dequeue();
-				//}
+				try
+				{
+					await _clientH.SaveHistory(_history);
+				} catch (Exception exe)
+				{
+					await DisplayAlert("Error", "No se han podido almacenar lo datos de tu código, favor reintentá", "OK");
+					Debug.WriteLine("Exception en InsertAsync del Qualify page" + exe.StackTrace);
+				}
 
 				await Navigation.PopToRootAsync();
-
-				await _itemsH.Save(_history);
+				//await _itemsH.Save(_history);
 
 			};
 		}
+		protected override bool OnBackButtonPressed()
+		{
+			
+			return false;
+		}
+
 
 	}
 }

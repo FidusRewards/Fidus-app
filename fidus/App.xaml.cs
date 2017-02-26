@@ -10,7 +10,6 @@ namespace fidus
 	public partial class App : Application
 	{
 		public static App instance;
-		private LoadAsync<Person> _client;
 		private Page content;
 
 		public App()

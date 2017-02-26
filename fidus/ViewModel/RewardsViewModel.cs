@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Plugin.Connectivity;
 using Xamarin.Forms;
 
 namespace fidus
 {
 	public class RewardsViewModel : BaseViewModel
 	{
-		private LoadAsync<Rewards> LoadCollection;
-		private LoadAsync<History> LoadHistory;
+		private LoadAsync<Rewards> _clientR= new LoadAsync<Rewards>(MainViewModel._client);
 		public Command RefreshCommand { get; set; }
+
 		private ObservableCollection<Rewards> _items;
 		private ObservableCollection<History> _history;
 		public string Place;
@@ -30,9 +31,7 @@ namespace fidus
 		{
 			Place = _place;
 
-			LoadCollection = new LoadAsync<Rewards>();
 			Items = new ObservableCollection<Rewards>();
-			LoadHistory = new LoadAsync<History>();
 			_history = new ObservableCollection<History>();
 
 			RefreshCommand = new Command(Load);
@@ -52,8 +51,18 @@ namespace fidus
 			_rew.Place = Place;
 
 			//IsBusy = true;
+			var dif = (DateTime.Now - Helpers.Settings.LastRewardsInit.ToLocalTime()).Minutes;
+			if (CrossConnectivity.Current.IsConnected)
+			{ if (dif > 10)
+				{
+					await _clientR.SyncAsync();
+					Helpers.Settings.LastRewardsInit = DateTime.Now.ToLocalTime();
+				}
+			}else
+				MessagingCenter.Send(this, "NOINET");
+
 			Items.Clear();
-			Items = await LoadCollection.Load(_rew);
+			Items = await _clientR.Load(_rew);
 
 			//_history.Clear();
 			//_history = await LoadHistory.Load(placeH);

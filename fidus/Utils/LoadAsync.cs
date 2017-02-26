@@ -4,52 +4,74 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
+using Plugin.Connectivity;
 
 namespace fidus
 {
 	public class LoadAsync<T> where T: class
 	{
-		private AzureClient<T> _client;
+		private MobileServiceClient _client;
+		private IMobileServiceSyncTable<T> _tabla;
+		private MobileServiceSQLiteStore store = new MobileServiceSQLiteStore("localstore.db");
 
-
-		public LoadAsync()
+		public LoadAsync(MobileServiceClient azureclient)
 		{
-			_client = AzureClient<T>.defaultInstance; //new AzureClient<T>();
+			_client = azureclient; // AzureClient<T>();
+			store.DefineTable<History>();
+			store.DefineTable<Rewards>();
+			store.DefineTable<WhiteList>();
+			store.DefineTable<Place>();
+			_client.SyncContext.InitializeAsync(store);
 
+		 	_tabla = _client.GetSyncTable<T>();
+	
 		}
 
 		public async Task<ObservableCollection<T>> Load()
 		{
-			ObservableCollection<T> Items;
-
-			Items = new ObservableCollection<T>();
+			ObservableCollection<T> Items= new ObservableCollection<T>();
 
 			Items.Clear();
 
-			var result = await _client.GetData();
-			if (!Utils.IsAny(result))
-			{
-				Debug.WriteLine("Load "+typeof(T)+" null -> Syncing");
-				await InitSync();
-				result = await _client.GetData();
-			}
+			var result = await _tabla.ToEnumerableAsync();
+			//if (!Utils.IsAny(result))
+			//{
+			//	Debug.WriteLine("Load "+typeof(T)+" null -> Syncing");
+			//	await InitSync();
+			//	result = await _client.GetData();
+			//}
 			foreach (var item in result)
 			{
-				Debug.WriteLine("Item readed");
+				Debug.WriteLine("Item read");
 				Items.Add(item);
 			}
 
 			return Items;
 		}
 
+		public async Task<IEnumerable<WhiteList>> LoadW(string place, string branch, string qrcode)
+		{
+
+			var tablaH = (IMobileServiceSyncTable<WhiteList>)_tabla;
+			var query = tablaH.CreateQuery().IncludeTotalCount().Where(whitelist => whitelist.Place == place && whitelist.Branch == branch && whitelist.ExchangeCode == qrcode);
+			return await query.ToEnumerableAsync();
+		}
+
+		public async Task Delete(WhiteList qrwhite)
+		{
+			var temptab = (IMobileServiceSyncTable<WhiteList>)_tabla;
+			await temptab.DeleteAsync(qrwhite);
+		}
+
 		public async Task<int> Load(History _history)
 		{
 
-			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
+			var _tablaH = (IMobileServiceSyncTable<History>) _tabla;
 			
 			int count = 0;
-			var query = _tabla.CreateQuery().IncludeTotalCount().Take(1000).Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person);
+			var query = _tablaH.CreateQuery().IncludeTotalCount().Take(1000).Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person);
 			var result = await query.ToEnumerableAsync();
 			//.Where(history => history.Place.Contains(_history.Place) && history.Person == _history.Person).Take(1000).ToEnumerableAsync();
 
@@ -92,23 +114,30 @@ namespace fidus
 			return _points;
 		}
 
+		public async Task SaveHistory(History hitem)
+		{
+			var _tablaH = (IMobileServiceSyncTable<History>) _tabla;
+
+			await _tablaH.InsertAsync(hitem);
+			await Push();
+		}
+
 		public async Task<ObservableCollection<Rewards>> Load(Rewards _rewards)
 		{
-			ObservableCollection<Rewards> Ritems;
-			Ritems = new ObservableCollection<Rewards>();
+			ObservableCollection<Rewards> Ritems = new ObservableCollection<Rewards>();
 
 			Ritems.Clear();
 
-			IMobileServiceSyncTable<Rewards> _tabla = (IMobileServiceSyncTable<Rewards>)_client.GetTable();
+			IMobileServiceSyncTable<Rewards> _tablaR = (IMobileServiceSyncTable<Rewards>)_tabla;
 
-			var result = await _tabla.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
+			var result = await _tablaR.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
 
-			if (!Utils.IsAny(result))
-			{
-				Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
-				await InitSync();
-				result = await _tabla.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
-			}
+			//if (!Utils.IsAny(result))
+			//{
+			//	Debug.WriteLine("Load " + typeof(T) + " null -> Syncing");
+			//	await InitSync();
+			//	result = await _tabla.Where(rewards => rewards.Place == _rewards.Place).ToEnumerableAsync();
+			//}
 
 				foreach (Rewards item in result)
 			{
@@ -133,13 +162,14 @@ namespace fidus
 				Reward = _history.Reward,
                 ExchangeCode = _history.ExchangeCode,
                 Branch = _history.Branch,
-				Rating = _history.Rating                   
+				Rating = _history.Rating,
+				Comment = _history.Comment
 			};
 
-			IMobileServiceSyncTable<History> Tabla = (IMobileServiceSyncTable<History>) _client.GetTable();
+			IMobileServiceSyncTable<History> Tabla = (IMobileServiceSyncTable<History>) _tabla;
 
 			await Tabla.InsertAsync(Datos);
-			await _client.Push();
+			await Push();
 
 			return true;
 		}
@@ -150,22 +180,22 @@ namespace fidus
 			IEnumerable<History> result;
 
 			//Hitems.Clear();
-			IMobileServiceSyncTable<History> _tabla = (IMobileServiceSyncTable<History>)_client.GetTable();
+			var _tablaH = (IMobileServiceSyncTable<History>)_tabla;
 
 			if (qrcode == null)
 			{
-				result = await _tabla.Where(history => history.Person == person)
+				result = await _tablaH.Where(history => history.Person == person)
 										.Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
-				if (!Utils.IsAny(result))
-				{
-					Debug.WriteLine("Load History null -> Syncing");
-					await InitSync();
-					result = await _tabla.Where(history => history.Person == person)
-										 .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
-				}
+				//if (!Utils.IsAny(result))
+				//{
+				//	Debug.WriteLine("Load History null -> Syncing");
+				//	await InitSync();
+				//	result = await _tablaH.Where(history => history.Person == person)
+				//						 .Take(1000).OrderByDescending(x => x.DateTime).ToEnumerableAsync();
+				//}
 
 			}else {
-				IMobileServiceTableQuery<History> _query = _tabla.CreateQuery().Where(history => (history.ExchangeCode == qrcode.ExchangeCode) && (history.DateTime.Day == DateTime.Now.Day) && (history.Person == person));
+				IMobileServiceTableQuery<History> _query = _tablaH.CreateQuery().Where(history => (history.ExchangeCode == qrcode.ExchangeCode) && (history.DateTime.Day == DateTime.Now.Day) && (history.Person == person));
 				result = await _query.ToEnumerableAsync();
 			}
 
@@ -185,15 +215,14 @@ namespace fidus
 		{
 			//await InitSync();
 			Debug.WriteLine("Entro al Load(Places)");
-			ObservableCollection<Place> Pitems;
-			Pitems = new ObservableCollection<Place>();
+			ObservableCollection<Place> Pitems = new ObservableCollection<Place>();
 
 			Pitems.Clear();
 			//IMobileServiceSyncTable<Place> _tabla = (IMobileServiceSyncTable<Place>)_client.GetTable();
 
 				//await _client.PurgeData();
 
-			IEnumerable<Place> result = (IEnumerable<Place>) await _client.GetData();
+			IEnumerable<Place> result = (IEnumerable<Place>) await _tabla.ToEnumerableAsync();
 			//if (!Utils.IsAny(result))
 			//{
 			//	Debug.WriteLine("Load Places null -> Syncing");
@@ -221,15 +250,123 @@ namespace fidus
 			return Pitems;
 		}
 
-		public async Task InitSync(string qName=null)
+		public async Task SyncAsync(string queryName = null)
 		{
-			await _client.SyncAsync(qName);
+			//string queryName;
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+
+			try
+			{
+				if (CrossConnectivity.Current.IsConnected)
+				{
+					Helpers.Settings.IsInternetEnabled = true;
+
+					if (_client.SyncContext.PendingOperations > 0)
+						await _client.SyncContext.PushAsync();
+
+					// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
+					// Use a different query name for each unique query in your program.
+					//if (Helpers.Settings.IsLogin || Helpers.Settings.IsBoot)
+					//	queryName = null;
+					//else
+					// 	queryName = $"incsync_{typeof(T).Name}";
+					//Debug.WriteLine("SyncAsync begin: "+typeof(T));
+
+					//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
+					try
+					{
+
+
+						if (_tabla.TableName == "History")
+						{
+							IMobileServiceSyncTable<History> _tablaH = (IMobileServiceSyncTable<History>)_tabla;
+							await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
+							Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
+						}
+						else
+						{
+							await _tabla.PullAsync(queryName, _tabla.CreateQuery());
+							Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
+						}
+
+						//var itemsInLocalTable = (await _table.ReadAsync()).Count();
+						//Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
+
+
+					}
+					catch (MobileServiceInvalidOperationException e)
+					{
+						// Handle error
+						Debug.WriteLine(e.StackTrace);
+					}
+				}
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+					Debug.WriteLine("Error en el SyncAsync " + exc.StackTrace);
+				}
+			}
+
+			// Simple error/conflict handling.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						// Update failed, revert to server's copy
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
 		}
 
-		public async void PurgeTable()
+		public async Task Push()
 		{
-			await _client.PurgeData();
-		}
+			ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
 
+			try
+			{
+				await _client.SyncContext.PushAsync();
+
+			}
+			catch (MobileServicePushFailedException exc)
+			{
+				if (exc.PushResult != null)
+				{
+					syncErrors = exc.PushResult.Errors;
+				}
+			}
+
+			// Simple error/conflict handling.
+			if (syncErrors != null)
+			{
+				foreach (var error in syncErrors)
+				{
+					if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+					{
+						// Update failed, revert to server's copy
+						await error.CancelAndUpdateItemAsync(error.Result);
+					}
+					else
+					{
+						// Discard local change
+						await error.CancelAndDiscardItemAsync();
+					}
+
+					Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+				}
+			}
+		}
 	}
 }

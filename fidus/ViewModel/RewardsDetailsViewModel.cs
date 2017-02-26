@@ -52,7 +52,7 @@ namespace fidus
 			{
 
 
-				var _items = new LoadAsync<History>();
+				var _items = new LoadAsync<History>(MainViewModel._client);
 				History _history = new History();
 
 				_history.DateTime = DateTime.Now.ToLocalTime();
@@ -64,8 +64,8 @@ namespace fidus
 
 				await _items.Save(_history);
 
-				if (CrossConnectivity.Current.IsConnected)
-					await _items.InitSync("history"+Helpers.Settings.UserEmail);
+				//if (CrossConnectivity.Current.IsConnected)
+				//	await _items.InitSync("history"+Helpers.Settings.UserEmail);
 				//MessagingCenter.Send(this, "Debited", true);
 				return true;
 				//await Navigation.PushAsync(new ExchangePage(_reward, _place));

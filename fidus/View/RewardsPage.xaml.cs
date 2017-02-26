@@ -47,6 +47,12 @@ namespace fidus
 				await DisplayAlert("Error", "Problemas de Conexión", "OK");
 			});
 
+			MessagingCenter.Subscribe<RewardsViewModel>(this, "NOINET", async (obj) =>
+			{
+				Helpers.Settings.IsInternetEnabled = false;
+				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
+			});
+
 			PImage.Source = place.Logo;
 			PImage.HeightRequest = 62;
 			PImage.WidthRequest = 62;

@@ -90,11 +90,12 @@
 					VerticalOptions="Center"
 					HorizontalOptions="Center"
 					HeightRequest="45"
-					Margin="0,0,0,15"
+					Margin="0,0,5,0"
 					/>
 		     <ActivityIndicator
 		     		x:Name="IndicatorRegister"
 					IsRunning="{Binding IsBusy}"
+					IsVisible="{Binding IsBusy}"
 					/>
 			<StackLayout Orientation="Horizontal" VerticalOptions="Center" 
 					HorizontalOptions="FillAndExpand" Padding="5" >
@@ -102,7 +103,6 @@
 					<Image
 						Source="iconousuario.png"
 						HeightRequest="30"
-						Margin="0,5,0,0"
 						/>
 					<Entry
 						HorizontalOptions="FillAndExpand"
@@ -220,7 +220,7 @@
 					Margin="0"
 					/>
 				<Label
-					Text="*"
+					Text=" "
 					FontSize="25"
 					TextColor="#0B4F6C"
 					HorizontalOptions="End"
@@ -238,11 +238,19 @@
 			/>
       <Label
       			Margin="0,5,0,0"
-				Text="(*) Opcional. Si querés recibir promociones y premios especiales no dejes de completar tu fecha de cumpleaños"
-				FontSize="10"
+				Text="Aviso:"
+				HorizontalOptions="CenterAndExpand"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
 				TextColor="#0B4F6C"
 			/>
- 
+ 		<Label
+				Text="Si querés recibir promociones especiales, ¡Completá tu fecha de cumpleaños!"
+				HorizontalOptions="CenterAndExpand"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
+				TextColor="#0B4F6C"
+			/>
 
     </StackLayout>
     </RelativeLayout>

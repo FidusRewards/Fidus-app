@@ -9,7 +9,6 @@ namespace fidus
 		private LoadAsync<History> LoadCollection;
 		public Command RefreshCommand { get; set; }
 		private ObservableCollection<History> _items;
-		private Color _color;
 
 		public ObservableCollection<History> Items
 		{
@@ -18,7 +17,7 @@ namespace fidus
 		}
 		public HistoryViewModel()
 		{
-			LoadCollection = new LoadAsync<History>();
+			LoadCollection = new LoadAsync<History>(MainViewModel._client);
 			Items = new ObservableCollection<History>();
 			RefreshCommand = new Command(Load);
 

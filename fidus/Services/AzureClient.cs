@@ -18,28 +18,15 @@ namespace fidus
 
 		private IMobileServiceClient _client;
 		private IMobileServiceSyncTable<T> _table;
-		private IMobileServiceTable<T> _tabla;
-		private MobileServiceSQLiteStore store = new MobileServiceSQLiteStore("localstore.db");
-
-		private IMobileServiceTableQuery<Person> PersonQuery;
 
 		public AzureClient()
 		{
 
-			try
-			{
 				_client = new MobileServiceClient(Helpers.Settings.AzureUrl);
-				store.DefineTable<T>();
-				_client.SyncContext.InitializeAsync(store);
+	
 
 				_table = _client.GetSyncTable<T>();
 						
-
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine("AzureClient: GetTable "+ex.StackTrace);
-			}
 		}
 
 		public Task<IEnumerable<T>> GetData()
@@ -130,7 +117,9 @@ namespace fidus
 				if (CrossConnectivity.Current.IsConnected)
 				{
 					Helpers.Settings.IsInternetEnabled = true;
-					await _client.SyncContext.PushAsync();
+
+					if (_client.SyncContext.PendingOperations>0)
+						await _client.SyncContext.PushAsync();
 
 					// The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
 					// Use a different query name for each unique query in your program.
@@ -147,7 +136,7 @@ namespace fidus
 
 						if (_table.TableName == "History")
 						{
-							IMobileServiceSyncTable<History> _tablaH = _client.GetSyncTable<History>();
+							IMobileServiceSyncTable<History> _tablaH = (IMobileServiceSyncTable<History>)_table;
 							await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
 							Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
 						}
@@ -156,8 +145,9 @@ namespace fidus
 							await _table.PullAsync(queryName, _table.CreateQuery());
 							Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
 						}
-						var itemsInLocalTable = (await _table.ReadAsync()).Count();
-						Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
+					
+						//var itemsInLocalTable = (await _table.ReadAsync()).Count();
+						//Debug.WriteLine("There are {0} items in the local table {1}", itemsInLocalTable, typeof(T));
 
 
 					}
@@ -173,6 +163,7 @@ namespace fidus
 				if (exc.PushResult != null)
 				{
 					syncErrors = exc.PushResult.Errors;
+					Debug.WriteLine("Error en el SyncAsync " + exc.StackTrace);
 				}
 			}
 

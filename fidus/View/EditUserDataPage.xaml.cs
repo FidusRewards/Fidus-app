@@ -11,13 +11,14 @@ namespace fidus
 {
 	public partial class EditUserDataPage : ContentPage
 	{
-		private AzureClient<Person> _client;
+		private AzureClient<Person> _client = new AzureClient<Person>();
 		private EditUserViewModel eVM;
 		private string _hPass;
 
 		public EditUserDataPage()
 		{
 			InitializeComponent();
+			var Tabla = _client.GetPTable();
 
 			eVM = new EditUserViewModel();
 
@@ -34,14 +35,11 @@ namespace fidus
 				{
 					if (eVM.EdPass == eVM.EdPass2)
 					{
-
-						_client = new AzureClient<Person>();
-
 						var Datos = new Person()
 						{
 							Email = Helpers.Settings.CurrentUser.Email,
 							id = Helpers.Settings.CurrentUser.id,
-							Version = Helpers.Settings.CurrentUser.Version,
+							//Version = Helpers.Settings.CurrentUser.Version,
 							Phone = eVM.EdPhone,
 							Name = eVM.EdName,
 							Birthday = eVM.EdBday,
@@ -57,10 +55,6 @@ namespace fidus
 							_hPass = DependencyService.Get<IHash256>().Hash256(eVM.EdPass);
 							Datos.Pass = _hPass;
 						}
-
-
-
-						var Tabla = _client.GetPTable();
 
 						await Tabla.UpdateAsync(Datos);
 

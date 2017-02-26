@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Plugin.Connectivity;
-using System.Diagnostics;
+﻿using Xamarin.Forms;
 
 namespace fidus
 {
@@ -173,24 +165,6 @@ namespace fidus
 					{
 						//await DisplayAlert("Bienvenido", Email.Text, "OK");
 
-						//Application.Current.MainPage = new HistoryPage();
-						//var content = new MainPage();
-
-
-						//Application.Current.MainPage 
-						// var content = new NavigationPage(new MainPage())
-						//{
-						//	BarBackgroundColor = Color.FromHex(Settings.FidusColor), //A13B35
-						//	BarTextColor = Color.White,
-						//Title = "Fidus"
-						//};
-
-						//NavigationPage.SetHasBackButton(content, false);
-						//NavigationPage.SetTitleIcon(content, "fidus_text.png");
-
-						//await Navigation.PushAsync(content);
-
-						//NavigationPage.SetHasNavigationBar(_mainPage, false);
 						Helpers.Settings.IsReturn = false;
 						//Helpers.Settings.IsLogin = false;
 						await Navigation.PopModalAsync();

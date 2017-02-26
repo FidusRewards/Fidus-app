@@ -50,9 +50,17 @@ namespace fidus.Helpers
 		private const string _qrtimes = "nada";
 		private static readonly string qrBranches = "QRBranches";
 		private const string _qrbranches = "nada";
-	
-	#endregion
-	#region Fidus Settings
+		private static readonly DateTime lastPlaceinit = DateTime.Parse("2017-01-01 09:00:09");
+		private const string LastPlinit = "LastPlaceInit";
+		private static readonly DateTime lastHistoryinit = DateTime.Parse("2017-01-01 09:00:09");
+		private const string LastHisinit = "LastHistoryInit";
+		private static readonly DateTime lastWhitelistinit = DateTime.Parse("2017-01-01 09:00:09");
+		private const string LastWLinit = "LastWhitelistInit";
+		private static readonly DateTime lastRewardsinit = DateTime.Parse("2017-01-01 09:00:09");
+		private const string LastReinit = "LastRewardsInit";
+
+		#endregion
+		#region Fidus Settings
 		private static bool _isLogin = false, _isInetEnabled=true;
 		public static bool IsLogin { get { return _isLogin; } set { _isLogin = value; } }
 		public static bool IsReturn = false;
@@ -75,7 +83,7 @@ namespace fidus.Helpers
 		public const string FidusBlue = "#01baef";
 		public const string FidusIosFont = "Helvetica";
 		public const string FidusAndFont = "sans-serif";
-		public const string AppVersion = "Versión: 2.0.17";
+		public const string AppVersion = "Versión: 2.0.20";
 
 		public const string Hockey_iOs = "bf5bd0e001fe4cf0928002a4dd273e66";
 		public const string Hockey_And = "d21e6cb5b8214000a98e63313150813d";
@@ -187,5 +195,27 @@ namespace fidus.Helpers
 			get { return AppSettings.GetValueOrDefault<bool>(UIsLogged, uIsLogged); }
 			set { AppSettings.AddOrUpdateValue<bool>(UIsLogged, value); }
 		}
+
+	public static DateTime LastPlaceInit
+		{
+			get { return AppSettings.GetValueOrDefault<DateTime>(LastPlinit, lastPlaceinit); }
+			set { AppSettings.AddOrUpdateValue<DateTime>(LastPlinit, value); }
+		}
+	public static DateTime LastHistoryInit
+		{
+			get { return AppSettings.GetValueOrDefault<DateTime>(LastHisinit, lastHistoryinit); }
+			set { AppSettings.AddOrUpdateValue<DateTime>(LastHisinit, value); }
+		}
+	public static DateTime LastWhiteListInit
+		{
+			get { return AppSettings.GetValueOrDefault<DateTime>(LastWLinit, lastWhitelistinit); }
+			set { AppSettings.AddOrUpdateValue<DateTime>(LastWLinit, value); }
+		}
+	public static DateTime LastRewardsInit
+		{
+			get { return AppSettings.GetValueOrDefault<DateTime>(LastReinit, lastRewardsinit); }
+			set { AppSettings.AddOrUpdateValue<DateTime>(LastReinit, value); }
+		}
+
 	}
 }
