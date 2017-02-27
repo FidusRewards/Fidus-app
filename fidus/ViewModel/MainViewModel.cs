@@ -67,8 +67,8 @@ namespace fidus
 
 		private async Task InitDb()
 		{
-
-			var dif = (DateTime.Now - Helpers.Settings.LastPlaceInit.ToLocalTime()).Minutes;
+			
+			var dif = (DateTime.Now - Helpers.Settings.LastPlaceInit.ToLocalTime()).TotalMinutes;
 			if (CrossConnectivity.Current.IsConnected)
 			{	if (dif > 10)
 					{
@@ -126,12 +126,14 @@ namespace fidus
 
 				if (Helpers.Settings.AllPlaces.IsAny())
 				{
-					var dif = (DateTime.Now - Helpers.Settings.LastHistoryInit.ToLocalTime()).Minutes;
+					var dif = (DateTime.Now - Helpers.Settings.LastHistoryInit.ToLocalTime()).TotalMinutes;
 					if (CrossConnectivity.Current.IsConnected)
 					{	if (dif > 10)
 							{	
 							await _clientH.SyncAsync();
-							Helpers.Settings.LastHistoryInit = DateTime.Now.ToLocalTime();
+
+							if (Helpers.Settings.UserEmail!="fidus@com")
+								Helpers.Settings.LastHistoryInit = DateTime.Now.ToLocalTime();
 							}
 					}else
 							MessagingCenter.Send(this, "NOINET");
@@ -199,7 +201,8 @@ namespace fidus
 
 			try
 			{
-				var dif = (DateTime.Now - Helpers.Settings.LastWhiteListInit.ToLocalTime()).Minutes;
+				
+				var dif = (DateTime.Now - Helpers.Settings.LastWhiteListInit.ToLocalTime()).TotalMinutes;
 				if (CrossConnectivity.Current.IsConnected)
 				{ if (dif > 10)
 					{
@@ -307,7 +310,7 @@ namespace fidus
 							Helpers.Settings.qrdate.Enqueue(_qrdatetime[i]);
 							Helpers.Settings.qrbranch.Enqueue(_qrbranch[i]);
 
-							if (difference.Hours < 1)
+							if (difference.TotalHours < 1)
 							{
 								flag=true;
 							}

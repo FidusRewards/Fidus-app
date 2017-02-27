@@ -51,7 +51,7 @@ namespace fidus
 			_rew.Place = Place;
 
 			//IsBusy = true;
-			var dif = (DateTime.Now - Helpers.Settings.LastRewardsInit.ToLocalTime()).Minutes;
+			var dif = (DateTime.Now - Helpers.Settings.LastRewardsInit.ToLocalTime()).TotalMinutes;
 			if (CrossConnectivity.Current.IsConnected)
 			{ if (dif > 10)
 				{

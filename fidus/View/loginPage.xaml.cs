@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Diagnostics;
+using Xamarin.Forms;
 
 namespace fidus
 {
@@ -215,7 +216,8 @@ namespace fidus
 
 
 				}else{
-					await DisplayAlert("Error","En el PopModal: "+Mcount,"OK");
+					Debug.WriteLine("Error en el popmodalasync volviendo del register, cant: " + Mcount);
+					//await DisplayAlert("Error","En el PopModal: "+Mcount,"OK");
 				}
 			});
 		}

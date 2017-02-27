@@ -41,7 +41,7 @@ namespace fidus
 				UserPoints.Text = Helpers.Settings.UserPoints.ToString();
 				Debug.WriteLine("RewardsPage: Construct - Actualicé " + Helpers.Settings.CurrentUser.Name 
 				                + " " + UserPoints.Text);
-				IsBusy = false;
+				rVM.IsBusy = false;
 			});
 			MessagingCenter.Subscribe<RewardsViewModel>(this, "NotLoaded", async (obj) => {
 				await DisplayAlert("Error", "Problemas de Conexión", "OK");
@@ -100,7 +100,7 @@ namespace fidus
 		{
 			base.OnAppearing();
 			//Settings.CurrentUser.Points = 0;
-			IsBusy = true;
+			rVM.IsBusy = true;
 			rVM.Load();
 			pepe = Helpers.Settings.AllPlaces;
 

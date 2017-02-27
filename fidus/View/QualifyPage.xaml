@@ -35,8 +35,8 @@
         HorizontalOptions="FillAndExpand"
         Orientation="Vertical"
         BackgroundColor="Transparent"
-			    >
-		
+		>
+	<ScrollView >
       <StackLayout Orientation="Horizontal"
 			HorizontalOptions="FillAndExpand"
 				BackgroundColor="White"
@@ -95,7 +95,7 @@
      		 	<Button x:Name="bt_Avanzar"
                   Margin="0, 20, 0, 0"/>
 		</StackLayout>
-
+	</ScrollView>
     </StackLayout>
   </RelativeLayout>
 </ContentPage>

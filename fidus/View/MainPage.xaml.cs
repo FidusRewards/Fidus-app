@@ -55,7 +55,7 @@ namespace fidus
 			DrawMain();
 
 			MessagingCenter.Subscribe<MainViewModel>(this, "NotLoaded",async (obj) =>{
-				IsBusy = false;
+				mVM.IsBusy = false;
 				await DisplayAlert("Error", "Problemas cargando los Datos. Cerrá por favor la App y volvé a intentar", "OK");
 				});
 
