@@ -19,6 +19,7 @@ namespace fidus
 
         private MainViewModel mVM;
         private ZXingScannerPage scanPage;
+		private Button ckbut;
 		//private Image img;
 
 		private ListView listview = new ListView()
@@ -149,7 +150,7 @@ namespace fidus
 				Priority = 0
 			});
 
-			var ckbut = new Button()
+			ckbut = new Button()
 			{
 				HorizontalOptions = LayoutOptions.CenterAndExpand,
 				HeightRequest = 60,
@@ -168,7 +169,7 @@ namespace fidus
         {
             int points;
 			//string[] words;							//DECOMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-
+			ckbut.IsEnabled = false;
 			scanPage = new ZXingScannerPage();			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 			scanPage.OnScanResult += (result) =>		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 			{											//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
@@ -177,7 +178,8 @@ namespace fidus
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-					await Navigation.PopAsync();		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+					await Navigation.PopAsync();        //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+					mVM.IsBusy = true;
 					string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 #region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
 					//words = new string[6];
@@ -228,6 +230,8 @@ namespace fidus
                     else
                         await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
                 });
+				mVM.IsBusy = false;
+				ckbut.IsEnabled = true;
 			};			//COMENTAR el }; PARA PRUEBA DE SCAN CODE  
 
             await Navigation.PushAsync(scanPage);  // COMENTAR ESTA LINEA PARA PRUEBA DEL SCAN CODE

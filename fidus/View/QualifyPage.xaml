@@ -36,7 +36,6 @@
         Orientation="Vertical"
         BackgroundColor="Transparent"
 		>
-	<ScrollView >
       <StackLayout Orientation="Horizontal"
 			HorizontalOptions="FillAndExpand"
 				BackgroundColor="White"
@@ -52,7 +51,8 @@
 				<Image x:Name="PImage"
 			/>
       </StackLayout>
-			
+	<ScrollView >
+	
 		<StackLayout Orientation="Vertical" Padding="60,10,60,5">
       			<Image x:Name="PGracias" />
 				<Label x:Name="PPuntos"
@@ -85,7 +85,6 @@
 				<Entry
 					x:Name="comment"
 					HorizontalOptions="FillAndExpand"
-					HeightRequest="70"
 				 	Placeholder = "Comentarios"
 				    BackgroundColor = "White"
 				    TextColor = "Black"
