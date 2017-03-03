@@ -169,7 +169,6 @@ namespace fidus
         {
             int points;
 			//string[] words;							//DECOMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-			ckbut.IsEnabled = false;
 			scanPage = new ZXingScannerPage();			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 			scanPage.OnScanResult += (result) =>		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 			{											//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
@@ -231,7 +230,6 @@ namespace fidus
                         await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
                 });
 				mVM.IsBusy = false;
-				ckbut.IsEnabled = true;
 			};			//COMENTAR el }; PARA PRUEBA DE SCAN CODE  
 
             await Navigation.PushAsync(scanPage);  // COMENTAR ESTA LINEA PARA PRUEBA DEL SCAN CODE
