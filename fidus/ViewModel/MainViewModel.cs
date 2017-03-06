@@ -33,9 +33,12 @@ namespace fidus
 		public string CurrUmail { get { return cmail; } set { cmail = value; OnPropertyChanged(); } }
 		private int counter, index;
 
-		private LoadAsync<Place> _clientPl = new LoadAsync<Place>(_client);
-		private LoadAsync<History> _clientH = new LoadAsync<History>(_client);
-		private LoadAsync<WhiteList> _clientW = new LoadAsync<WhiteList>(_client);
+		public static MobileServiceClient _mclientPl = new MobileServiceClient(Helpers.Settings.AzureUrl);
+		private LoadAsync<Place> _clientPl = new LoadAsync<Place>(_mclientPl);
+		public static MobileServiceClient _mclientH = _mclientPl;//new MobileServiceClient(Helpers.Settings.AzureUrl);
+		private LoadAsync<History> _clientH = new LoadAsync<History>(_mclientH);
+		public static MobileServiceClient _mclientW = _mclientPl;//new MobileServiceClient(Helpers.Settings.AzureUrl);
+		private LoadAsync<WhiteList> _clientW = new LoadAsync<WhiteList>(_mclientW);
 
 		private IMobileServiceTable<Person> _tablaP;
 
@@ -72,7 +75,8 @@ namespace fidus
 			if (CrossConnectivity.Current.IsConnected)
 			{	if (dif > 10)
 					{
-					await _clientPl.SyncAsync();
+					var synctokenPL = "Places" + Helpers.Settings.UserID;
+					await _clientPl.SyncAsync(synctokenPL);
 					Helpers.Settings.LastPlaceInit = DateTime.Now.ToLocalTime();
 					}
 			}else
@@ -130,7 +134,8 @@ namespace fidus
 					if (CrossConnectivity.Current.IsConnected)
 					{	if (dif > 10)
 							{	
-							await _clientH.SyncAsync();
+							var synctokenH = "History" + Helpers.Settings.UserID;
+							await _clientH.SyncAsync(synctokenH);
 
 							if (Helpers.Settings.UserEmail!="fidus@com")
 								Helpers.Settings.LastHistoryInit = DateTime.Now.ToLocalTime();
@@ -206,7 +211,8 @@ namespace fidus
 				if (CrossConnectivity.Current.IsConnected)
 				{ if (dif > 10)
 					{
-						await _clientW.SyncAsync();//Helpers.Settings.UserID + "WhiteList");
+						var synctokenW = "Whitelist" + Helpers.Settings.UserID;
+						await _clientW.SyncAsync(synctokenW);//Helpers.Settings.UserID + "WhiteList");
 						Helpers.Settings.LastWhiteListInit = DateTime.Now.ToLocalTime();
 					}
 				}else

@@ -8,7 +8,7 @@ namespace fidus
 {
 	public partial class QualifyPage : ContentPage
 	{
-		LoadAsync<History> _clientH = new LoadAsync<History>(MainViewModel._client);
+		LoadAsync<History> _clientH = new LoadAsync<History>(MainViewModel._mclientH);
 		SfRating ratingst = new SfRating();
 
 		public QualifyPage(string place="Fidus", string puntos="0", string logo=Helpers.Settings.ImgSrvProd+"logofidus.png", string category="Resto Bar", History _history=null)

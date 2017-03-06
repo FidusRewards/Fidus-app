@@ -12,23 +12,30 @@ namespace fidus
 {
 	public class LoadAsync<T> where T: class
 	{
-		private MobileServiceClient _client;
+		private MobileServiceClient _client; // = new MobileServiceClient(Helpers.Settings.AzureUrl);
 		private IMobileServiceSyncTable<T> _tabla;
 		private MobileServiceSQLiteStore store = new MobileServiceSQLiteStore("localstore.db");
 
 		public LoadAsync(MobileServiceClient azureclient)
 		{
-			_client = azureclient; // AzureClient<T>();
-			store.DefineTable<History>();
-			store.DefineTable<Rewards>();
-			store.DefineTable<WhiteList>();
-			store.DefineTable<Place>();
-			_client.SyncContext.InitializeAsync(store);
+			_client = azureclient; //new AzureClient<T>();//azureclient; // 
 
+			if (!_client.SyncContext.IsInitialized)
+			{
+				store.DefineTable<History>();
+				store.DefineTable<Rewards>();
+				store.DefineTable<WhiteList>();
+				store.DefineTable<Place>();
+				_client.SyncContext.InitializeAsync(store);
+			}
 		 	_tabla = _client.GetSyncTable<T>();
 	
 		}
 
+		public IMobileServiceSyncTable GetTable()
+		{
+			return _client.GetSyncTable<T>();
+		}
 		public async Task<ObservableCollection<T>> Load()
 		{
 			ObservableCollection<T> Items= new ObservableCollection<T>();
@@ -280,12 +287,13 @@ namespace fidus
 						if (_tabla.TableName == "History")
 						{
 							IMobileServiceSyncTable<History> _tablaH = (IMobileServiceSyncTable<History>)_tabla;
-							await _tablaH.PullAsync(queryName, _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail));
+							var query = _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail);
+							await _tabla.PullAsync(null, query);
 							Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
 						}
 						else
 						{
-							await _tabla.PullAsync(queryName, _tabla.CreateQuery());
+							await _tabla.PullAsync(null, _tabla.CreateQuery());
 							Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
 						}
 

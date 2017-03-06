@@ -17,7 +17,7 @@ namespace fidus
 		}
 		public HistoryViewModel()
 		{
-			LoadCollection = new LoadAsync<History>(MainViewModel._client);
+			LoadCollection = new LoadAsync<History>(MainViewModel._mclientH);//MainViewModel._client);
 			Items = new ObservableCollection<History>();
 			RefreshCommand = new Command(Load);
 

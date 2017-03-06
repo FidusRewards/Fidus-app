@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.WindowsAzure.MobileServices;
 using Plugin.Connectivity;
 using Xamarin.Forms;
 
@@ -8,7 +9,9 @@ namespace fidus
 {
 	public class RewardsViewModel : BaseViewModel
 	{
-		private LoadAsync<Rewards> _clientR= new LoadAsync<Rewards>(MainViewModel._client);
+		public static MobileServiceClient _mclientR = MainViewModel._mclientPl;//new MobileServiceClient(Helpers.Settings.AzureUrl);
+
+		private LoadAsync<Rewards> _clientR= new LoadAsync<Rewards>(_mclientR);
 		public Command RefreshCommand { get; set; }
 
 		private ObservableCollection<Rewards> _items;
@@ -55,7 +58,8 @@ namespace fidus
 			if (CrossConnectivity.Current.IsConnected)
 			{ if (dif > 10)
 				{
-					await _clientR.SyncAsync();
+					var synctokenR = "Rewards" + Helpers.Settings.UserID;
+					await _clientR.SyncAsync(synctokenR);
 					Helpers.Settings.LastRewardsInit = DateTime.Now.ToLocalTime();
 				}
 			}else

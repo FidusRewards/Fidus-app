@@ -52,7 +52,7 @@ namespace fidus
 			{
 
 
-				var _items = new LoadAsync<History>(MainViewModel._client);
+				var _items = new LoadAsync<History>(MainViewModel._mclientH);
 				History _history = new History();
 
 				_history.DateTime = DateTime.Now.ToLocalTime();

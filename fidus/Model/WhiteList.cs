@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace fidus
 {
     [DataTable("WhiteList")]
-    public class WhiteList
+	public class WhiteList
     {
         [JsonProperty]
         public string id { get; set; }
