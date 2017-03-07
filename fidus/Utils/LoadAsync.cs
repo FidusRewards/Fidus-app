@@ -288,12 +288,12 @@ namespace fidus
 						{
 							IMobileServiceSyncTable<History> _tablaH = (IMobileServiceSyncTable<History>)_tabla;
 							var query = _tablaH.CreateQuery().Where(f => f.Person == Helpers.Settings.UserEmail);
-							await _tabla.PullAsync(null, query);
+							await _tabla.PullAsync(queryName, query);
 							Debug.WriteLine("SyncAsync: " + typeof(T) + "Pull finished");
 						}
 						else
 						{
-							await _tabla.PullAsync(null, _tabla.CreateQuery());
+							await _tabla.PullAsync(queryName, _tabla.CreateQuery());
 							Debug.WriteLine("SyncAsync: " + typeof(T) + " Pull finished");
 						}
 
@@ -302,7 +302,7 @@ namespace fidus
 
 
 					}
-					catch (MobileServiceInvalidOperationException e)
+					catch (Exception e)
 					{
 						// Handle error
 						Debug.WriteLine(e.StackTrace);

@@ -20,7 +20,7 @@
     </AndroidTlsProvider>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <AndroidSupportedAbis>armeabi-v7a;armeabi;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
-    <ReleaseVersion>2.0.24</ReleaseVersion>
+    <ReleaseVersion>2.0.25</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -169,15 +169,6 @@
     <Reference Include="Syncfusion.SfRating.Android">
       <HintPath>..\packages\Syncfusion.Xamarin.SfRating.Android.15.1.0.37\lib\MonoAndroid10\Syncfusion.SfRating.Android.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfNavigationDrawer.XForms.Android">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfNavigationDrawer.XForms">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfNavigationDrawer.Android">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.Android.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.Android.dll</HintPath>
-    </Reference>
     <Reference Include="FormsViewGroup">
       <HintPath>..\packages\Xamarin.Forms.2.3.1.114\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
     </Reference>
@@ -198,6 +189,15 @@
     </Reference>
     <Reference Include="Refractored.XamForms.PullToRefresh.Droid">
       <HintPath>..\packages\Refractored.XamForms.PullToRefresh.1.0.10\lib\MonoAndroid10\Refractored.XamForms.PullToRefresh.Droid.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.XForms">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNavigationDrawer.Android">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfNavigationDrawer.Android.15.1.0.33\lib\MonoAndroid10\Syncfusion.SfNavigationDrawer.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
