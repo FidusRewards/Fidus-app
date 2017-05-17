@@ -64,7 +64,7 @@ namespace fidus
 				bt_Avanzar.IsEnabled = false;
 				Helpers.Settings.IsReturn = false;
 
-				_history.Rating = 0;//Convert.ToInt32(ratingst.Value);
+				_history.Rating = Convert.ToInt32(ratingst.Value);
 				_history.Comment = comment.Text;
 				string temp="";
 				string temp1="";
