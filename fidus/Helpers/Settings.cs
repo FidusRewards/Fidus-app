@@ -83,7 +83,7 @@ namespace fidus.Helpers
         public const string FidusBlue = "#01baef";
         public const string FidusIosFont = "Helvetica";
         public const string FidusAndFont = "sans-serif";
-        public const string AppVersion = "Versión: 2.0.26";
+        public const string AppVersion = "Versión: 2.0.27";
 
         public const string Hockey_iOs = "bf5bd0e001fe4cf0928002a4dd273e66";
         public const string Hockey_And = "d21e6cb5b8214000a98e63313150813d";

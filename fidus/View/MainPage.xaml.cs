@@ -182,11 +182,11 @@ namespace fidus
 					string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 #region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
 					//words = new string[6];
-					//words[0] = "Bartok";
+					//words[0] = "Starbucks";
 					//words[1] = "20";
-					//words[2] = "Bartok_logo.png";
-					//words[3] = "Catunga";
-					//words[4] = "Suc01";
+					//words[2] = "Starbucks_logo.png";
+					//words[3] = "S-00A";
+					//words[4] = "Malabia1";
 					//words[5] = "DEMOTEST";
 #endregion
 					string urllogo;
