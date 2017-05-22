@@ -1,11 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina3_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleAspectFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SplashScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="JSf-l4-TGL">
@@ -37,5 +33,31 @@
     </scenes>
     <resources>
         <image name="SplashScreen.png" width="320" height="568"/>
+        <image name="userimg.png" width="42" height="42"/>
+        <image name="exiticon1.png" width="125" height="118"/>
+        <image name="settings1.png" width="20" height="16"/>
+        <image name="ic_launcher.png" width="72" height="72"/>
+        <image name="fidus_text.png" width="60" height="25"/>
+        <image name="iconousuario.png" width="21" height="21"/>
+        <image name="logout.png" width="16" height="19"/>
+        <image name="historial.png" width="16" height="21"/>
+        <image name="geopin.png" width="14" height="23"/>
+        <image name="menuline.png" width="230" height="2"/>
+        <image name="giftly.png" width="320" height="291"/>
+        <image name="Fidusred.png" width="103" height="46"/>
+        <image name="iconocumple.png" width="17" height="17"/>
+        <image name="iconoemail.png" width="18" height="14"/>
+        <image name="iconopass.png" width="14" height="19"/>
+        <image name="graciasporvenir.png" width="193" height="83"/>
+        <image name="btn_continuargris.png" width="223" height="45"/>
+        <image name="checkinbutton.png" width="300" height="64"/>
+        <image name="circulogrande.png" width="54" height="54"/>
+        <image name="merchantB.png" width="401" height="400"/>
+        <image name="linewithshadow.png" width="400" height="5"/>
+        <image name="Circulopoints.png" width="60" height="60"/>
+        <image name="btn_canjea.png" width="273" height="53"/>
+        <image name="canjeexitoso.png" width="399" height="193"/>
+        <image name="btn_volver_gris.png" width="223" height="45"/>
+        <image name="iconotel.png" width="15" height="21"/>
     </resources>
 </document>
