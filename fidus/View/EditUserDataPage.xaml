@@ -86,7 +86,7 @@
 			    />
 			 </StackLayout>
 				<Label
-				    Text="Cumpleaños"
+				    Text="Nacimiento"
 				    FontSize="14"
 				    TextColor="Black"
 			    />

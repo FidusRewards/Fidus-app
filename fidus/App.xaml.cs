@@ -38,7 +38,7 @@ namespace fidus
 			Debug.WriteLine("App.cs Settings : " + Helpers.Settings.CurrentUser.Email);
 
 
-			if (Device.OS == TargetPlatform.Android)
+            if (Device.RuntimePlatform == Device.Android)
 			{
 				MainPage = new SplashScreen(content);
 			}

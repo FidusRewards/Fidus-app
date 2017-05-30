@@ -170,65 +170,71 @@ namespace fidus
             int points;
 			//string[] words;							//DECOMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 			scanPage = new ZXingScannerPage();			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-			scanPage.OnScanResult += (result) =>		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-			{											//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-			scanPage.IsScanning = false;     			//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-			char[] delimiterChars = { ',', '\t' };		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+            bool scanFinished = false;
+            scanPage.OnScanResult += (result) =>        //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+            {                                           //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+                scanPage.IsScanning = false;                //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+                char[] delimiterChars = { ',', '\t' };		//COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
 
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-					await Navigation.PopAsync();        //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-					mVM.IsBusy = true;
-					string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
-#region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
-					//words = new string[6];
-					//words[0] = "Starbucks";
-					//words[1] = "20";
-					//words[2] = "Starbucks_logo.png";
-					//words[3] = "S-00A";
-					//words[4] = "Malabia1";
-					//words[5] = "DEMOTEST";
-#endregion
-					string urllogo;
-
-                    if (words.Length > 5)
+                    if (!scanFinished)
                     {
-                        words[1] = words[1].Replace("\n", "");
-                        words[2] = words[2].Replace("\n", "");
-                        words[3] = words[3].Replace("\n", "");
-                        words[4] = words[4].Replace("\n", "");
-						words[5] = words[5].Replace("\n", "");
+                        scanFinished = true;
+                        await Navigation.PopAsync();        //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+                        mVM.IsBusy = true;
+                        string[] words = result.Text.Split(delimiterChars);  //COMENTAR ESTA LINEA PARA PRUEBA DEL SCANCODE
+                        #region Demo QR    //DESCOMENTAR ESTA REGION PARA PRUEBA DEL SCANCODE
+                        //words = new string[6];
+                        //words[0] = "Starbucks";
+                        //words[1] = "20";
+                        //words[2] = "Starbucks_logo.png";
+                        //words[3] = "S-00A";
+                        //words[4] = "Malabia1";
+                        //words[5] = "DEMOTEST";
+                        #endregion
+                        string urllogo;
 
-                        bool convert = Int32.TryParse(words[1], out points);
-
-                        urllogo = Helpers.Settings.ImgSrvProd + words[2];
-
-                        string place = words[0];
-                        string exchangecode = words[3];
-                        string branch = words[4];
-						string category = words[5];
-
-                        if (convert && urllogo.Length >= 47 && urllogo.Contains("fidusimgsrv") && exchangecode != null && branch != null && category != null)
+                        if (words.Length > 5)
                         {
-							Debug.WriteLine("Datos enviados \n Lugar " + words[0] + " \n Puntos : " + words[1] + " \n Sucursal : " + branch + " \n Codigo de Confirmación: " + exchangecode + " \n Categoria: " + category);
-                            bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
-                            if (result2)
+                            words[1] = words[1].Replace("\n", "");
+                            words[2] = words[2].Replace("\n", "");
+                            words[3] = words[3].Replace("\n", "");
+                            words[4] = words[4].Replace("\n", "");
+                            words[5] = words[5].Replace("\n", "");
+
+                            bool convert = Int32.TryParse(words[1], out points);
+
+                            urllogo = Helpers.Settings.ImgSrvProd + words[2];
+
+                            string place = words[0];
+                            string exchangecode = words[3];
+                            string branch = words[4];
+                            string category = words[5];
+
+                            if (convert && urllogo.Length >= 47 && urllogo.Contains("fidusimgsrv") && exchangecode != null && branch != null && category != null)
                             {
-                                //await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
-                                mVM.UpdatePoints(words);
+                                Debug.WriteLine("Datos enviados \n Lugar " + words[0] + " \n Puntos : " + words[1] + " \n Sucursal : " + branch + " \n Codigo de Confirmación: " + exchangecode + " \n Categoria: " + category);
+                                bool result2 = await mVM.ConfirmQRCode(place, branch, exchangecode);
+                                if (result2)
+                                {
+                                    //await DisplayAlert("Gracias por venir a " + words[0], "Ganaste : " + words[1] + " \n Puntos provenientes de: " + branch + " \n Codigo de Confirmación: " + exchangecode, "OK");
+                                    mVM.UpdatePoints(words);
+                                }
+                                else
+                                {
+                                    await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
+                                }
+
                             }
                             else
-                            {
                                 await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
-                            }
-
                         }
                         else
                             await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
-                    }
-                    else
-                        await DisplayAlert("El Código leído es Inválido", "Reintentá", "OK");
-                });
+                        }
+                    });
+            
 				mVM.IsBusy = false;
 			};			//COMENTAR el }; PARA PRUEBA DE SCAN CODE  
 

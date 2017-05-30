@@ -22,16 +22,17 @@ namespace fidus.iOS
 			manager.Authenticator.AuthenticateInstallation();
 			manager.DisableUpdateManager = true;
 			global::Xamarin.Forms.Forms.Init();
+			
 			global::ZXing.Net.Mobile.Forms.iOS.Platform.Init();
 			global::Refractored.XamForms.PullToRefresh.iOS.PullToRefreshLayoutRenderer.Init();
 			global::Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-			//SQLitePCL.CurrentPlatform.Init();
-			//SlideOverKit.iOS.SlideOverKit.Init();
-		 	new SfRatingRenderer();
-			new SfNavigationDrawerRenderer();
+            //SQLitePCL.CurrentPlatform.Init();
+            //SlideOverKit.iOS.SlideOverKit.Init();
+		 	
 
 			LoadApplication(new App());
-
+			new SfRatingRenderer();
+			new SfNavigationDrawerRenderer();
 
 			return base.FinishedLaunching(app, options);
 		}
