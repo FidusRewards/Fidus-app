@@ -10,7 +10,7 @@
     <AssemblyName>fidus</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <ReleaseVersion>2.0.31</ReleaseVersion>
+    <ReleaseVersion>2.0.32</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

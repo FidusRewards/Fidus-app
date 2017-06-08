@@ -379,6 +379,8 @@ namespace fidus
 				Helpers.Settings.AllPlaces.Clear();
 				Helpers.Settings.Hitem.Place = "";
 				Helpers.Settings.Hitem.id = "";
+				Helpers.Settings.qrdate.Clear();
+				Helpers.Settings.qrbranch.Clear();
 
 				//var pclient = new LoadAsync<Place>();
 				//pclient.PurgeTable();

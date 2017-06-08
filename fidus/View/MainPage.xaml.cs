@@ -93,7 +93,7 @@ namespace fidus
 			});
 
 			MessagingCenter.Subscribe<MainViewModel>(this, "NOINET", async (obj) => { 
-				Helpers.Settings.IsInternetEnabled = false;
+				//Helpers.Settings.IsInternetEnabled = false;
 				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
 			});
 		}
@@ -112,11 +112,11 @@ namespace fidus
 
 			Debug.WriteLine("MainPage Settings after update : " + Helpers.Settings.UserEmail);
 
-			bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
+			//bool Reach = await CrossConnectivity.Current.IsRemoteReachable("www.google.com");
 
-			if (!Reach || !CrossConnectivity.Current.IsConnected)
+			if (!CrossConnectivity.Current.IsConnected) //!Reach || 
 			{
-				Helpers.Settings.IsInternetEnabled = false;
+				//Helpers.Settings.IsInternetEnabled = false;
 				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
 				//DependencyService.Get<ICloseApplication>().closeApp();
 			}

@@ -49,7 +49,7 @@ namespace fidus
 
 			MessagingCenter.Subscribe<RewardsViewModel>(this, "NOINET", async (obj) =>
 			{
-				Helpers.Settings.IsInternetEnabled = false;
+				//Helpers.Settings.IsInternetEnabled = false;
 				await DisplayAlert("Advertencia", "No hay conexión a Internet. Algunas funciones pueden no estar habilitadas", "OK");
 			});
 
